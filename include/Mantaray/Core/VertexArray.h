@@ -4,16 +4,16 @@
 
 namespace MR {
 
-class Mesh {
+class VertexArray {
     public:
-        Mesh();
-        ~Mesh();
+        VertexArray();
+        ~VertexArray();
         void addVertice(Vector2f v);
         void addVertices(Vector2f v[], unsigned int vc);
         void addVertices(std::vector<Vector2f> v);
         void addIndex(int i);
         void clear();
-        void uploadMeshData();
+        void uploadVertexArrayData();
         void draw();
 
     private:
