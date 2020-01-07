@@ -1,28 +1,23 @@
 CC		:= g++
 D_FLAGS := -g -Wall -Wextra
-C_FLAGS := -std=c++11 -static -static-libgcc -static-libstdc++ 
+C_FLAGS := -c -std=c++11 -static -static-libgcc -static-libstdc++ 
 
-BIN		:= bin
+BIN		:= lib
 SRC		:= src
 INCLUDE	:= -iquote include -I external/include
 LIB		:= -L external/lib -L lib
 
-LIBRARIES	:= -lglfw3 -lgdi32 -lglad -lmantaray
+LIBRARIES	:= -lglfw3 -lgdi32 -lglad
 
-EXECUTABLE_NAME := build
-ifeq ($(OS),Windows_NT)
-EXECUTABLE	:= $(EXECUTABLE_NAME).exe
-else
-EXECUTABLE	:= $(EXECUTABLE_NAME)
-endif
+BUILD_NAME := libmantaray.a
+BUILD := $(BIN)/libmantaray.a
 
-all: $(BIN)/$(EXECUTABLE)
+all: $(BIN)/$(BUILD_NAME)
 
 clean:
-	$(RM) $(BIN)/$(EXECUTABLE)
+	$(RM) $(BUILD)
 
-run: all
-	./$(BIN)/$(EXECUTABLE)
-
-$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp
-	$(CC) $(D_FLAGS) $(C_FLAGS) $(INCLUDE) $(LIB) $^ -o $@ $(LIBRARIES)
+$(BIN)/$(BUILD_NAME): $(SRC)/*.cpp
+	$(CC) $(D_FLAGS) $(C_FLAGS) $(INCLUDE) $(LIB) $^ $(LIBRARIES)
+	ar rvs $@ *.o
+	rm *.o

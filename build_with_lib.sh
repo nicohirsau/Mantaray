@@ -1,1 +1,0 @@
-g++ -static -static-libgcc -static-libstdc++ -std=c++11 src/main.cpp -iquote include -I external/include -L lib -L external/lib -lglfw3 -lgdi32 -lglad -lmantaray -o bin/build.exe
