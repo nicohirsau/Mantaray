@@ -8,23 +8,23 @@
 using namespace MR;
 
 Shader::Shader(const char* vertexShaderSource, const char* fragmentShaderSource) {
-    m_VertexShaderID = compileShader(VERTEX_SHADER, vertexShaderSource);
-    m_FragmentShaderID = compileShader(FRAGMENT_SHADER, fragmentShaderSource);
-    m_ShaderProgramID = linkShader(m_VertexShaderID, m_FragmentShaderID);
+    m_VertexShaderID = CompileShader(VERTEX_SHADER, vertexShaderSource);
+    m_FragmentShaderID = CompileShader(FRAGMENT_SHADER, fragmentShaderSource);
+    m_ShaderProgramID = LinkShader(m_VertexShaderID, m_FragmentShaderID);
 }
 
 Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) {
     std::string vertexShaderContent;
-    FileSystem::readFile(vertexShaderPath, vertexShaderContent);
+    FileSystem::ReadFile(vertexShaderPath, vertexShaderContent);
     const char* vertexShaderSource = vertexShaderContent.c_str();
     
     std::string fragmentShaderContent;
-    FileSystem::readFile(fragmentShaderPath, fragmentShaderContent);
+    FileSystem::ReadFile(fragmentShaderPath, fragmentShaderContent);
     const char* fragmentShaderSource = fragmentShaderContent.c_str();
 
-    m_VertexShaderID = compileShader(VERTEX_SHADER, vertexShaderSource);
-    m_FragmentShaderID = compileShader(FRAGMENT_SHADER, fragmentShaderSource);
-    m_ShaderProgramID = linkShader(m_VertexShaderID, m_FragmentShaderID);
+    m_VertexShaderID = CompileShader(VERTEX_SHADER, vertexShaderSource);
+    m_FragmentShaderID = CompileShader(FRAGMENT_SHADER, fragmentShaderSource);
+    m_ShaderProgramID = LinkShader(m_VertexShaderID, m_FragmentShaderID);
 }
 
 Shader::~Shader() {
@@ -98,7 +98,7 @@ int Shader::getUniformLocation(std::string uniformName) {
     return uniformLocation;
 }
 
-unsigned int Shader::compileShader(Shader::ShaderType shaderType, const char* source) {
+unsigned int Shader::CompileShader(Shader::ShaderType shaderType, const char* source) {
     unsigned int shaderID;
 
     switch (shaderType)
@@ -132,7 +132,7 @@ unsigned int Shader::compileShader(Shader::ShaderType shaderType, const char* so
     return shaderID;
 }
 
-unsigned int MR::Shader::linkShader(unsigned int vertexShader, unsigned int fragmentShader) {
+unsigned int MR::Shader::LinkShader(unsigned int vertexShader, unsigned int fragmentShader) {
     unsigned int programID = glCreateProgram();
     glAttachShader(programID, vertexShader);
     glAttachShader(programID, fragmentShader);

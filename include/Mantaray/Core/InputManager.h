@@ -8,21 +8,21 @@
 namespace MR {
 class InputManager{
     public:
-        static void setWindowHandle(GLFWwindow* windowHandle);
-        static GLFWwindow* getWindowHandle();
+        static void SetWindowHandle(GLFWwindow* windowHandle);
+        static GLFWwindow* GetWindowHandle();
 
-        static void update(float deltaTime);
+        static void Update(float deltaTime);
 
-        static void addKeyToWatch(int keyCode);
+        static void AddKeyToWatch(int keyCode);
 
-        static bool getKey(int keyCode);
-        static bool getKeyDown(int keyCode);
-        static bool getKeyUp(int keyCode);
-        static void getMousePosition(Vector2d &mousePos);
-        static Vector2d getMousePosition();
-        static void getMouseDelta(Vector2d &mouseDelta);
-        static Vector2d getMouseDelta();
-        static bool getMouseButton(int mouseButtonCode);
+        static bool GetKey(int keyCode);
+        static bool GetKeyDown(int keyCode);
+        static bool GetKeyUp(int keyCode);
+        static void GetMousePosition(Vector2d &mousePos);
+        static Vector2d GetMousePosition();
+        static void GetMouseDelta(Vector2d &mouseDelta);
+        static Vector2d GetMouseDelta();
+        static bool GetMouseButton(int mouseButtonCode);
 
     private:
         static GLFWwindow* m_WindowHandle;

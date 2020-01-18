@@ -26,8 +26,8 @@ class Shader {
         void setUniformVector3f(std::string uniformName, Vector3f value);
         void setTexture(std::string textureUniformName, int slot, Texture &texture);
 
-        static unsigned int compileShader(Shader::ShaderType shaderType, const char* source);
-        static unsigned int linkShader(unsigned int vertexShader, unsigned int fragmentShader);
+        static unsigned int CompileShader(Shader::ShaderType shaderType, const char* source);
+        static unsigned int LinkShader(unsigned int vertexShader, unsigned int fragmentShader);
 
     private:
         int getUniformLocation(std::string uniformName);

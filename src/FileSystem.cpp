@@ -11,7 +11,7 @@
 
 using namespace MR;
 
-std::string FileSystem::getWorkingDirectory() {
+std::string FileSystem::GetWorkingDirectory() {
     // Windows specific way of checking if file exists
     char result[MAX_PATH];
     GetModuleFileName(NULL, result, MAX_PATH);
@@ -25,9 +25,9 @@ std::string FileSystem::getWorkingDirectory() {
     return wd.substr(0, wd.find_last_of("\\/") + 1);
 }
 
-bool FileSystem::readFile(std::string path, std::string& content, bool absolutePath) {
+bool FileSystem::ReadFile(std::string path, std::string& content, bool absolutePath) {
     if (!absolutePath){
-        path = FileSystem::getWorkingDirectory() + path;
+        path = FileSystem::GetWorkingDirectory() + path;
     }
 
     std::ifstream t(path.c_str());
@@ -41,9 +41,9 @@ bool FileSystem::readFile(std::string path, std::string& content, bool absoluteP
     return true;
 }
 
-bool FileSystem::loadImage(std::string path, unsigned char*& data, int& width, int& height, int& nrChannels, bool absolutePath) {
+bool FileSystem::ReadImage(std::string path, unsigned char*& data, int& width, int& height, int& nrChannels, bool absolutePath) {
     if (!absolutePath) {
-        path = FileSystem::getWorkingDirectory() + path;
+        path = FileSystem::GetWorkingDirectory() + path;
     }
 
     data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);

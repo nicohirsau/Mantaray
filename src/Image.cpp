@@ -27,7 +27,7 @@ Image::~Image() {
 }
 
 void Image::loadFromFile(std::string pathToImage) {
-    FileSystem::loadImage(pathToImage, m_ImageData, m_Size.x, m_Size.y, m_NrChannels);
+    FileSystem::ReadImage(pathToImage, m_ImageData, m_Size.x, m_Size.y, m_NrChannels);
 }
 
 void Image::unloadData() {
