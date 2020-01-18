@@ -37,7 +37,7 @@ void VertexArray::draw() {
     glBindVertexArray(m_VAO);
 
     if (m_UsesIncices) {
-        glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, (void*)0);
+        glDrawElements(GL_TRIANGLES, sizeof(m_Indices), GL_UNSIGNED_INT, (void*)0);
     }
     else {
         glDrawArrays(GL_TRIANGLES, 0, sizeof(m_Vertices) / sizeof(float));
