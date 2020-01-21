@@ -28,7 +28,7 @@ void Texture::setFromImage(Image &image) {
 void Texture::uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels) {
     m_Size = Vector2i(width, height);
     if (!m_HasTextureID) {
-        Logger::Log("Texture", "Textureid not created yet, creating a new one.", Logger::LOG_INFO);
+        Logger::Log("Texture", "Textureid not created yet, creating a new one.", Logger::LOG_DEBUG);
         glGenTextures(1, &m_TextureID);
         glBindTexture(GL_TEXTURE_2D, m_TextureID);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

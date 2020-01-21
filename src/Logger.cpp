@@ -40,10 +40,15 @@ void Logger::Log(std::string name, std::string message, Logger::LogLevel logLeve
         changeColor(FOREGROUND_RED);
         logPrefix = "ERROR::" + name + "-> ";
         break;
+    case Logger::LOG_DEBUG:
+        changeColor(FOREGROUND_BLUE);
+        logPrefix = "DEBUG::" + name + "-> ";
+        break;
     
     default:
         return;
     }
 
     std::cout << logPrefix + message << std::endl;
+    changeColor(FOREGROUND_WHITE);
 }
