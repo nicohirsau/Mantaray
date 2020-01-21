@@ -7,7 +7,9 @@
 
 using namespace MR;
 
-Image::Image() {}
+Image::Image() {
+    m_ImageData = new unsigned char[0];
+}
 
 Image::Image(std::string pathToImage) {
     loadFromFile(pathToImage);

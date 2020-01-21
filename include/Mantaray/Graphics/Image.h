@@ -26,7 +26,7 @@ class Image {
 
     private:
         unsigned char* m_ImageData = nullptr;
-        Vector2i m_Size;
-        int m_NrChannels;
+        Vector2i m_Size = Vector2i(0, 0);
+        int m_NrChannels = 0;
 };
 }
