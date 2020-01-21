@@ -6,7 +6,7 @@ C_FLAGS := -c -std=c++11 -static -static-libgcc -static-libstdc++
 BIN		:= lib
 SRC		:= src
 INCLUDE	:= -iquote include -I external/include
-LIB		:= -L lib #-L external/lib
+LIB		:= #-L external/lib
 
 LIBRARIES	:= #-lglfw3 -lgdi32 -lglad
 
