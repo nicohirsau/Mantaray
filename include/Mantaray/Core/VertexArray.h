@@ -20,7 +20,7 @@ class VertexArray {
         unsigned int m_VAO, m_VBO, m_EBO;
         std::vector<Vector2f> m_Vertices;
 
-        bool m_UsesIncices = false;
+        bool m_UsesIndices = false;
         std::vector<int> m_Indices;
 };
 }

@@ -13,7 +13,7 @@ VertexArray::VertexArray() {
 VertexArray::~VertexArray() {
     glDeleteVertexArrays(1, &m_VAO);
     glDeleteBuffers(1, &m_VBO);
-    if (m_UsesIncices) {
+    if (m_UsesIndices) {
         glDeleteBuffers(1, &m_EBO);
     }
 }
@@ -24,7 +24,7 @@ void VertexArray::uploadVertexArrayData() {
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m_Vertices.size() * 2, &m_Vertices[0], GL_STATIC_DRAW);
     
-    if (m_UsesIncices) {
+    if (m_UsesIndices) {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * m_Indices.size(), &m_Indices[0], GL_STATIC_DRAW);
     }
@@ -36,7 +36,7 @@ void VertexArray::uploadVertexArrayData() {
 void VertexArray::draw() {
     glBindVertexArray(m_VAO);
 
-    if (m_UsesIncices) {
+    if (m_UsesIndices) {
         glDrawElements(GL_TRIANGLES, sizeof(m_Indices), GL_UNSIGNED_INT, (void*)0);
     }
     else {
@@ -59,9 +59,9 @@ void VertexArray::addVertices(std::vector<Vector2f> v) {
 }
 
 void VertexArray::addIndex(int i) {
-    if (!m_UsesIncices) {
+    if (!m_UsesIndices) {
         glGenBuffers(1, &m_EBO);
-        m_UsesIncices = true;
+        m_UsesIndices = true;
     }
     m_Indices.push_back(i);
 }
