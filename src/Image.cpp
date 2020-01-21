@@ -14,6 +14,8 @@ Image::Image(std::string pathToImage) {
 }
 
 Image::Image(unsigned char* imageData, int width, int height, int nrChannels) {
+    if (m_ImageData != nullptr)
+        unloadData();
     m_ImageData = new unsigned char[width * height * nrChannels];
     for (int i = 0; i < width * height *nrChannels; i++) {
         m_ImageData[i] = imageData[i];
@@ -27,6 +29,8 @@ Image::~Image() {
 }
 
 void Image::loadFromFile(std::string pathToImage) {
+    if (m_ImageData != nullptr)
+        unloadData();
     FileSystem::ReadImage(pathToImage, m_ImageData, m_Size.x, m_Size.y, m_NrChannels);
 }
 

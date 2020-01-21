@@ -25,7 +25,7 @@ class Image {
         int getHeight();
 
     private:
-        unsigned char* m_ImageData;
+        unsigned char* m_ImageData = nullptr;
         Vector2i m_Size;
         int m_NrChannels;
 };

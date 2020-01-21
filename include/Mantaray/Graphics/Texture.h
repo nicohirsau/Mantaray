@@ -22,6 +22,7 @@ class Texture {
         void uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels);
 
     private:
+        bool m_HasTextureID = false;
         unsigned int m_TextureID;
         Vector2i m_Size;
 };
