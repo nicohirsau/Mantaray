@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 #include "Mantaray/Core/Vector.h"
 #include "Mantaray/Core/Color.h"
@@ -12,7 +13,7 @@ class Image {
     public:
         Image();
         Image(std::string pathToImage);
-        Image(unsigned char* imageData, int width, int height, int nrChannels);
+        Image(std::vector<unsigned char>& imageData, int width, int height, int nrChannels);
         ~Image();
 
         void loadFromFile(std::string pathToImage);
