@@ -16,9 +16,9 @@ Texture::Texture(std::string pathToTexture) {
     uploadTextureData(i.m_ImageData, i.getWidth(), i.getHeight(), i.m_NrChannels);
 }
 
-Texture::Texture(unsigned char* textureData, int width, int height, int nrChannels) {
+Texture::Texture(Image &image) {
     generateTextureID();
-    uploadTextureData(textureData, width, height, nrChannels);
+    uploadTextureData(image.m_ImageData, image.getWidth(), image.getHeight(), image.m_NrChannels);
 }
 
 Texture::~Texture() {

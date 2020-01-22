@@ -9,7 +9,7 @@ class Texture {
     public:
         Texture();
         Texture(std::string pathToTexture);
-        Texture(unsigned char* textureData, int width, int height, int nrChannels);
+        Texture(Image &image);
         ~Texture();
 
         void setFromImage(Image &image);
