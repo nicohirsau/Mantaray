@@ -1,6 +1,8 @@
 #include <string>
 #include <unordered_map>
 
+#include <glm/glm.hpp>
+
 #include "Mantaray/Core/Vector.h"
 
 namespace MR {
@@ -24,6 +26,7 @@ class Shader {
         void setUniformFloat(std::string uniformName, float value);
         void setUniformVector2f(std::string uniformName, Vector2f value);
         void setUniformVector3f(std::string uniformName, Vector3f value);
+        void setUniformMatrix4(std::string uniformName, glm::mat4 value);
         void setTexture(std::string textureUniformName, int slot, Texture &texture);
 
         static unsigned int CompileShader(Shader::ShaderType shaderType, const char* source);

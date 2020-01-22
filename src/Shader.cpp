@@ -1,5 +1,7 @@
 #include <glad/glad.h>
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Mantaray/Graphics/Shader.h"
 #include "Mantaray/Graphics/Texture.h"
 #include "Mantaray/Core/FileSystem.h"
@@ -46,23 +48,33 @@ void Shader::setupForDraw() {
 }
 
 void Shader::setUniformInteger(std::string uniformName, int value) {
+    activate();
     int uniformLocation = getUniformLocation(uniformName);
     glUniform1i(uniformLocation, value);
 }
 
 void Shader::setUniformFloat(std::string uniformName, float value) {
+    activate();
     int uniformLocation = getUniformLocation(uniformName);
     glUniform1f(uniformLocation, value);
 }
 
 void Shader::setUniformVector2f(std::string uniformName, Vector2f value) {
+    activate();
     int uniformLocation = getUniformLocation(uniformName);
     glUniform2f(uniformLocation, value.x, value.y);    
 }
 
 void Shader::setUniformVector3f(std::string uniformName, Vector3f value) {
+    activate();
     int uniformLocation = getUniformLocation(uniformName);
     glUniform3f(uniformLocation, value.x, value.y, value.z);    
+}
+
+void Shader::setUniformMatrix4(std::string uniformName, glm::mat4 value) {
+    activate();
+    int uniformLocation = getUniformLocation(uniformName);
+    glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void Shader::setTexture(std::string textureUniformName, int slot, Texture &texture) {
