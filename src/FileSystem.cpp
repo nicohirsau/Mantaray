@@ -46,6 +46,7 @@ bool FileSystem::ReadImage(std::string path, unsigned char*& data, int& width, i
         path = FileSystem::GetWorkingDirectory() + path;
     }
 
+    stbi_set_flip_vertically_on_load(true);
     data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
     if (!data) {
         Logger::Log("FileSystem", "Image from " + path + " could not be loaded", MR::Logger::LOG_ERROR);
