@@ -1,7 +1,12 @@
 #include <fstream>
 #include <streambuf>
 
+#ifdef PLATFORM_WINDOWS
 #include <Windows.h>
+#endif
+#ifdef PLATFORM_LINUX
+#include <unistd.h>
+#endif
 
 #include "Mantaray/Core/FileSystem.h"
 #include "Mantaray/Core/Logger.h"
@@ -12,6 +17,7 @@
 using namespace MR;
 
 std::string FileSystem::GetWorkingDirectory() {
+#ifdef PLATFORM_WINDOWS
     // Windows specific way of checking if file exists
     char result[MAX_PATH];
     GetModuleFileName(NULL, result, MAX_PATH);
@@ -23,6 +29,13 @@ std::string FileSystem::GetWorkingDirectory() {
         }
     }
     return wd.substr(0, wd.find_last_of("\\/") + 1);
+#endif
+#ifdef PLATFORM_LINUX
+    char result[512];
+    readlink("/proc/self/exe", result, 512);
+    std::string wd(result);
+    return wd.substr(0, wd.find_last_of("\\/") + 1);
+#endif
 }
 
 bool FileSystem::ReadFile(std::string path, std::string& content, bool absolutePath) {
