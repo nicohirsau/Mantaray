@@ -32,12 +32,12 @@ clean:
 	$(RM) $(RELEASE_BUILD)
 	$(RM) $(DEBUG_BUILD)
 
-$(RELEASE_BUILD): $(SRC)/*.cpp
+$(RELEASE_BUILD): $(SRC)/*.cpp $(SRC)/*.c
 	$(CC) $(R_FLAGS) $(C_FLAGS) $(DEFINES) $(INCLUDE) $^ $(LIB) $(LIBRARIES)
 	ar rvs $@ *.o
 	rm *.o
 
-$(DEBUG_BUILD): $(SRC)/*.cpp
+$(DEBUG_BUILD): $(SRC)/*.cpp $(SRC)/*.c
 	$(CC) $(D_FLAGS) $(C_FLAGS) $(DEFINES) $(INCLUDE) $^ $(LIB) $(LIBRARIES)
 	ar rvs $@ *.o
 	rm *.o
