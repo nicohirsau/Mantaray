@@ -14,6 +14,7 @@ void changeColor(WORD theColor);
 void changeColor(WORD theColor) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, theColor);
+}
 #endif
 
 #ifdef PLATFORM_LINUX
