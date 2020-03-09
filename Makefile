@@ -1,5 +1,5 @@
 CC		:= g++
-R_FLAGS := -O3
+R_FLAGS := -O2
 D_FLAGS := -g -O0 -Wall -Wextra
 C_FLAGS := -c -std=c++11 -static -static-libgcc -static-libstdc++ 
 
@@ -16,6 +16,12 @@ RELEASE_BUILD := $(BIN)/$(RELEASE_BUILD_NAME)
 DEBUG_BUILD_NAME := libmantaray-d.a
 DEBUG_BUILD := $(BIN)/$(DEBUG_BUILD_NAME)
 
+ifeq ($(OS),Windows_NT)
+DEFINES	:= -D PLATFORM_WINDOWS
+else
+DEFINES	:= -D PLATFORM_LINUX
+endif
+
 all: $(RELEASE_BUILD) $(DEBUG_BUILD)
 
 release: $(RELEASE_BUILD)
@@ -26,12 +32,12 @@ clean:
 	$(RM) $(RELEASE_BUILD)
 	$(RM) $(DEBUG_BUILD)
 
-$(RELEASE_BUILD): $(SRC)/*.cpp
-	$(CC) $(R_FLAGS) $(C_FLAGS) $(INCLUDE) $(LIB) $^ $(LIBRARIES)
+$(RELEASE_BUILD): $(SRC)/*.cpp $(SRC)/*.c
+	$(CC) $(R_FLAGS) $(C_FLAGS) $(DEFINES) $(INCLUDE) $^ $(LIB) $(LIBRARIES)
 	ar rvs $@ *.o
 	rm *.o
 
-$(DEBUG_BUILD): $(SRC)/*.cpp
-	$(CC) $(D_FLAGS) $(C_FLAGS) $(INCLUDE) $(LIB) $^ $(LIBRARIES)
+$(DEBUG_BUILD): $(SRC)/*.cpp $(SRC)/*.c
+	$(CC) $(D_FLAGS) $(C_FLAGS) $(DEFINES) $(INCLUDE) $^ $(LIB) $(LIBRARIES)
 	ar rvs $@ *.o
 	rm *.o
