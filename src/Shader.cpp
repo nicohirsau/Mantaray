@@ -2,8 +2,8 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Mantaray/Graphics/Shader.h"
-#include "Mantaray/Graphics/Texture.h"
+#include "Mantaray/GLObjects/Shader.h"
+#include "Mantaray/GLObjects/Texture.h"
 #include "Mantaray/Core/FileSystem.h"
 #include "Mantaray/Core/Logger.h"
 

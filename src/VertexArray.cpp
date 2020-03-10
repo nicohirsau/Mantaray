@@ -1,4 +1,4 @@
-#include "Mantaray/Core/VertexArray.h"
+#include "Mantaray/GLObjects/VertexArray.h"
 #include <glad/glad.h>
 
 using namespace MR;
