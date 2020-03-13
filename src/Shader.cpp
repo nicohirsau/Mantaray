@@ -141,7 +141,6 @@ void Shader::compileShader(Shader::ShaderType shaderType, const char* source) {
         return;
     }
 
-    
     int  success;
     char infoLog[512];
     glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
