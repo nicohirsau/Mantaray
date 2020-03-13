@@ -1,3 +1,5 @@
+#pragma once
+
 namespace MR {
 class GLObject;
 
@@ -9,7 +11,9 @@ class GLObjectChain {
         static void UnLink(GLObject* link);
 
     private:
+        static bool m_initialized;
         static GLObject* m_chainHead;
         static GLObject* m_chainTail;
+        static class Logger m_logger;
 };
 }

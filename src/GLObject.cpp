@@ -1,14 +1,23 @@
 #include "Mantaray/GLObjects/GLObject.h"
 #include "Mantaray/GLObjects/GLObjectChain.h"
+#include "Mantaray/Core/Logger.h"
 
 using namespace MR;
 
 GLObject::GLObject() {
-    link();
+
 }
 
 GLObject::~GLObject() {
-    unlink();
+
+}
+
+void GLObject::allocate() {
+    Logger::Log("GLObject", "allocate not implemented!", Logger::LOG_WARNING);
+}
+
+void GLObject::release() {
+    Logger::Log("GLObject", "release not implemented!", Logger::LOG_WARNING);
 }
 
 void GLObject::link() {

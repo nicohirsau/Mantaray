@@ -1,18 +1,20 @@
+#pragma once
+
 namespace MR {
 class GLObject {
     friend class GLObjectChain;
 
     public:
     	GLObject();
-        ~GLObject();
+        virtual ~GLObject();
     
     protected:
         virtual void allocate();
         virtual void release();
-
-    private:
     	void link();
     	void unlink();
+
+    private:
         void destroy();
 
     private: 

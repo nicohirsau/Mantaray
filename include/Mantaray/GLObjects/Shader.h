@@ -3,12 +3,15 @@
 
 #include <glm/glm.hpp>
 
+#pragma once
+
 #include "Mantaray/Core/Vector.h"
+#include "Mantaray/GLObjects/GLObject.h"
 
 namespace MR {
 class Texture;
 
-class Shader {
+class Shader : public GLObject {
     public:
         enum ShaderType {
             VERTEX_SHADER,
@@ -28,11 +31,17 @@ class Shader {
         void setUniformVector3f(std::string uniformName, Vector3f value);
         void setUniformMatrix4(std::string uniformName, glm::mat4 value);
         void setTexture(std::string textureUniformName, int slot, Texture &texture);
-
+        
         static unsigned int CompileShader(Shader::ShaderType shaderType, const char* source);
         static unsigned int LinkShader(unsigned int vertexShader, unsigned int fragmentShader);
 
+    protected:
+        void allocate() override;
+        void release() override;
+
     private:
+        void compileShader(Shader::ShaderType shaderType, const char* source);
+        void linkShader();
         int getUniformLocation(std::string uniformName);
 
     private:

@@ -1,10 +1,13 @@
+#pragma once
+
 #include <vector>
 
 #include "Mantaray/Core/Vector.h"
+#include "Mantaray/GLObjects/GLObject.h"
 
 namespace MR {
 
-class VertexArray {
+class VertexArray : public GLObject{
     public:
         VertexArray();
         ~VertexArray();
@@ -15,6 +18,10 @@ class VertexArray {
         void clear();
         void uploadVertexArrayData();
         void draw();
+
+    protected:
+        void allocate() override;
+        void release() override;
 
     private:
         unsigned int m_VAO, m_VBO, m_EBO;
