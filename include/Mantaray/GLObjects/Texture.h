@@ -1,11 +1,14 @@
+#pragma once
+
 #include <string>
 
 #include "Mantaray/Core/Vector.h"
+#include "Mantaray/GLObjects/GLObject.h"
 
 namespace MR {
 class Image;
 
-class Texture {
+class Texture : public GLObject {
     public:
         Texture();
         Texture(std::string pathToTexture);
@@ -18,8 +21,11 @@ class Texture {
         int getHeight();
         unsigned int getTextureID();
 
+    protected:
+        void allocate() override;
+        void release() override;
+
     private:
-        void generateTextureID();
         void uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels);
 
     private:

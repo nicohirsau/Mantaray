@@ -1,28 +1,31 @@
 #include <glad/glad.h>
 
-#include "Mantaray/Graphics/Texture.h"
+#include "Mantaray/GLObjects/Texture.h"
 #include "Mantaray/Graphics/Image.h"
 #include "Mantaray/Core/Logger.h"
 
 using namespace MR;
 
 Texture::Texture() {
-    generateTextureID();
+    //generateTextureID();
+    link();
 }
 
 Texture::Texture(std::string pathToTexture) {
-    generateTextureID();
+    //generateTextureID();
+    link();
     Image i = Image(pathToTexture);
     uploadTextureData(i.m_ImageData, i.getWidth(), i.getHeight(), i.m_NrChannels);
 }
 
 Texture::Texture(Image &image) {
-    generateTextureID();
+    //generateTextureID();
+    link();
     uploadTextureData(image.m_ImageData, image.getWidth(), image.getHeight(), image.m_NrChannels);
 }
 
 Texture::~Texture() {
-    glDeleteTextures(1, &m_TextureID);
+    unlink();
 }
 
 void Texture::setFromImage(Image &image) {
@@ -41,13 +44,17 @@ unsigned int Texture::getTextureID() {
     return m_TextureID;
 }
 
-void Texture::generateTextureID() {
+void Texture::allocate() {
     glGenTextures(1, &m_TextureID);
     glBindTexture(GL_TEXTURE_2D, m_TextureID);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
+
+void Texture::release() {
+    glDeleteTextures(1, &m_TextureID);
 }
 
 void Texture::uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels) {

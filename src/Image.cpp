@@ -2,7 +2,7 @@
 #include <cstdlib>
 
 #include "Mantaray/Graphics/Image.h"
-#include "Mantaray/Graphics/Texture.h"
+#include "Mantaray/GLObjects/Texture.h"
 #include "Mantaray/Core/FileSystem.h"
 
 using namespace MR;

@@ -2,20 +2,22 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Mantaray/Graphics/Shader.h"
-#include "Mantaray/Graphics/Texture.h"
+#include "Mantaray/GLObjects/Shader.h"
+#include "Mantaray/GLObjects/Texture.h"
 #include "Mantaray/Core/FileSystem.h"
 #include "Mantaray/Core/Logger.h"
 
 using namespace MR;
 
 Shader::Shader(const char* vertexShaderSource, const char* fragmentShaderSource) {
-    m_VertexShaderID = CompileShader(VERTEX_SHADER, vertexShaderSource);
-    m_FragmentShaderID = CompileShader(FRAGMENT_SHADER, fragmentShaderSource);
-    m_ShaderProgramID = LinkShader(m_VertexShaderID, m_FragmentShaderID);
+    link();
+    compileShader(VERTEX_SHADER, vertexShaderSource);
+    compileShader(FRAGMENT_SHADER, fragmentShaderSource);
+    linkShader();
 }
 
 Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) {
+    link();
     std::string vertexShaderContent;
     FileSystem::ReadFile(vertexShaderPath, vertexShaderContent);
     const char* vertexShaderSource = vertexShaderContent.c_str();
@@ -24,12 +26,22 @@ Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) {
     FileSystem::ReadFile(fragmentShaderPath, fragmentShaderContent);
     const char* fragmentShaderSource = fragmentShaderContent.c_str();
 
-    m_VertexShaderID = CompileShader(VERTEX_SHADER, vertexShaderSource);
-    m_FragmentShaderID = CompileShader(FRAGMENT_SHADER, fragmentShaderSource);
-    m_ShaderProgramID = LinkShader(m_VertexShaderID, m_FragmentShaderID);
+    compileShader(VERTEX_SHADER, vertexShaderSource);
+    compileShader(FRAGMENT_SHADER, fragmentShaderSource);
+    linkShader();
 }
 
 Shader::~Shader() {
+    unlink();
+}
+
+void Shader::allocate() {
+    m_VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+    m_FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+    m_ShaderProgramID = glCreateProgram();
+}
+
+void Shader::release() {
     glDeleteShader(m_VertexShaderID);
     glDeleteShader(m_FragmentShaderID);
     glDeleteProgram(m_ShaderProgramID);
@@ -108,6 +120,55 @@ int Shader::getUniformLocation(std::string uniformName) {
         uniformLocation = it->second;
     }
     return uniformLocation;
+}
+
+void Shader::compileShader(Shader::ShaderType shaderType, const char* source) {
+    unsigned int shaderID;
+    switch (shaderType)
+    {
+    case Shader::VERTEX_SHADER:
+        shaderID = m_VertexShaderID;
+        glShaderSource(m_VertexShaderID, 1, &source, NULL);
+        glCompileShader(m_VertexShaderID);
+        break;
+    case Shader::FRAGMENT_SHADER:
+        shaderID = m_FragmentShaderID;
+        glShaderSource(m_FragmentShaderID, 1, &source, NULL);
+        glCompileShader(m_FragmentShaderID);
+        break;
+    
+    default:
+        return;
+    }
+
+    int  success;
+    char infoLog[512];
+    glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
+    if(!success) {
+        glGetShaderInfoLog(shaderID, 512, NULL, infoLog);
+        std::string s_ShaderType = (shaderType == VERTEX_SHADER) ? "VERTEX" : "FRAGMENT";
+        std::string message = s_ShaderType + "::COMPILING_SHADER_FAILED\n";
+        message.append(infoLog);
+        Logger::Log("ShaderCompiler", message, Logger::LOG_ERROR);
+        return;
+    }
+}
+
+void MR::Shader::linkShader() {
+    glAttachShader(m_ShaderProgramID, m_VertexShaderID);
+    glAttachShader(m_ShaderProgramID, m_FragmentShaderID);
+    glLinkProgram(m_ShaderProgramID);
+    
+    int  success;
+    char infoLog[512];
+    glGetProgramiv(m_ShaderProgramID, GL_LINK_STATUS, &success);
+    if(!success) {
+        glGetProgramInfoLog(m_ShaderProgramID, 512, NULL, infoLog);
+        std::string message = "LINKING_SHADER_FAILED\n";
+        message.append(infoLog);
+        Logger::Log("ShaderLinker", message, Logger::LOG_ERROR);
+        return;
+    }
 }
 
 unsigned int Shader::CompileShader(Shader::ShaderType shaderType, const char* source) {

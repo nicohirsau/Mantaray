@@ -1,16 +1,24 @@
-#include "Mantaray/Core/VertexArray.h"
+#include "Mantaray/GLObjects/VertexArray.h"
 #include <glad/glad.h>
 
 using namespace MR;
 
 VertexArray::VertexArray() {
-    glGenVertexArrays(1, &m_VAO);
-    glGenBuffers(1, &m_VBO);
+    link();
     m_Vertices = std::vector<Vector2f>();
     m_Indices = std::vector<int>();
 }
 
 VertexArray::~VertexArray() {
+    unlink();
+}
+
+void VertexArray::allocate() {
+    glGenVertexArrays(1, &m_VAO);
+    glGenBuffers(1, &m_VBO);
+}
+
+void VertexArray::release() {
     glDeleteVertexArrays(1, &m_VAO);
     glDeleteBuffers(1, &m_VBO);
     if (m_UsesIndices) {
