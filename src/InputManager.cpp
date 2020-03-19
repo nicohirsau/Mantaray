@@ -1,3 +1,5 @@
+#include <GLFW/glfw3.h>
+
 #include "Mantaray/Core/InputManager.h"
 #include "Mantaray/Core/Logger.h"
 
