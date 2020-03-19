@@ -83,6 +83,12 @@ void VertexArray::addIndex(int i) {
     m_Indices.push_back(i);
 }
 
+void VertexArray::addIndices(std::vector<int> i) {
+    for (int index : i) {
+        addIndex(index);
+    }
+}
+
 void VertexArray::addTextureCoordinate(Vector2f c) {
     if (!m_UsesTextureCoordinates) {
         glGenBuffers(1, &m_TCBO);
@@ -92,8 +98,8 @@ void VertexArray::addTextureCoordinate(Vector2f c) {
 }
 
 void VertexArray::addTextureCoordinates(std::vector<Vector2f> c) {
-    for (int i = 0; i < c.size(); i++) {
-        addTextureCoordinate(c[i]);
+    for (Vector2f coordinate : c) {
+        addTextureCoordinate(coordinate);
     }
 }
 

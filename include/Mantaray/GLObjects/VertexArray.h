@@ -15,6 +15,7 @@ class VertexArray : public GLObject{
         void addVertices(Vector2f v[], unsigned int vc);
         void addVertices(std::vector<Vector2f> v);
         void addIndex(int i);
+        void addIndices(std::vector<int> i);
         void addTextureCoordinate(Vector2f c);
         void addTextureCoordinates(std::vector<Vector2f> c);
         void clear();
