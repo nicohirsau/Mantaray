@@ -24,6 +24,9 @@ void VertexArray::release() {
     if (m_UsesIndices) {
         glDeleteBuffers(1, &m_EBO);
     }
+    if (m_UsesTextureCoordinates) {
+        glDeleteBuffers(1, &m_TCBO);
+    }
 }
 
 void VertexArray::uploadVertexArrayData() {
@@ -31,14 +34,20 @@ void VertexArray::uploadVertexArrayData() {
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m_Vertices.size() * 2, &m_Vertices[0], GL_STATIC_DRAW);
-    
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
     if (m_UsesIndices) {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * m_Indices.size(), &m_Indices[0], GL_STATIC_DRAW);
     }
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    if(m_UsesTextureCoordinates) {
+        glBindBuffer(GL_ARRAY_BUFFER, m_TCBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m_TextureCoordinates.size() * 2, &m_TextureCoordinates[0], GL_STATIC_DRAW);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+    }
 }
 
 void VertexArray::draw() {
@@ -74,7 +83,22 @@ void VertexArray::addIndex(int i) {
     m_Indices.push_back(i);
 }
 
+void VertexArray::addTextureCoordinate(Vector2f c) {
+    if (!m_UsesTextureCoordinates) {
+        glGenBuffers(1, &m_TCBO);
+        m_UsesTextureCoordinates = true;
+    }
+    m_TextureCoordinates.push_back(c);
+}
+
+void VertexArray::addTextureCoordinates(std::vector<Vector2f> c) {
+    for (int i = 0; i < c.size(); i++) {
+        addTextureCoordinate(c[i]);
+    }
+}
+
 void VertexArray::clear() {
     m_Vertices.clear();
     m_Indices.clear();
+    m_TextureCoordinates.clear();
 }
