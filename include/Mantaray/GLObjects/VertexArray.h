@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "Mantaray/Core/Vector.h"
+#include "Mantaray/Core/Vector.hpp"
 #include "Mantaray/GLObjects/GLObject.h"
 
 namespace MR {
@@ -11,13 +11,13 @@ class VertexArray : public GLObject{
     public:
         VertexArray();
         ~VertexArray();
-        void addVertice(Vector2f v);
-        void addVertices(Vector2f v[], unsigned int vc);
-        void addVertices(std::vector<Vector2f> v);
+        void addVertice(Vector2<float> v);
+        void addVertices(Vector2<float> v[], unsigned int vc);
+        void addVertices(std::vector<Vector2<float>> v);
         void addIndex(int i);
         void addIndices(std::vector<int> i);
-        void addTextureCoordinate(Vector2f c);
-        void addTextureCoordinates(std::vector<Vector2f> c);
+        void addTextureCoordinate(Vector2<float> c);
+        void addTextureCoordinates(std::vector<Vector2<float>> c);
         void clear();
         void uploadVertexArrayData();
         void draw();
@@ -28,12 +28,12 @@ class VertexArray : public GLObject{
 
     private:
         unsigned int m_VAO, m_VBO, m_TCBO, m_EBO;
-        std::vector<Vector2f> m_Vertices;
+        std::vector<Vector2<float>> m_Vertices;
 
         bool m_UsesIndices = false;
         std::vector<int> m_Indices;
 
         bool m_UsesTextureCoordinates = false;
-        std::vector<Vector2f> m_TextureCoordinates;
+        std::vector<Vector2<float>> m_TextureCoordinates;
 };
 }

@@ -71,13 +71,13 @@ void Shader::setUniformFloat(std::string uniformName, float value) {
     glUniform1f(uniformLocation, value);
 }
 
-void Shader::setUniformVector2f(std::string uniformName, Vector2f value) {
+void Shader::setUniformVector2f(std::string uniformName, Vector2<float> value) {
     activate();
     int uniformLocation = getUniformLocation(uniformName);
     glUniform2f(uniformLocation, value.x, value.y);    
 }
 
-void Shader::setUniformVector3f(std::string uniformName, Vector3f value) {
+void Shader::setUniformVector3f(std::string uniformName, Vector3<float> value) {
     activate();
     int uniformLocation = getUniformLocation(uniformName);
     glUniform3f(uniformLocation, value.x, value.y, value.z);    

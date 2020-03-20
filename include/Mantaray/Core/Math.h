@@ -1,6 +1,6 @@
 #include <math.h>
 
-#include "Mantaray/Core/Vector.h"
+#include "Mantaray/Core/Vector.hpp"
 
 namespace MR {
     float clamp(float value, float min, float max) {

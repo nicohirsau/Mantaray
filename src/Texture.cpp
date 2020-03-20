@@ -58,7 +58,7 @@ void Texture::release() {
 }
 
 void Texture::uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels) {
-    m_Size = Vector2i(width, height);
+    m_Size = Vector2<int>(width, height);
 
     unsigned int format = 0;
     switch (nrChannels) {

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Mantaray/Core/Vector.h"
+#include "Mantaray/Core/Vector.hpp"
 #include "Mantaray/GLObjects/GLObject.h"
 
 namespace MR {
@@ -30,6 +30,6 @@ class Texture : public GLObject {
 
     private:
         unsigned int m_TextureID = 0;
-        Vector2i m_Size = Vector2i(0, 0);
+        Vector2<int> m_Size = Vector2<int>(0, 0);
 };
 }
