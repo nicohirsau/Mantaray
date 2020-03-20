@@ -11,8 +11,8 @@ std::vector<int> InputManager::m_WatchedKeys = std::vector<int>();
 std::unordered_map<int, float> InputManager::m_WatchedKeysElapsedTime = std::unordered_map<int, float>();
 std::unordered_map<int, bool> InputManager::m_WatchedKeysDown = std::unordered_map<int, bool>();
 std::unordered_map<int, bool> InputManager::m_WatchedKeysUp = std::unordered_map<int, bool>();
-Vector2d InputManager::m_LastMousePosition = Vector2d(0, 0);
-Vector2d InputManager::m_DeltaMousePosition = Vector2d(0, 0);
+Vector2<double> InputManager::m_LastMousePosition = Vector2<double>(0, 0);
+Vector2<double> InputManager::m_DeltaMousePosition = Vector2<double>(0, 0);
 
 void InputManager::SetWindowHandle(GLFWwindow* windowHandle) {
     InputManager::m_WindowHandle = windowHandle;
@@ -43,7 +43,7 @@ void InputManager::Update(float deltaTime) {
         }
     }
 
-    Vector2d currentMousePosition;
+    Vector2<double> currentMousePosition;
     GetMousePosition(currentMousePosition);
     InputManager::m_DeltaMousePosition = currentMousePosition - InputManager::m_LastMousePosition;
     GetMousePosition(InputManager::m_LastMousePosition); 
@@ -69,22 +69,22 @@ bool InputManager::GetKeyUp(int keyCode) {
     return InputManager::m_WatchedKeysUp[keyCode];
 }
 
-void InputManager::GetMousePosition(Vector2d &mousePos) {
+void InputManager::GetMousePosition(Vector2<double> &mousePos) {
     glfwGetCursorPos(InputManager::GetWindowHandle(), &mousePos.x, &mousePos.y);
 }
 
-Vector2d InputManager::GetMousePosition() {
-    Vector2d mousePos;
+Vector2<double> InputManager::GetMousePosition() {
+    Vector2<double> mousePos;
     GetMousePosition(mousePos);
     return mousePos;
 }
 
-void InputManager::GetMouseDelta(Vector2d &mouseDelta) {
+void InputManager::GetMouseDelta(Vector2<double> &mouseDelta) {
     mouseDelta.x = InputManager::m_DeltaMousePosition.x;
     mouseDelta.y = InputManager::m_DeltaMousePosition.y;
 }
 
-Vector2d InputManager::GetMouseDelta() {
+Vector2<double> InputManager::GetMouseDelta() {
     return InputManager::m_DeltaMousePosition;
 }
 

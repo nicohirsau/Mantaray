@@ -156,4 +156,52 @@ class Vector3f {
         float y = 0.0f;
         float z = 0.0f;
 };
+
+template <class T>
+class Vector2 {
+    public:
+        Vector2() {}
+        Vector2(T x, T y) {
+            this->x = x;
+            this->y = y;
+        }
+
+        bool operator==(Vector2<T> b) {
+            return (this->x == b.x && this->y == b.y);
+        }
+        Vector2<T> operator+(Vector2<T> b) {
+            return Vector2<T>(this->x + b.x, this->y + b.y);
+        }
+        Vector2<T> operator-(Vector2<T> b) {
+            return Vector2<T>(this->x - b.x, this->y - b.y);
+        }
+        Vector2<T> operator*(float b) {
+            return Vector2<T>(this->x * b, this->y * b);
+        }
+
+        void rotate(float angle) {
+            Vector2<T> intermediate = Vector2<T>(this->x, this->y);
+		    float const Cos(cos(angle));
+		    float const Sin(sin(angle));
+
+		    this->x = intermediate.x * Cos - intermediate.y * Sin;
+		    this->y = intermediate.x * Sin + intermediate.y * Cos;
+        }
+
+        void rotate(float angle, Vector2<T> center) {
+            Vector2<T> intermediate = Vector2<T>(
+                this->x - center.x, 
+                this->y - center.y
+            );
+		    float const Cos = cos(angle);
+		    float const Sin = sin(angle);
+
+		    this->x = intermediate.x * Cos - intermediate.y * Sin;
+		    this->y = intermediate.x * Sin + intermediate.y * Cos;
+        }
+
+    public:
+        T x = 0.0f;
+        T y = 0.0f;
+};
 }

@@ -18,10 +18,10 @@ class InputManager{
         static bool GetKey(int keyCode);
         static bool GetKeyDown(int keyCode);
         static bool GetKeyUp(int keyCode);
-        static void GetMousePosition(Vector2d &mousePos);
-        static Vector2d GetMousePosition();
-        static void GetMouseDelta(Vector2d &mouseDelta);
-        static Vector2d GetMouseDelta();
+        static void GetMousePosition(Vector2<double> &mousePos);
+        static Vector2<double> GetMousePosition();
+        static void GetMouseDelta(Vector2<double> &mouseDelta);
+        static Vector2<double> GetMouseDelta();
         static bool GetMouseButton(int mouseButtonCode);
 
     private:
@@ -31,7 +31,7 @@ class InputManager{
         static std::unordered_map<int, float> m_WatchedKeysElapsedTime;
         static std::unordered_map<int, bool> m_WatchedKeysDown;
         static std::unordered_map<int, bool> m_WatchedKeysUp;
-        static Vector2d m_LastMousePosition;
-        static Vector2d m_DeltaMousePosition;
+        static Vector2<double> m_LastMousePosition;
+        static Vector2<double> m_DeltaMousePosition;
 };
 }
