@@ -5,7 +5,7 @@ using namespace MR;
 
 VertexArray::VertexArray() {
     link();
-    m_Vertices = std::vector<Vector2f>();
+    m_Vertices = std::vector<Vector2<float>>();
     m_Indices = std::vector<int>();
 }
 
@@ -61,17 +61,17 @@ void VertexArray::draw() {
     }
 }
 
-void VertexArray::addVertice(Vector2f v) {
+void VertexArray::addVertice(Vector2<float> v) {
     m_Vertices.push_back(v);
 }
 
-void VertexArray::addVertices(Vector2f v[], unsigned int vc) {
+void VertexArray::addVertices(Vector2<float> v[], unsigned int vc) {
     for (unsigned int i = 0; i < vc; i++) {
         addVertice(v[i]);
     }
 }
 
-void VertexArray::addVertices(std::vector<Vector2f> v) {
+void VertexArray::addVertices(std::vector<Vector2<float>> v) {
     m_Vertices.insert(m_Vertices.end(), v.begin(), v.end());
 }
 
@@ -89,7 +89,7 @@ void VertexArray::addIndices(std::vector<int> i) {
     }
 }
 
-void VertexArray::addTextureCoordinate(Vector2f c) {
+void VertexArray::addTextureCoordinate(Vector2<float> c) {
     if (!m_UsesTextureCoordinates) {
         glGenBuffers(1, &m_TCBO);
         m_UsesTextureCoordinates = true;
@@ -97,8 +97,8 @@ void VertexArray::addTextureCoordinate(Vector2f c) {
     m_TextureCoordinates.push_back(c);
 }
 
-void VertexArray::addTextureCoordinates(std::vector<Vector2f> c) {
-    for (Vector2f coordinate : c) {
+void VertexArray::addTextureCoordinates(std::vector<Vector2<float>> c) {
+    for (Vector2<float> coordinate : c) {
         addTextureCoordinate(coordinate);
     }
 }
