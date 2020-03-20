@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Mantaray/Core/Vector.h"
+#include "Mantaray/Core/Vector.hpp"
 
 namespace MR {
 class InputManager{

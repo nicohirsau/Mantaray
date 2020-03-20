@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "Mantaray/Core/Vector.h"
+#include "Mantaray/Core/Vector.hpp"
 #include "Mantaray/GLObjects/GLObject.h"
 
 namespace MR {
