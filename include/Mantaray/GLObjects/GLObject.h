@@ -5,14 +5,14 @@ class GLObject {
     friend class GLObjectChain;
 
     public:
-    	GLObject();
+        GLObject();
         virtual ~GLObject();
     
     protected:
         virtual void allocate();
         virtual void release();
-    	void link();
-    	void unlink();
+        void link();
+        void unlink();
 
     private:
         void destroy();

@@ -27,11 +27,11 @@ class Vector2 {
 
         void rotate(float angle) {
             Vector2<T> intermediate = Vector2<T>(this->x, this->y);
-		    float const Cos(cos(angle));
-		    float const Sin(sin(angle));
+            float const Cos(cos(angle));
+            float const Sin(sin(angle));
 
-		    this->x = intermediate.x * Cos - intermediate.y * Sin;
-		    this->y = intermediate.x * Sin + intermediate.y * Cos;
+            this->x = intermediate.x * Cos - intermediate.y * Sin;
+            this->y = intermediate.x * Sin + intermediate.y * Cos;
         }
 
         void rotate(float angle, Vector2<T> center) {
@@ -39,11 +39,11 @@ class Vector2 {
                 this->x - center.x, 
                 this->y - center.y
             );
-		    float const Cos = cos(angle);
-		    float const Sin = sin(angle);
+            float const Cos = cos(angle);
+            float const Sin = sin(angle);
 
-		    this->x = intermediate.x * Cos - intermediate.y * Sin;
-		    this->y = intermediate.x * Sin + intermediate.y * Cos;
+            this->x = intermediate.x * Cos - intermediate.y * Sin;
+            this->y = intermediate.x * Sin + intermediate.y * Cos;
         }
 
     public:
@@ -79,29 +79,29 @@ class Vector3 {
 
         void rotateAroundX(float angle) {
             Vector2<T> intermediate = Vector2<T>(this->y, this->z);
-		    float const Cos = cos(angle);
-		    float const Sin = sin(angle);
+            float const Cos = cos(angle);
+            float const Sin = sin(angle);
 
-		    this->y = intermediate.x * Cos - intermediate.y * Sin;
-		    this->z = intermediate.x * Sin + intermediate.y * Cos;
+            this->y = intermediate.x * Cos - intermediate.y * Sin;
+            this->z = intermediate.x * Sin + intermediate.y * Cos;
         }
 
         void rotateAroundY(float angle) {
             Vector2<T> intermediate = Vector2<T>(this->x, this->z);
-		    float const Cos = cos(angle);
-		    float const Sin = sin(angle);
+            float const Cos = cos(angle);
+            float const Sin = sin(angle);
 
-		    this->x =  intermediate.x * Cos + intermediate.y * Sin;
-		    this->z = -intermediate.x * Sin + intermediate.y * Cos;
+            this->x =  intermediate.x * Cos + intermediate.y * Sin;
+            this->z = -intermediate.x * Sin + intermediate.y * Cos;
         }
 
         void rotateAroundZ(float angle) {
             Vector2<T> intermediate = Vector2<T>(this->x, this->y);
-		    float const Cos = cos(angle);
-		    float const Sin = sin(angle);
+            float const Cos = cos(angle);
+            float const Sin = sin(angle);
 
-		    this->x = intermediate.x * Cos - intermediate.y * Sin;
-		    this->y = intermediate.x * Sin + intermediate.y * Cos;
+            this->x = intermediate.x * Cos - intermediate.y * Sin;
+            this->y = intermediate.x * Sin + intermediate.y * Cos;
         }
     
     public:
