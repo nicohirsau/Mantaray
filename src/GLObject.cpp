@@ -1,6 +1,6 @@
-#include "Mantaray/GLObjects/GLObject.h"
-#include "Mantaray/GLObjects/GLObjectChain.h"
-#include "Mantaray/Core/Logger.h"
+#include "Mantaray/GLObjects/GLObject.hpp"
+#include "Mantaray/GLObjects/GLObjectChain.hpp"
+#include "Mantaray/Core/Logger.hpp"
 
 using namespace MR;
 

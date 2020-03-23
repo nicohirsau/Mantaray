@@ -1,9 +1,9 @@
 #include <sstream> //for std::stringstream 
 #include <string>  //for std::string
 
-#include "Mantaray/Core/Logger.h"
-#include "Mantaray/GLObjects/GLObjectChain.h"
-#include "Mantaray/GLObjects/GLObject.h"
+#include "Mantaray/Core/Logger.hpp"
+#include "Mantaray/GLObjects/GLObjectChain.hpp"
+#include "Mantaray/GLObjects/GLObject.hpp"
 
 using namespace MR;
 

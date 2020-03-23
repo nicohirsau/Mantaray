@@ -1,4 +1,4 @@
-#include "Mantaray/Core/Timer.h"
+#include "Mantaray/Core/Timer.hpp"
 
 using namespace MR;
 

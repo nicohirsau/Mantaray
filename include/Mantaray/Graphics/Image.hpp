@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "Mantaray/Core/Vector.hpp"
-#include "Mantaray/Core/Color.h"
+#include "Mantaray/Core/Color.hpp"
 
 namespace MR {
 class Texture;

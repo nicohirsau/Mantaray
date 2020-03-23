@@ -6,7 +6,7 @@
 #pragma once
 
 #include "Mantaray/Core/Vector.hpp"
-#include "Mantaray/GLObjects/GLObject.h"
+#include "Mantaray/GLObjects/GLObject.hpp"
 
 namespace MR {
 class Texture;

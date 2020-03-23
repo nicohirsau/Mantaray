@@ -8,8 +8,8 @@
 #include <unistd.h>
 #endif
 
-#include "Mantaray/Core/FileSystem.h"
-#include "Mantaray/Core/Logger.h"
+#include "Mantaray/Core/FileSystem.hpp"
+#include "Mantaray/Core/Logger.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"

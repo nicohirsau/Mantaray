@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <cstdlib>
 
-#include "Mantaray/Graphics/Image.h"
-#include "Mantaray/GLObjects/Texture.h"
-#include "Mantaray/Core/FileSystem.h"
+#include "Mantaray/Graphics/Image.hpp"
+#include "Mantaray/GLObjects/Texture.hpp"
+#include "Mantaray/Core/FileSystem.hpp"
 
 using namespace MR;
 

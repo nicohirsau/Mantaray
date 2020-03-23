@@ -1,7 +1,7 @@
 #include <GLFW/glfw3.h>
 
-#include "Mantaray/Core/InputManager.h"
-#include "Mantaray/Core/Logger.h"
+#include "Mantaray/Core/InputManager.hpp"
+#include "Mantaray/Core/Logger.hpp"
 
 using namespace MR;
 

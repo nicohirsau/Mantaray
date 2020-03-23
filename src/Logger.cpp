@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 
-#include "Mantaray/Core/Logger.h"
+#include "Mantaray/Core/Logger.hpp"
 
 #ifdef PLATFORM_WINDOWS
 #include <windows.h>

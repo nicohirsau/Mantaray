@@ -2,10 +2,10 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Mantaray/GLObjects/Shader.h"
-#include "Mantaray/GLObjects/Texture.h"
-#include "Mantaray/Core/FileSystem.h"
-#include "Mantaray/Core/Logger.h"
+#include "Mantaray/GLObjects/Shader.hpp"
+#include "Mantaray/GLObjects/Texture.hpp"
+#include "Mantaray/Core/FileSystem.hpp"
+#include "Mantaray/Core/Logger.hpp"
 
 using namespace MR;
 
