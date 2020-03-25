@@ -9,10 +9,13 @@ namespace MR {
 class Image;
 
 class Texture : public GLObject {
+    friend class RenderTexture;
+
     public:
         Texture();
         Texture(std::string pathToTexture);
         Texture(Image &image);
+        Texture(Vector2<unsigned int> resolution, int channels = 4);
         ~Texture();
 
         void setFromImage(Image &image);
@@ -21,11 +24,15 @@ class Texture : public GLObject {
         int getHeight();
         unsigned int getTextureID();
 
+        void bind() override;
+        void unbind() override;
+
     protected:
         void allocate() override;
         void release() override;
 
     private:
+        void uploadTextureData(int width, int height, int nrChannels);
         void uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels);
 
     private:

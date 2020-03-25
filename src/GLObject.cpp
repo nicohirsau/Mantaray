@@ -20,6 +20,14 @@ void GLObject::release() {
     Logger::Log("GLObject", "release not implemented!", Logger::LOG_WARNING);
 }
 
+void GLObject::bind() {
+    Logger::Log("GLObject", "bind not implemented!", Logger::LOG_WARNING);
+}
+
+void GLObject::unbind() {
+    Logger::Log("GLObject", "unbind not implemented!", Logger::LOG_WARNING);
+}
+
 void GLObject::link() {
     if (!m_HasAllocatedData) {
         allocate();
