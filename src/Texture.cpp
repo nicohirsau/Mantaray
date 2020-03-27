@@ -23,7 +23,7 @@ Texture::Texture(Image &image) {
 
 Texture::Texture(Vector2<unsigned int> resolution, int channels) {
     link();
-    uploadTextureData(resolution.x, resolution.y, channels);
+    uploadTextureData(nullptr, resolution.x, resolution.y, channels);
 }
 
 Texture::~Texture() {
@@ -60,34 +60,6 @@ void Texture::bind() {
 
 void Texture::unbind() {
     glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-void Texture::uploadTextureData(int width, int height, int nrChannels) {
-    bind();
-    m_Size = Vector2<int>(width, height);
-
-    unsigned int format = 0;
-    switch (nrChannels) {
-        case 1:
-            format = GL_RED;
-            break;
-        case 3:
-            format = GL_RGB;
-            break;
-        case 4:
-            format = GL_RGBA;
-            break;
-        default:
-            Logger::Log("Texture", "Unsupported number of channels", Logger::LOG_WARNING);
-            return;
-    }
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, format, GL_UNSIGNED_BYTE, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    unbind();
 }
 
 void Texture::uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels) {

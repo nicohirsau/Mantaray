@@ -20,7 +20,7 @@ RenderTexture::~RenderTexture() {
 void RenderTexture::allocate() {
     glGenFramebuffers(1, &m_FBO);
     bind();
-    m_RenderTexture = new Texture(m_Resolution, 3);
+    m_RenderTexture = new Texture(m_Resolution);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_RenderTexture->m_TextureID, 0);
     unbind();
 }

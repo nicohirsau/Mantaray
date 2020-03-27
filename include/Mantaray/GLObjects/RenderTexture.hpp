@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Mantaray/GLObjects/GLObject.hpp"
 #include "Mantaray/GLObjects/Texture.hpp"
 #include "Mantaray/Core/Vector.hpp"

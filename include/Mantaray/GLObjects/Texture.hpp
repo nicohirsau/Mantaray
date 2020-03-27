@@ -32,7 +32,6 @@ class Texture : public GLObject {
         void release() override;
 
     private:
-        void uploadTextureData(int width, int height, int nrChannels);
         void uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels);
 
     private:
