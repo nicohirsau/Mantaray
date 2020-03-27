@@ -7,6 +7,9 @@ class GLObject {
     public:
         GLObject();
         virtual ~GLObject();
+
+        virtual void bind();
+        virtual void unbind();
     
     protected:
         virtual void allocate();

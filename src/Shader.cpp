@@ -4,6 +4,7 @@
 
 #include "Mantaray/GLObjects/Shader.hpp"
 #include "Mantaray/GLObjects/Texture.hpp"
+#include "Mantaray/GLObjects/RenderTexture.hpp"
 #include "Mantaray/Core/FileSystem.hpp"
 #include "Mantaray/Core/Logger.hpp"
 
@@ -47,12 +48,16 @@ void Shader::release() {
     glDeleteProgram(m_ShaderProgramID);
 }
 
-void Shader::activate() {
+void Shader::bind() {
     glUseProgram(m_ShaderProgramID);
 }
 
+void Shader::unbind() {
+    glUseProgram(0);
+}
+
 void Shader::setupForDraw() {
-    activate();
+    bind();
     for (auto& texture_slot: m_TextureSlots) {
         glActiveTexture(0x84C0 + texture_slot.first);
         glBindTexture(GL_TEXTURE_2D, texture_slot.second);
@@ -60,31 +65,31 @@ void Shader::setupForDraw() {
 }
 
 void Shader::setUniformInteger(std::string uniformName, int value) {
-    activate();
+    bind();
     int uniformLocation = getUniformLocation(uniformName);
     glUniform1i(uniformLocation, value);
 }
 
 void Shader::setUniformFloat(std::string uniformName, float value) {
-    activate();
+    bind();
     int uniformLocation = getUniformLocation(uniformName);
     glUniform1f(uniformLocation, value);
 }
 
 void Shader::setUniformVector2f(std::string uniformName, Vector2<float> value) {
-    activate();
+    bind();
     int uniformLocation = getUniformLocation(uniformName);
-    glUniform2f(uniformLocation, value.x, value.y);    
+    glUniform2f(uniformLocation, value.x, value.y);
 }
 
 void Shader::setUniformVector3f(std::string uniformName, Vector3<float> value) {
-    activate();
+    bind();
     int uniformLocation = getUniformLocation(uniformName);
-    glUniform3f(uniformLocation, value.x, value.y, value.z);    
+    glUniform3f(uniformLocation, value.x, value.y, value.z);
 }
 
 void Shader::setUniformMatrix4(std::string uniformName, glm::mat4 value) {
-    activate();
+    bind();
     int uniformLocation = getUniformLocation(uniformName);
     glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 }
@@ -97,11 +102,26 @@ void Shader::setTexture(std::string textureUniformName, int slot, Texture &textu
         );
         return;
     }
-    activate();
+    bind();
     glActiveTexture(0x84C0 + slot);
     glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
     setUniformInteger(textureUniformName, slot);
     m_TextureSlots[slot] = texture.getTextureID();
+}
+
+void Shader::setRenderTexture(std::string textureUniformName, int slot, RenderTexture &texture) {
+    if (slot > 31) {
+        Logger::Log(
+            "Shader", "Texture slot " + std::to_string(slot) + " is over the limit of 31!", 
+            Logger::LOG_WARNING
+        );
+        return;
+    }
+    bind();
+    glActiveTexture(0x84C0 + slot);
+    glBindTexture(GL_TEXTURE_2D, texture.m_RenderTexture->getTextureID());
+    setUniformInteger(textureUniformName, slot);
+    m_TextureSlots[slot] = texture.m_RenderTexture->getTextureID();
 }
 
 int Shader::getUniformLocation(std::string uniformName) {

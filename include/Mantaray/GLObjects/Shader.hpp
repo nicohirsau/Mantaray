@@ -10,6 +10,7 @@
 
 namespace MR {
 class Texture;
+class RenderTexture;
 
 class Shader : public GLObject {
     public:
@@ -22,7 +23,8 @@ class Shader : public GLObject {
         Shader(std::string vertexShaderPath, std::string fragmentShaderPath);
         ~Shader();
 
-        void activate();
+        void bind() override;
+        void unbind() override;
         void setupForDraw();
 
         void setUniformInteger(std::string uniformName, int value);
@@ -31,6 +33,7 @@ class Shader : public GLObject {
         void setUniformVector3f(std::string uniformName, Vector3<float> value);
         void setUniformMatrix4(std::string uniformName, glm::mat4 value);
         void setTexture(std::string textureUniformName, int slot, Texture &texture);
+        void setRenderTexture(std::string textureUniformName, int slot, RenderTexture &texture);
         
         static unsigned int CompileShader(Shader::ShaderType shaderType, const char* source);
         static unsigned int LinkShader(unsigned int vertexShader, unsigned int fragmentShader);
