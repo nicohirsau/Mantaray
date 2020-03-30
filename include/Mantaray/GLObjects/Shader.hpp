@@ -3,9 +3,7 @@
 #include <string>
 #include <unordered_map>
 
-#include <glm/glm.hpp>
-
-#pragma once
+#include <glm/fwd.hpp>
 
 #include "Mantaray/Core/Vector.hpp"
 #include "Mantaray/GLObjects/GLObject.hpp"
