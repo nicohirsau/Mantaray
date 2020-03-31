@@ -15,13 +15,13 @@ Image::Image(std::string pathToImage) {
     loadFromFile(pathToImage);
 }
 
-Image::Image(std::vector<unsigned char>& imageData, int width, int height, int nrChannels) {
+Image::Image(std::vector<unsigned char>& imageData, unsigned int width, unsigned int height, int nrChannels) {
     if (m_ImageData != nullptr)
         unloadData();
     m_ImageData = new unsigned char[width * height * nrChannels];
 
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
+    for (unsigned int y = 0; y < height; y++) {
+        for (unsigned int x = 0; x < width; x++) {
             int targetArrayIndex = (x + width * y) * nrChannels;
             int sourceArrayIndex = (x + width * (height - y - 1)) * nrChannels;
             for (int i = 0; i < nrChannels; i++) {
@@ -30,7 +30,7 @@ Image::Image(std::vector<unsigned char>& imageData, int width, int height, int n
         }
     }
     
-    m_Size = Vector2<int>(width, height);
+    m_Size = Vector2u(width, height);
     m_NrChannels = nrChannels;
 }
 
@@ -41,24 +41,26 @@ Image::~Image() {
 void Image::loadFromFile(std::string pathToImage) {
     if (m_ImageData != nullptr)
         unloadData();
-    FileSystem::ReadImage(pathToImage, m_ImageData, m_Size.x, m_Size.y, m_NrChannels);
+    int width, height;
+    FileSystem::ReadImage(pathToImage, m_ImageData, width, height, m_NrChannels);
+    m_Size = Vector2u(width, height);
 }
 
 void Image::unloadData() {
     free(m_ImageData);
     m_ImageData = nullptr;
-    m_Size = Vector2<int>(0, 0);
+    m_Size = Vector2u(0, 0);
     m_NrChannels = 0;
 }
 
-void Image::setPixel(Vector2<unsigned int> coordinate, unsigned char colorValue) {
+void Image::setPixel(Vector2u coordinate, unsigned char colorValue) {
     int arrayIndex = ((int)coordinate.x + getWidth() * (getHeight() - (int)coordinate.y - 1)) * m_NrChannels;
     for (int i = 0; i < m_NrChannels; i++) {
         m_ImageData[arrayIndex + i] = colorValue;
     }
 }
 
-void Image::setPixel(Vector2<unsigned int> coordinate, Color color) {
+void Image::setPixel(Vector2u coordinate, Color color) {
     int arrayIndex = ((int)coordinate.x + getWidth() * (getHeight() - (int)coordinate.y - 1)) * m_NrChannels;
 
     switch (m_NrChannels)

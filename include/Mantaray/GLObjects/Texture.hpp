@@ -15,7 +15,7 @@ class Texture : public GLObject {
         Texture();
         Texture(std::string pathToTexture);
         Texture(Image &image);
-        Texture(Vector2<unsigned int> resolution, int channels = 4);
+        Texture(Vector2u resolution, int channels = 4);
         ~Texture();
 
         void setFromImage(Image &image);
@@ -36,6 +36,6 @@ class Texture : public GLObject {
 
     private:
         unsigned int m_TextureID = 0;
-        Vector2<int> m_Size = Vector2<int>(0, 0);
+        Vector2i m_Size = Vector2i(0, 0);
 };
 }

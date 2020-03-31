@@ -21,7 +21,7 @@ Texture::Texture(Image &image) {
     uploadTextureData(image.m_ImageData, image.getWidth(), image.getHeight(), image.m_NrChannels);
 }
 
-Texture::Texture(Vector2<unsigned int> resolution, int channels) {
+Texture::Texture(Vector2u resolution, int channels) {
     link();
     uploadTextureData(nullptr, resolution.x, resolution.y, channels);
 }

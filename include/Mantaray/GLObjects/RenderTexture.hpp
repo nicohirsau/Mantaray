@@ -24,7 +24,7 @@ class RenderTexture : public GLObject{
     
     private:
         unsigned int m_FBO, m_RBO;
-        Vector2<unsigned int> m_Resolution;
+        Vector2u m_Resolution;
         Texture *m_RenderTexture;
 };
 }

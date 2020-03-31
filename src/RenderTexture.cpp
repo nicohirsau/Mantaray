@@ -7,7 +7,7 @@
 using namespace MR;
 
 RenderTexture::RenderTexture(unsigned int width, unsigned int height) {
-    m_Resolution = Vector2<unsigned int>(width, height);
+    m_Resolution = Vector2u(width, height);
     link();
 }
 
