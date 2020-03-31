@@ -22,6 +22,9 @@ class VertexArray : public GLObject{
         void uploadVertexArrayData();
         void draw();
 
+        void bind() override;
+        void unbind() override;
+
     protected:
         void allocate() override;
         void release() override;

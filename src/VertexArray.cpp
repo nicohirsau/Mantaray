@@ -29,8 +29,16 @@ void VertexArray::release() {
     }
 }
 
-void VertexArray::uploadVertexArrayData() {
+void VertexArray::bind() {
     glBindVertexArray(m_VAO);
+}
+
+void VertexArray::unbind() {
+    glBindVertexArray(0);
+}
+
+void VertexArray::uploadVertexArrayData() {
+    bind();
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m_Vertices.size() * 2, &m_Vertices[0], GL_STATIC_DRAW);
@@ -51,7 +59,7 @@ void VertexArray::uploadVertexArrayData() {
 }
 
 void VertexArray::draw() {
-    glBindVertexArray(m_VAO);
+    bind();
 
     if (m_UsesIndices) {
         glDrawElements(GL_TRIANGLES, sizeof(m_Indices), GL_UNSIGNED_INT, (void*)0);
