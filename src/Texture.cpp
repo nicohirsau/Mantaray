@@ -64,7 +64,7 @@ void Texture::unbind() {
 
 void Texture::uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels) {
     bind();
-    m_Size = Vector2<int>(width, height);
+    m_Size = Vector2u(width, height);
 
     unsigned int format = 0;
     switch (nrChannels) {

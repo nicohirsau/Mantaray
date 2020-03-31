@@ -36,6 +36,6 @@ class Texture : public GLObject {
 
     private:
         unsigned int m_TextureID = 0;
-        Vector2i m_Size = Vector2i(0, 0);
+        Vector2u m_Size = Vector2u(0, 0);
 };
 }
