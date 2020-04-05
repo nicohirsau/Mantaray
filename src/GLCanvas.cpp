@@ -25,11 +25,10 @@ out vec2 TexCoord;
 
 void main(){
     gl_Position = u_projectionMatrix * u_modelMatrix * vec4(vertexPosition.x, vertexPosition.y, 0.0, 1.0);
-    TexCoord = textureCoordinate;
-    //vec2(
-    //    textureCoordinate.x * u_textureSource.z + u_textureSource.x, 
-    //    textureCoordinate.y * u_textureSource.w + u_textureSource.y
-    //);
+    TexCoord = vec2(
+        textureCoordinate.x * u_textureSource.z + u_textureSource.x, 
+        textureCoordinate.y * u_textureSource.w + u_textureSource.y
+    );
 }
 )";
 
@@ -38,9 +37,10 @@ const char* defaultFragmentShaderSource = R"(
 out vec4 FragColor;
 in vec2 TexCoord;
 uniform sampler2D u_texture0;
+uniform vec4 u_color;
 
 void main() {
-    FragColor =  texture(u_texture0, TexCoord);
+    FragColor =  texture(u_texture0, TexCoord) * u_color;
 }
 )";
 
@@ -169,20 +169,21 @@ void GLCanvas::display(Rectanglei viewPort, Rectanglef destination) {
     m_Shader->setUniformMatrix4("u_modelMatrix", model);
     m_Shader->setUniformVector4f("u_textureSource", Vector4f(0, 0, 1, 1));
     m_Shader->setRenderTexture("u_texture0", 0, *m_RenderTexture);
+    m_Shader->setUniformVector4f("u_color", Vector4f(1, 1, 1, 1));
     m_Shader->setupForDraw();
     GLCanvas::DefaultVertexArray->draw();
 }
 
 void GLCanvas::draw(
-    Texture* texture, 
-    Vector2f position,
-    Vector2f size,
-    bool absoluteSize,
-    float rotation,
-    Vector2f rotationCenter,
-    Rectanglef sourceRectangle,
-    Color color,
-    Shader* shader
+        Texture* texture, 
+        Vector2f position,
+        Vector2f size,
+        bool absoluteSize,
+        float rotation,
+        Vector2f rotationCenter,
+        Rectanglef sourceRectangle,
+        Color color,
+        Shader* shader
     ) {
     Shader* shaderToUse = shader;
     if (shaderToUse == nullptr) {
@@ -208,6 +209,7 @@ void GLCanvas::draw(
     }
     shaderToUse->setUniformMatrix4("u_modelMatrix", model);
     shaderToUse->setUniformVector4f("u_textureSource", Vector4f(sourceRectangle.x(), sourceRectangle.y(), sourceRectangle.width(), sourceRectangle.height()));
+    shaderToUse->setUniformVector4f("u_color", Vector4f(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
     shaderToUse->setupForDraw();
     GLCanvas::DefaultVertexArray->draw();
 }
