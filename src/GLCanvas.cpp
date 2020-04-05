@@ -117,6 +117,11 @@ void GLCanvas::bind() {
     glViewport(0, 0, m_RenderTexture->getWidth(), m_RenderTexture->getHeight());
 }
 
+void GLCanvas::bind(Color color) {
+    bind();
+    clear(color);
+}
+
 void GLCanvas::unbind() {
     m_RenderTexture->unbind();
 }

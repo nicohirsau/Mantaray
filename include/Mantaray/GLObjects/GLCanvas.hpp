@@ -16,6 +16,7 @@ class GLCanvas {
         class RenderTexture* getRenderTexture();
 
         void bind();
+        void bind(Color color);
         void unbind();
         void clear(Color color = Color(0x00u));
         void setOffset(Vector2f offset);
