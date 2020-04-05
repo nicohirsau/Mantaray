@@ -28,6 +28,7 @@ class Shader : public GLObject {
         void setUniformFloat(std::string uniformName, float value);
         void setUniformVector2f(std::string uniformName, Vector2f value);
         void setUniformVector3f(std::string uniformName, Vector3f value);
+        void setUniformVector4f(std::string uniformName, Vector4f value);
         void setUniformMatrix4(std::string uniformName, glm::mat4 value);
         void setTexture(std::string textureUniformName, int slot, class Texture &texture);
         void setRenderTexture(std::string textureUniformName, int slot, class RenderTexture &texture);

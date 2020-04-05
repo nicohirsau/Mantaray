@@ -7,6 +7,7 @@
 namespace MR {
 class RenderTexture : public GLObject{
     friend class Shader;
+    friend class GLCanvas;
     
     public:
         RenderTexture(unsigned int width, unsigned int height);
