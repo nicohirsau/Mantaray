@@ -14,6 +14,8 @@ class GLCanvas {
         void bind();
         void unbind();
         void clear(Color color = Color(0x00u));
+        void setOffset(Vector2f offset);
+        void addOffset(Vector2f offset);
         void display(Rectanglei viewPort);
         void display(Rectanglei viewPort, Rectanglef destination);
 
@@ -36,6 +38,7 @@ class GLCanvas {
         class RenderTexture* m_RenderTexture = nullptr;
         class Shader* m_Shader = nullptr;
         Vector2f m_CoordinateScale = Vector2f(1, 1);
+        Vector2f m_Offset = Vector2f(0, 0);
         
         static class VertexArray* DefaultVertexArray;
         static class Shader* DefaultShader;
