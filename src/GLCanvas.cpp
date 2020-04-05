@@ -99,6 +99,19 @@ void GLCanvas::init(Vector2u resolution, Vector2f coordinateScale) {
     }
 }
 
+Shader* GLCanvas::getShader() {
+    return m_Shader;
+}
+
+void GLCanvas::setShader(Shader* shader) {
+    delete m_Shader;
+    m_Shader = shader;
+}
+
+RenderTexture* GLCanvas::getRenderTexture() {
+    return m_RenderTexture;
+}
+
 void GLCanvas::bind() {
     m_RenderTexture->bind();
     glViewport(0, 0, m_RenderTexture->getWidth(), m_RenderTexture->getHeight());
@@ -109,7 +122,12 @@ void GLCanvas::unbind() {
 }
 
 void GLCanvas::clear(Color color) {
-    glClearColor(0.f, 0.f, 1.f, 1.0f);
+    glClearColor(
+        color.r / 255.f,
+        color.g / 255.f,
+        color.b / 255.f,
+        color.a / 255.f
+    );
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
