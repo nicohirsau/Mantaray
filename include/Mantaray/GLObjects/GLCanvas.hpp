@@ -11,6 +11,10 @@ class GLCanvas {
         GLCanvas(Vector2u resolution);
         ~GLCanvas();
 
+        class Shader* getShader();
+        void setShader(class Shader* shader);
+        class RenderTexture* getRenderTexture();
+
         void bind();
         void unbind();
         void clear(Color color = Color(0x00u));
