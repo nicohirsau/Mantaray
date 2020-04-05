@@ -89,6 +89,12 @@ void Shader::setUniformVector3f(std::string uniformName, Vector3f value) {
     glUniform3f(uniformLocation, value.x, value.y, value.z);
 }
 
+void Shader::setUniformVector4f(std::string uniformName, Vector4f value) {
+    bind();
+    int uniformLocation = getUniformLocation(uniformName);
+    glUniform4f(uniformLocation, value.x, value.y, value.z, value.w);
+}
+
 void Shader::setUniformMatrix4(std::string uniformName, glm::mat4 value) {
     bind();
     int uniformLocation = getUniformLocation(uniformName);

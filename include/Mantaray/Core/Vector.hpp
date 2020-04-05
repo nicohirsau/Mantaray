@@ -119,4 +119,43 @@ typedef Vector3<int> Vector3i;
 typedef Vector3<unsigned int> Vector3u;
 typedef Vector3<float> Vector3f;
 typedef Vector3<double> Vector3d;
+
+template <class T>
+class Vector4 {
+    public:
+        Vector4() {}
+        Vector4(T x, T y, T z, T w) {
+            this->x = x;
+            this->y = y;
+            this->z = z;
+            this->w = w;
+        }
+
+        bool operator==(Vector4<T> b) {
+            return (this->x == b.x && this->y == b.y && this->z == b.z && this->w == b.w);
+        }
+        Vector4<T> operator+(Vector4<T> b) {
+            return Vector4<T>(this->x + b.x, this->y + b.y, this->z + b.z, this->w + b.w);
+        }
+        Vector4<T> operator-(Vector4<T> b) {
+            return Vector4<T>(this->x - b.x, this->y - b.y, this->z - b.z, this->w - b.w);
+        }
+        Vector4<T> operator*(float b) {
+            return Vector4<T>(this->x * b, this->y * b, this->z * b, this->w * b);
+        }
+        Vector4<T> operator*(Vector4<T> b) {
+            return Vector4<T>(this->x * b.x, this->y * b.y, this->z * b.z, this->w * b.w);
+        }
+    
+    public:
+        T x = 0.0f;
+        T y = 0.0f;
+        T z = 0.0f;
+        T w = 0.0f;
+};
+
+typedef Vector4<int> Vector4i;
+typedef Vector4<unsigned int> Vector4u;
+typedef Vector4<float> Vector4f;
+typedef Vector4<double> Vector4d;
 }
