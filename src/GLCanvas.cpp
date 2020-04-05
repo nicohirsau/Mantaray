@@ -113,6 +113,14 @@ void GLCanvas::clear(Color color) {
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
+void GLCanvas::setOffset(Vector2f offset) {
+    m_Offset = offset;
+}
+
+void GLCanvas::addOffset(Vector2f offset) {
+    m_Offset = m_Offset + offset;
+}
+
 void GLCanvas::display(Rectanglei viewPort) {
     display(viewPort, Rectanglef(viewPort.x(), viewPort.y(), viewPort.width(), viewPort.height()));
 }
@@ -130,7 +138,6 @@ void GLCanvas::display(Rectanglei viewPort, Rectanglef destination) {
         static_cast<float>(viewPort.y() + viewPort.height()),
         -1.0f, 1.0f
     );
-    //projection = glm::translate(projection, glm::vec3(-cameraPosition.x, -cameraPosition.y, 0));
     m_Shader->setUniformMatrix4("u_projectionMatrix", projection);
 
     glm::mat4 model = glm::mat4(1.0f);
@@ -161,7 +168,7 @@ void GLCanvas::draw(
     shaderToUse->setTexture("u_texture0", 0, *texture);
     
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_CoordinateScale.x), 0.0f, static_cast<float>(m_CoordinateScale.y), -1.0f, 1.0f);
-    //projection = glm::translate(projection, glm::vec3(-cameraPosition.x, -cameraPosition.y, 0));
+    projection = glm::translate(projection, glm::vec3(-m_Offset.x, -m_Offset.y, 0));
     shaderToUse->setUniformMatrix4("u_projectionMatrix", projection);
 
     glm::mat4 model = glm::mat4(1.0f);
