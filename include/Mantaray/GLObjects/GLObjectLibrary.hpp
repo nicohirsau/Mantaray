@@ -12,7 +12,7 @@ class GLObjectLibrary {
         static class Shader* CreateShader(std::string name, const char* vertexShaderSource, const char* fragmentShaderSource);
         static class Texture* CreateTexture(std::string name, std::string imagePath);
         static class Texture* CreateTexture(std::string name, class Image &image);
-        static class Texture* CreateTexture(std::string name, Vector2u resolution, int channels = 4);
+        static class Texture* CreateTexture(std::string name, Vector2u resolution, int nrChannels = 4);
         static class RenderTexture* CreateRenderTexture(std::string name, unsigned int width, unsigned int height);
         static class VertexArray* CreateVertexArray(std::string name);
         

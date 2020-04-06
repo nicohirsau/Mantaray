@@ -53,7 +53,7 @@ Texture* GLObjectLibrary::CreateTexture(std::string name, std::string imagePath)
     return entry;
 }
 
-Texture* GLObjectLibrary::CreateTexture(std::string name, class Image &image) {
+Texture* GLObjectLibrary::CreateTexture(std::string name, Image &image) {
     Texture* entry = nullptr;
     bool alreadyExistent = GLObjectLibrary::FindObject(name, entry);
     if (alreadyExistent) {
