@@ -118,7 +118,7 @@ bool GLObjectLibrary::FindObject(std::string name, T*& outObject) {
     }
     T* foundEntry = dynamic_cast<T*>(foundIterator->second);
     if (foundEntry == nullptr) {
-        GLObjectLibrary::Logger.Log("Object " + name + " is not of the requestet type!", Logger::LOG_WARNING);
+        GLObjectLibrary::Logger.Log("Object " + name + " is not of the requested type!", Logger::LOG_WARNING);
         return false;
     }
     outObject = foundEntry;
