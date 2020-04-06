@@ -47,7 +47,7 @@ void GLObject::unlink() {
 
 void GLObject::destroy() {
     unlink();
-    if (m_next != nullptr) {
-        m_next->destroy();
+    if (m_Next != nullptr) {
+        m_Next->destroy();
     }
 }

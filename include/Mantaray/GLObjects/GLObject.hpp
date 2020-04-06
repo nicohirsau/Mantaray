@@ -22,7 +22,7 @@ class GLObject {
 
     private: 
         bool m_HasAllocatedData = false;
-        GLObject* m_previous = nullptr;
-        GLObject* m_next = nullptr;
+        GLObject* m_Previous = nullptr;
+        GLObject* m_Next = nullptr;
 };
 }

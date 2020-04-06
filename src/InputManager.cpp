@@ -5,24 +5,24 @@
 
 using namespace MR;
 
-GLFWwindow* InputManager::m_WindowHandle = nullptr;
+GLFWwindow* InputManager::WindowHandle = nullptr;
 
-std::vector<int> InputManager::m_WatchedKeys = std::vector<int>();
-std::unordered_map<int, float> InputManager::m_WatchedKeysElapsedTime = std::unordered_map<int, float>();
-std::unordered_map<int, bool> InputManager::m_WatchedKeysDown = std::unordered_map<int, bool>();
-std::unordered_map<int, bool> InputManager::m_WatchedKeysUp = std::unordered_map<int, bool>();
-Vector2d InputManager::m_LastMousePosition = Vector2d(0, 0);
-Vector2d InputManager::m_DeltaMousePosition = Vector2d(0, 0);
+std::vector<int> InputManager::WatchedKeys = std::vector<int>();
+std::unordered_map<int, float> InputManager::WatchedKeysElapsedTime = std::unordered_map<int, float>();
+std::unordered_map<int, bool> InputManager::WatchedKeysDown = std::unordered_map<int, bool>();
+std::unordered_map<int, bool> InputManager::WatchedKeysUp = std::unordered_map<int, bool>();
+Vector2d InputManager::LastMousePosition = Vector2d(0, 0);
+Vector2d InputManager::DeltaMousePosition = Vector2d(0, 0);
 
 void InputManager::SetWindowHandle(GLFWwindow* windowHandle) {
-    InputManager::m_WindowHandle = windowHandle;
+    InputManager::WindowHandle = windowHandle;
 }
 
 GLFWwindow* InputManager::GetWindowHandle() {
-    if (InputManager::m_WindowHandle == nullptr) {
+    if (InputManager::WindowHandle == nullptr) {
         Logger::Log("InputManager", "Window handle not set!", Logger::LOG_ERROR);
     }
-    return InputManager::m_WindowHandle;
+    return InputManager::WindowHandle;
 }
 
 void InputManager::Update(float deltaTime) {
@@ -30,31 +30,31 @@ void InputManager::Update(float deltaTime) {
     if (windowHandle == nullptr)
         return;
     
-    for (unsigned int i = 0; i < InputManager::m_WatchedKeys.size(); i++) {
-        int keyCode = InputManager::m_WatchedKeys[i];
+    for (unsigned int i = 0; i < InputManager::WatchedKeys.size(); i++) {
+        int keyCode = InputManager::WatchedKeys[i];
         if (InputManager::GetKey(keyCode)) {
-            InputManager::m_WatchedKeysDown[keyCode] = (InputManager::m_WatchedKeysElapsedTime[keyCode] > 0);
-            InputManager::m_WatchedKeysElapsedTime[keyCode] = 0;
-            InputManager::m_WatchedKeysUp[keyCode] = false;
+            InputManager::WatchedKeysDown[keyCode] = (InputManager::WatchedKeysElapsedTime[keyCode] > 0);
+            InputManager::WatchedKeysElapsedTime[keyCode] = 0;
+            InputManager::WatchedKeysUp[keyCode] = false;
         } else {
-            InputManager::m_WatchedKeysUp[keyCode] = (InputManager::m_WatchedKeysElapsedTime[keyCode] == 0);
-            InputManager::m_WatchedKeysElapsedTime[keyCode] += deltaTime;
-            InputManager::m_WatchedKeysDown[keyCode] = false;
+            InputManager::WatchedKeysUp[keyCode] = (InputManager::WatchedKeysElapsedTime[keyCode] == 0);
+            InputManager::WatchedKeysElapsedTime[keyCode] += deltaTime;
+            InputManager::WatchedKeysDown[keyCode] = false;
         }
     }
 
     Vector2d currentMousePosition;
     GetMousePosition(currentMousePosition);
-    InputManager::m_DeltaMousePosition = currentMousePosition - InputManager::m_LastMousePosition;
-    GetMousePosition(InputManager::m_LastMousePosition); 
+    InputManager::DeltaMousePosition = currentMousePosition - InputManager::LastMousePosition;
+    GetMousePosition(InputManager::LastMousePosition); 
 }
 
 void InputManager::AddKeyToWatch(int keyCode) {
-    InputManager::m_WatchedKeys.push_back(keyCode);
+    InputManager::WatchedKeys.push_back(keyCode);
 
-    InputManager::m_WatchedKeysElapsedTime[keyCode] =  1.0f;
-    InputManager::m_WatchedKeysDown[keyCode] =  false;
-    InputManager::m_WatchedKeysUp[keyCode] =  false;
+    InputManager::WatchedKeysElapsedTime[keyCode] =  1.0f;
+    InputManager::WatchedKeysDown[keyCode] =  false;
+    InputManager::WatchedKeysUp[keyCode] =  false;
 }
 
 bool InputManager::GetKey(int keyCode) {
@@ -62,11 +62,11 @@ bool InputManager::GetKey(int keyCode) {
 }
 
 bool InputManager::GetKeyDown(int keyCode) {
-    return InputManager::m_WatchedKeysDown[keyCode];
+    return InputManager::WatchedKeysDown[keyCode];
 }
 
 bool InputManager::GetKeyUp(int keyCode) {
-    return InputManager::m_WatchedKeysUp[keyCode];
+    return InputManager::WatchedKeysUp[keyCode];
 }
 
 void InputManager::GetMousePosition(Vector2d &mousePos) {
@@ -80,12 +80,12 @@ Vector2d InputManager::GetMousePosition() {
 }
 
 void InputManager::GetMouseDelta(Vector2d &mouseDelta) {
-    mouseDelta.x = InputManager::m_DeltaMousePosition.x;
-    mouseDelta.y = InputManager::m_DeltaMousePosition.y;
+    mouseDelta.x = InputManager::DeltaMousePosition.x;
+    mouseDelta.y = InputManager::DeltaMousePosition.y;
 }
 
 Vector2d InputManager::GetMouseDelta() {
-    return InputManager::m_DeltaMousePosition;
+    return InputManager::DeltaMousePosition;
 }
 
 bool InputManager::GetMouseButton(int mouseButtonCode) {

@@ -25,13 +25,13 @@ class InputManager{
         static bool GetMouseButton(int mouseButtonCode);
 
     private:
-        static class GLFWwindow* m_WindowHandle;
+        static class GLFWwindow* WindowHandle;
 
-        static std::vector<int> m_WatchedKeys;
-        static std::unordered_map<int, float> m_WatchedKeysElapsedTime;
-        static std::unordered_map<int, bool> m_WatchedKeysDown;
-        static std::unordered_map<int, bool> m_WatchedKeysUp;
-        static Vector2d m_LastMousePosition;
-        static Vector2d m_DeltaMousePosition;
+        static std::vector<int> WatchedKeys;
+        static std::unordered_map<int, float> WatchedKeysElapsedTime;
+        static std::unordered_map<int, bool> WatchedKeysDown;
+        static std::unordered_map<int, bool> WatchedKeysUp;
+        static Vector2d LastMousePosition;
+        static Vector2d DeltaMousePosition;
 };
 }

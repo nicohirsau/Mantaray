@@ -9,9 +9,6 @@
 #include "Mantaray/GLObjects/GLObject.hpp"
 
 namespace MR {
-class Texture;
-class RenderTexture;
-
 class Shader : public GLObject {
     public:
         enum ShaderType {
@@ -32,8 +29,8 @@ class Shader : public GLObject {
         void setUniformVector2f(std::string uniformName, Vector2f value);
         void setUniformVector3f(std::string uniformName, Vector3f value);
         void setUniformMatrix4(std::string uniformName, glm::mat4 value);
-        void setTexture(std::string textureUniformName, int slot, Texture &texture);
-        void setRenderTexture(std::string textureUniformName, int slot, RenderTexture &texture);
+        void setTexture(std::string textureUniformName, int slot, class Texture &texture);
+        void setRenderTexture(std::string textureUniformName, int slot, class RenderTexture &texture);
         
         static unsigned int CompileShader(Shader::ShaderType shaderType, const char* source);
         static unsigned int LinkShader(unsigned int vertexShader, unsigned int fragmentShader);
