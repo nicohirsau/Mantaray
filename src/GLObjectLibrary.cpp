@@ -25,6 +25,20 @@ Shader* GLObjectLibrary::CreateShader(std::string name, std::string vertexShader
     return entry;
 }
 
+Shader* GLObjectLibrary::CreateShader(std::string name, const char* vertexShaderSource, const char* fragmentShaderSource) {
+    Shader* entry = nullptr;
+    bool alreadyExistent = GLObjectLibrary::FindObject(name, entry);
+    if (alreadyExistent) {
+        GLObjectLibrary::Logger.Log("Object " + name + "is already in library!", Logger::LOG_WARNING);
+    }
+    else {
+        entry = new Shader(vertexShaderSource, fragmentShaderSource);
+        GLObjectLibrary::ObjectLibrary[name] = entry;
+        GLObjectLibrary::Logger.Log("Object " + name + "has been added to the library!", Logger::LOG_DEBUG);
+    }
+    return entry;    
+}
+
 Texture* GLObjectLibrary::CreateTexture(std::string name, std::string imagePath) {
     Texture* entry = nullptr;
     bool alreadyExistent = GLObjectLibrary::FindObject(name, entry);
@@ -33,6 +47,34 @@ Texture* GLObjectLibrary::CreateTexture(std::string name, std::string imagePath)
     }
     else {
         entry = new Texture(imagePath);
+        GLObjectLibrary::ObjectLibrary[name] = entry;
+        GLObjectLibrary::Logger.Log("Object " + name + "has been added to the library!", Logger::LOG_DEBUG);
+    }
+    return entry;
+}
+
+Texture* GLObjectLibrary::CreateTexture(std::string name, class Image &image) {
+    Texture* entry = nullptr;
+    bool alreadyExistent = GLObjectLibrary::FindObject(name, entry);
+    if (alreadyExistent) {
+        GLObjectLibrary::Logger.Log("Object " + name + "is already in library!", Logger::LOG_WARNING);
+    }
+    else {
+        entry = new Texture(image);
+        GLObjectLibrary::ObjectLibrary[name] = entry;
+        GLObjectLibrary::Logger.Log("Object " + name + "has been added to the library!", Logger::LOG_DEBUG);
+    }
+    return entry;
+}
+
+Texture* GLObjectLibrary::CreateTexture(std::string name, Vector2u resolution, int nrChannels) {
+    Texture* entry = nullptr;
+    bool alreadyExistent = GLObjectLibrary::FindObject(name, entry);
+    if (alreadyExistent) {
+        GLObjectLibrary::Logger.Log("Object " + name + "is already in library!", Logger::LOG_WARNING);
+    }
+    else {
+        entry = new Texture(resolution, nrChannels);
         GLObjectLibrary::ObjectLibrary[name] = entry;
         GLObjectLibrary::Logger.Log("Object " + name + "has been added to the library!", Logger::LOG_DEBUG);
     }
