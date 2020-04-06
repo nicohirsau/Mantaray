@@ -1,19 +1,17 @@
 #pragma once
 
 namespace MR {
-class GLObject;
-
 class GLObjectChain {
     public:
         static void Initialize();
         static void TearDown();
-        static void Link(GLObject* link);
-        static void UnLink(GLObject* link);
+        static void Link(class GLObject* link);
+        static void UnLink(class GLObject* link);
 
     private:
-        static bool m_initialized;
-        static GLObject* m_chainHead;
-        static GLObject* m_chainTail;
-        static class Logger m_logger;
+        static bool Initialized;
+        static class GLObject* ChainHead;
+        static class GLObject* ChainTail;
+        static class Logger Logger;
 };
 }

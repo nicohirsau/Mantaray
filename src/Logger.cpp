@@ -29,11 +29,11 @@ void changeColor(WORD theColor) {
 using namespace MR;
 
 Logger::Logger(std::string name) {
-    m_name = name;
+    m_Name = name;
 }
 
 void Logger::Log(std::string message, Logger::LogLevel logLevel) {
-    Logger::Log(m_name, message, logLevel);
+    Logger::Log(m_Name, message, logLevel);
 }
 
 void Logger::Log(std::string name, std::string message, Logger::LogLevel logLevel) {

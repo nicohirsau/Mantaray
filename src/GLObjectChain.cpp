@@ -14,54 +14,54 @@ inline std::string GetPointerString(GLObject* pointer) {
     return ss.str(); 
 }
 
-bool GLObjectChain::m_initialized = false;
-GLObject* GLObjectChain::m_chainTail = nullptr;
-GLObject* GLObjectChain::m_chainHead = nullptr;
-Logger GLObjectChain::m_logger("GLObjectChain");
+bool GLObjectChain::Initialized = false;
+GLObject* GLObjectChain::ChainTail = nullptr;
+GLObject* GLObjectChain::ChainHead = nullptr;
+Logger GLObjectChain::Logger("GLObjectChain");
 
 void GLObjectChain::Initialize() {
-    if (GLObjectChain::m_initialized) {
-        GLObjectChain::m_logger.Log("Already Initialized!", Logger::LOG_WARNING);
+    if (GLObjectChain::Initialized) {
+        GLObjectChain::Logger.Log("Already Initialized!", Logger::LOG_WARNING);
         return;
     }
-    GLObjectChain::m_chainHead = new GLObject();
-    GLObjectChain::m_chainTail = GLObjectChain::m_chainHead;
-    GLObjectChain::m_logger.Log("Head is: " + GetPointerString(GLObjectChain::m_chainHead), Logger::LOG_DEBUG);
-    GLObjectChain::m_initialized = true;
+    GLObjectChain::ChainHead = new GLObject();
+    GLObjectChain::ChainTail = GLObjectChain::ChainHead;
+    GLObjectChain::Logger.Log("Head is: " + GetPointerString(GLObjectChain::ChainHead), Logger::LOG_DEBUG);
+    GLObjectChain::Initialized = true;
 }
 
 void GLObjectChain::TearDown() {
-    if (!GLObjectChain::m_initialized) {
-        GLObjectChain::m_logger.Log("Chain is not Initialized! (TearDown)", Logger::LOG_WARNING);
+    if (!GLObjectChain::Initialized) {
+        GLObjectChain::Logger.Log("Chain is not Initialized! (TearDown)", Logger::LOG_WARNING);
         return;
     }
-    GLObjectChain::m_chainHead->destroy();
-    delete GLObjectChain::m_chainHead;
-    GLObjectChain::m_chainHead = nullptr;
-    GLObjectChain::m_initialized = false;
+    GLObjectChain::ChainHead->destroy();
+    delete GLObjectChain::ChainHead;
+    GLObjectChain::ChainHead = nullptr;
+    GLObjectChain::Initialized = false;
 }
 
 void GLObjectChain::Link(GLObject* link) {
-    if (!GLObjectChain::m_initialized) {
-        GLObjectChain::m_logger.Log("Chain is not Initialized! (Link)", Logger::LOG_WARNING);
+    if (!GLObjectChain::Initialized) {
+        GLObjectChain::Logger.Log("Chain is not Initialized! (Link)", Logger::LOG_WARNING);
         return;
     }
-    GLObjectChain::m_logger.Log("Linking in: " + GetPointerString(link), Logger::LOG_DEBUG);
-    link->m_previous = GLObjectChain::m_chainTail;
-    GLObjectChain::m_chainTail->m_next = link;
-    GLObjectChain::m_chainTail = link;
+    GLObjectChain::Logger.Log("Linking in: " + GetPointerString(link), Logger::LOG_DEBUG);
+    link->m_Previous = GLObjectChain::ChainTail;
+    GLObjectChain::ChainTail->m_Next = link;
+    GLObjectChain::ChainTail = link;
 }
 
 void GLObjectChain::UnLink(GLObject* link) {
-    if (!GLObjectChain::m_initialized) {
-        GLObjectChain::m_logger.Log("Chain is not Initialized! (UnLink)", Logger::LOG_WARNING);
+    if (!GLObjectChain::Initialized) {
+        GLObjectChain::Logger.Log("Chain is not Initialized! (UnLink)", Logger::LOG_WARNING);
         return;
     }
-    GLObjectChain::m_logger.Log("Unlinking: " + GetPointerString(link), Logger::LOG_DEBUG);
-    if (link->m_previous != nullptr) {
-        link->m_previous->m_next = link->m_next;
+    GLObjectChain::Logger.Log("Unlinking: " + GetPointerString(link), Logger::LOG_DEBUG);
+    if (link->m_Previous != nullptr) {
+        link->m_Previous->m_Next = link->m_Next;
     }
-    if (link->m_next != nullptr) {
-        link->m_next->m_previous = link->m_previous;
+    if (link->m_Next != nullptr) {
+        link->m_Next->m_Previous = link->m_Previous;
     }
 }

@@ -17,6 +17,6 @@ class Logger {
         static void Log(std::string name, std::string message, Logger::LogLevel logLevel = LOG_INFO);
         
     private:
-        std::string m_name = "";
+        std::string m_Name = "";
 };
 }

@@ -6,19 +6,17 @@
 #include "Mantaray/GLObjects/GLObject.hpp"
 
 namespace MR {
-class Image;
-
 class Texture : public GLObject {
     friend class RenderTexture;
 
     public:
         Texture();
         Texture(std::string pathToTexture);
-        Texture(Image &image);
+        Texture(class Image &image);
         Texture(Vector2u resolution, int channels = 4);
         ~Texture();
 
-        void setFromImage(Image &image);
+        void setFromImage(class Image &image);
 
         int getWidth();
         int getHeight();
