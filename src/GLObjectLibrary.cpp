@@ -93,5 +93,6 @@ bool GLObjectLibrary::DeleteObject(std::string name) {
     delete entry;
     entry = nullptr;
     GLObjectLibrary::ObjectLibrary.erase(name);
+    GLObjectLibrary::Logger.Log("Object " + name + "has been removed from the library!", Logger::LOG_DEBUG);
     return true;
 }
