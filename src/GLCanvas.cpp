@@ -112,6 +112,26 @@ RenderTexture* GLCanvas::getRenderTexture() {
     return m_RenderTexture;
 }
 
+void GLCanvas::setCoordinateScale(Vector2f coordinateScale) {
+    m_CoordinateScale = coordinateScale;
+}
+
+Vector2f GLCanvas::getCoordinateScale() {
+    return m_CoordinateScale;
+}
+
+void GLCanvas::setOffset(Vector2f offset) {
+    m_Offset = offset;
+}
+
+void GLCanvas::addOffset(Vector2f offset) {
+    m_Offset = m_Offset + offset;
+}
+
+Vector2f GLCanvas::getOffset() {
+    return m_Offset;
+}
+
 void GLCanvas::bind() {
     m_RenderTexture->bind();
     glViewport(0, 0, m_RenderTexture->getWidth(), m_RenderTexture->getHeight());
@@ -134,14 +154,6 @@ void GLCanvas::clear(Color color) {
         color.a / 255.f
     );
     glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void GLCanvas::setOffset(Vector2f offset) {
-    m_Offset = offset;
-}
-
-void GLCanvas::addOffset(Vector2f offset) {
-    m_Offset = m_Offset + offset;
 }
 
 void GLCanvas::display(Rectanglei viewPort) {

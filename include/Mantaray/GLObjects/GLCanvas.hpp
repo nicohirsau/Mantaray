@@ -15,12 +15,17 @@ class GLCanvas {
         void setShader(class Shader* shader);
         class RenderTexture* getRenderTexture();
 
+        void setCoordinateScale(Vector2f coordinateScale);
+        Vector2f getCoordinateScale();
+        
+        void setOffset(Vector2f offset);
+        void addOffset(Vector2f offset);
+        Vector2f getOffset();
+
         void bind();
         void bind(Color color);
         void unbind();
         void clear(Color color = Color(0x00u));
-        void setOffset(Vector2f offset);
-        void addOffset(Vector2f offset);
         void display(Rectanglei viewPort);
         void display(Rectanglei viewPort, Rectanglef destination);
 
