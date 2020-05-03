@@ -9,6 +9,7 @@
 #include "Mantaray/GLObjects/Texture.hpp"
 #include "Mantaray/GLObjects/VertexArray.hpp"
 #include "Mantaray/GLObjects/Shader.hpp"
+#include "Mantaray/GLObjects/GLStructs.hpp"
 
 using namespace MR;
 
@@ -212,6 +213,20 @@ void GLCanvas::display(Rectanglei viewPort, Rectanglef destination) {
     GLCanvas::DefaultVertexArray->draw();
 }
 
+void GLCanvas::draw(Sprite& sprite) {
+    draw(
+        sprite.texture,
+        sprite.position,
+        sprite.size,
+        sprite.absoluteSize,
+        sprite.rotation,
+        sprite.rotationCenter,
+        sprite.sourceRectangle,
+        sprite.color,
+        sprite.shader
+    );
+}
+
 void GLCanvas::draw(
         Texture* texture, 
         Vector2f position,
@@ -223,6 +238,10 @@ void GLCanvas::draw(
         Color color,
         Shader* shader
     ) {
+    if (texture == nullptr) {
+        return;
+    }
+
     Shader* shaderToUse = shader;
     if (shaderToUse == nullptr) {
         shaderToUse = GLCanvas::DefaultTexturedShader;
@@ -252,6 +271,21 @@ void GLCanvas::draw(
     GLCanvas::DefaultVertexArray->draw();
 }
 
+void GLCanvas::draw(Mesh& mesh) {
+    draw(
+        mesh.vertexArray,
+        mesh.position,
+        mesh.size,
+        mesh.absoluteSize,
+        mesh.rotation,
+        mesh.rotationCenter,
+        mesh.color,
+        mesh.shader,
+        mesh.texture,
+        mesh.sourceRectangle
+    );
+}
+
 void GLCanvas::draw(
         class VertexArray* vertexArray,
         Vector2f position,
@@ -267,6 +301,7 @@ void GLCanvas::draw(
     if (vertexArray == nullptr) {
         return;
     }
+
     Shader* shaderToUse = shader;
     if (shaderToUse == nullptr) {
         if (texture != nullptr) {

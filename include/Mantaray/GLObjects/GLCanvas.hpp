@@ -29,6 +29,7 @@ class GLCanvas {
         void display(Rectanglei viewPort);
         void display(Rectanglei viewPort, Rectanglef destination);
 
+        void draw(struct Sprite& sprite);
         void draw(
             class Texture* texture, 
             Vector2f position = Vector2f(0, 0), 
@@ -40,6 +41,7 @@ class GLCanvas {
             Color color = Color(0xFFu),
             class Shader* shader = nullptr
         );
+        void draw(struct Mesh& mesh);
         void draw(
             class VertexArray* vertexArray,
             Vector2f position = Vector2f(0, 0), 
