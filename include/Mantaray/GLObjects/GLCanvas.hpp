@@ -40,6 +40,18 @@ class GLCanvas {
             Color color = Color(0xFFu),
             class Shader* shader = nullptr
         );
+        void draw(
+            class VertexArray* vertexArray,
+            Vector2f position = Vector2f(0, 0), 
+            Vector2f size = Vector2f(1, 1),
+            bool absoluteSize = true,
+            float rotation = 0,
+            Vector2f rotationCenter = Vector2f(0, 0),
+            Color color = Color(0xFFu),
+            class Shader* shader = nullptr,
+            class Texture* texture = nullptr, 
+            Rectanglef sourceRectangle = Rectanglef(0, 0, 1, 1)
+        );
 
     private:
         void init(Vector2u resolution, Vector2f coordinateScale);
@@ -51,6 +63,7 @@ class GLCanvas {
         Vector2f m_Offset = Vector2f(0, 0);
         
         static class VertexArray* DefaultVertexArray;
-        static class Shader* DefaultShader;
+        static class Shader* DefaultTexturedShader;
+        static class Shader* DefaultColoredShader;
 };
 }

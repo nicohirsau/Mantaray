@@ -12,7 +12,7 @@
 
 using namespace MR;
 
-const char* defaultVertexShaderSource = R"(
+const char* defaultTexturedVertexShaderSource = R"(
 #version 330 core
 layout (location = 0) in vec2 vertexPosition;
 layout (location = 1) in vec2 textureCoordinate;
@@ -32,7 +32,7 @@ void main(){
 }
 )";
 
-const char* defaultFragmentShaderSource = R"(
+const char* defaultTexturedFragmentShaderSource = R"(
 #version 330 core
 out vec4 FragColor;
 in vec2 TexCoord;
@@ -41,6 +41,28 @@ uniform vec4 u_color;
 
 void main() {
     FragColor =  texture(u_texture0, TexCoord) * u_color;
+}
+)";
+
+const char* defaultColoredVertexShaderSource = R"(
+#version 330 core
+layout (location = 0) in vec2 vertexPosition;
+
+uniform mat4 u_projectionMatrix;
+uniform mat4 u_modelMatrix;
+
+void main(){
+    gl_Position = u_projectionMatrix * u_modelMatrix * vec4(vertexPosition.x, vertexPosition.y, 0.0, 1.0);
+}
+)";
+
+const char* defaultColoredFragmentShaderSource = R"(
+#version 330 core
+out vec4 FragColor;
+uniform vec4 u_color;
+
+void main() {
+    FragColor = u_color;
 }
 )";
 
@@ -64,7 +86,8 @@ std::vector<int> defaultIndices = std::vector<int>({
 });
 
 VertexArray* GLCanvas::DefaultVertexArray = nullptr;
-Shader* GLCanvas::DefaultShader = nullptr;
+Shader* GLCanvas::DefaultTexturedShader = nullptr;
+Shader* GLCanvas::DefaultColoredShader = nullptr;
 
 
 GLCanvas::GLCanvas(Vector2u resolution, Vector2f coordinateScale) {
@@ -84,7 +107,7 @@ void GLCanvas::init(Vector2u resolution, Vector2f coordinateScale) {
     m_RenderTexture = new RenderTexture(resolution.x, resolution.y);
     m_CoordinateScale = Vector2f(coordinateScale.x, coordinateScale.y);
 
-    m_Shader = new Shader(defaultVertexShaderSource, defaultFragmentShaderSource);
+    m_Shader = new Shader(defaultTexturedVertexShaderSource, defaultTexturedFragmentShaderSource);
     m_Shader->setRenderTexture("u_texture0", 0, *m_RenderTexture);
 
     if (GLCanvas::DefaultVertexArray == nullptr) {
@@ -94,8 +117,11 @@ void GLCanvas::init(Vector2u resolution, Vector2f coordinateScale) {
         GLCanvas::DefaultVertexArray->addIndices(defaultIndices);
         GLCanvas::DefaultVertexArray->uploadVertexArrayData();
     }
-    if (GLCanvas::DefaultShader == nullptr) {
-        GLCanvas::DefaultShader = new Shader(defaultVertexShaderSource, defaultFragmentShaderSource);
+    if (GLCanvas::DefaultTexturedShader == nullptr) {
+        GLCanvas::DefaultTexturedShader = new Shader(defaultTexturedVertexShaderSource, defaultTexturedFragmentShaderSource);
+    }
+    if (GLCanvas::DefaultColoredShader == nullptr) {
+        GLCanvas::DefaultColoredShader = new Shader(defaultColoredVertexShaderSource, defaultColoredFragmentShaderSource);
     }
 }
 
@@ -199,7 +225,7 @@ void GLCanvas::draw(
     ) {
     Shader* shaderToUse = shader;
     if (shaderToUse == nullptr) {
-        shaderToUse = GLCanvas::DefaultShader;
+        shaderToUse = GLCanvas::DefaultTexturedShader;
     }
     shaderToUse->setTexture("u_texture0", 0, *texture);
     
@@ -224,4 +250,56 @@ void GLCanvas::draw(
     shaderToUse->setUniformVector4f("u_color", Vector4f(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
     shaderToUse->setupForDraw();
     GLCanvas::DefaultVertexArray->draw();
+}
+
+void GLCanvas::draw(
+        class VertexArray* vertexArray,
+        Vector2f position,
+        Vector2f size,
+        bool absoluteSize,
+        float rotation,
+        Vector2f rotationCenter,
+        Color color,
+        class Shader* shader,
+        class Texture* texture,
+        Rectanglef sourceRectangle
+    ) {
+    if (vertexArray == nullptr) {
+        return;
+    }
+    Shader* shaderToUse = shader;
+    if (shaderToUse == nullptr) {
+        if (texture != nullptr) {
+            shaderToUse = GLCanvas::DefaultTexturedShader;
+            shaderToUse->setTexture("u_texture0", 0, *texture);
+            shaderToUse->setUniformVector4f(
+                "u_textureSource", 
+                Vector4f(sourceRectangle.x(), sourceRectangle.y(), sourceRectangle.width(), sourceRectangle.height())
+            );
+        }
+        if (texture == nullptr) {
+            shaderToUse = GLCanvas::DefaultColoredShader;
+        }
+    }
+    
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_CoordinateScale.x), 0.0f, static_cast<float>(m_CoordinateScale.y), -1.0f, 1.0f);
+    projection = glm::translate(projection, glm::vec3(-m_Offset.x, -m_Offset.y, 0));
+    shaderToUse->setUniformMatrix4("u_projectionMatrix", projection);
+
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
+    model = glm::translate(model, -glm::vec3(rotationCenter.x, rotationCenter.y, 0.0f));
+    model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::translate(model, glm::vec3(rotationCenter.x, rotationCenter.y, 0.0f));
+    
+    if (absoluteSize) {
+        model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
+    }
+    else {
+        model = glm::scale(model, glm::vec3(size.x * texture->getWidth(), size.y * texture->getHeight(), 1.0f));
+    }
+    shaderToUse->setUniformMatrix4("u_modelMatrix", model);
+    shaderToUse->setUniformVector4f("u_color", Vector4f(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
+    shaderToUse->setupForDraw();
+    vertexArray->draw();    
 }
