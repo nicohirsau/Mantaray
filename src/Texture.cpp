@@ -1,7 +1,7 @@
 #include <glad/glad.h>
 
 #include "Mantaray/GLObjects/Texture.hpp"
-#include "Mantaray/Graphics/Image.hpp"
+#include "Mantaray/Core/Image.hpp"
 #include "Mantaray/Core/Logger.hpp"
 
 using namespace MR;
