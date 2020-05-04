@@ -3,9 +3,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Mantaray/GLObjects/Shader.hpp"
-#include "Mantaray/GLObjects/Texture.hpp"
-#include "Mantaray/GLObjects/RenderTexture.hpp"
+#include "Mantaray/OpenGL/Objects/Shader.hpp"
+#include "Mantaray/OpenGL/Objects/Texture.hpp"
+#include "Mantaray/OpenGL/Objects/RenderTexture.hpp"
 #include "Mantaray/Core/FileSystem.hpp"
 #include "Mantaray/Core/Logger.hpp"
 

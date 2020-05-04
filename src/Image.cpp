@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <cstdlib>
 
-#include "Mantaray/Graphics/Image.hpp"
-#include "Mantaray/GLObjects/Texture.hpp"
+#include "Mantaray/Core/Image.hpp"
+#include "Mantaray/OpenGL/Objects/Texture.hpp"
 #include "Mantaray/Core/FileSystem.hpp"
 
 using namespace MR;

@@ -3,11 +3,10 @@
 #include <vector>
 
 #include "Mantaray/Core/Vector.hpp"
-#include "Mantaray/GLObjects/GLObject.hpp"
+#include "Mantaray/OpenGL/Object.hpp"
 
 namespace MR {
-
-class VertexArray : public GLObject{
+class VertexArray : public Object {
     public:
         VertexArray();
         ~VertexArray();

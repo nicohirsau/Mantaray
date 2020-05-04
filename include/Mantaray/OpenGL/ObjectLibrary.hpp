@@ -6,7 +6,7 @@
 #include "Mantaray/Core/Vector.hpp"
 
 namespace MR {
-class GLObjectLibrary {
+class ObjectLibrary {
     public:
         static class Shader* CreateShader(std::string name, std::string vertexShaderPath, std::string fragmentShaderPath);
         static class Shader* CreateShader(std::string name, const char* vertexShaderSource, const char* fragmentShaderSource);
@@ -21,7 +21,7 @@ class GLObjectLibrary {
         static bool DeleteObject(std::string name);
 
     private:
-        static std::unordered_map<std::string, class GLObject*> ObjectLibrary;
+        static std::unordered_map<std::string, class Object*> Library;
         static class Logger Logger;
 };
 }
