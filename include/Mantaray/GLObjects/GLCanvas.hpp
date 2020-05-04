@@ -41,7 +41,7 @@ class GLCanvas {
             Color color = Color(0xFFu),
             class Shader* shader = nullptr
         );
-        void draw(struct Mesh& mesh);
+        void draw(struct Polygon& polygon);
         void draw(
             class VertexArray* vertexArray,
             Vector2f position = Vector2f(0, 0), 

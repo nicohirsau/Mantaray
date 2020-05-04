@@ -9,7 +9,7 @@
 #include "Mantaray/GLObjects/Texture.hpp"
 #include "Mantaray/GLObjects/VertexArray.hpp"
 #include "Mantaray/GLObjects/Shader.hpp"
-#include "Mantaray/GLObjects/GLStructs.hpp"
+#include "Mantaray/GLObjects/Drawables.hpp"
 
 using namespace MR;
 
@@ -278,18 +278,18 @@ void GLCanvas::draw(
     GLCanvas::DefaultVertexArray->draw();
 }
 
-void GLCanvas::draw(Mesh& mesh) {
+void GLCanvas::draw(Polygon& polygon) {
     draw(
-        mesh.vertexArray,
-        mesh.position,
-        mesh.size,
-        mesh.absoluteSize,
-        mesh.rotation,
-        mesh.rotationCenter,
-        mesh.color,
-        mesh.shader,
-        mesh.texture,
-        mesh.sourceRectangle
+        polygon.vertexArray,
+        polygon.position,
+        polygon.size,
+        polygon.absoluteSize,
+        polygon.rotation,
+        polygon.rotationCenter,
+        polygon.color,
+        polygon.shader,
+        polygon.texture,
+        polygon.sourceRectangle
     );
 }
 
