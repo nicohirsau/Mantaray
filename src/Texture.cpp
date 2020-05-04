@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 
-#include "Mantaray/GLObjects/Texture.hpp"
+#include "Mantaray/OpenGL/Objects/Texture.hpp"
 #include "Mantaray/Core/Image.hpp"
 #include "Mantaray/Core/Logger.hpp"
 

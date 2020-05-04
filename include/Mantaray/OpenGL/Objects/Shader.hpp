@@ -6,10 +6,10 @@
 #include <glm/fwd.hpp>
 
 #include "Mantaray/Core/Vector.hpp"
-#include "Mantaray/GLObjects/GLObject.hpp"
+#include "Mantaray/OpenGL/Object.hpp"
 
 namespace MR {
-class Shader : public GLObject {
+class Shader : public Object {
     public:
         enum ShaderType {
             VERTEX_SHADER,

@@ -1,12 +1,12 @@
 #pragma once
 
 namespace MR {
-class GLObject {
-    friend class GLObjectChain;
+class Object {
+    friend class ObjectChain;
 
     public:
-        GLObject();
-        virtual ~GLObject();
+        Object();
+        virtual ~Object();
 
         virtual void bind();
         virtual void unbind();
@@ -22,7 +22,7 @@ class GLObject {
 
     private: 
         bool m_HasAllocatedData = false;
-        GLObject* m_Previous = nullptr;
-        GLObject* m_Next = nullptr;
+        Object* m_Previous = nullptr;
+        Object* m_Next = nullptr;
 };
 }
