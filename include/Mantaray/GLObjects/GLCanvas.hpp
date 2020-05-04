@@ -2,7 +2,7 @@
 
 #include "Mantaray/Core/Vector.hpp"
 #include "Mantaray/Core/Color.hpp"
-#include "Mantaray/Core/Shape.hpp"
+#include "Mantaray/Core/Shapes.hpp"
 
 namespace MR {
 class GLCanvas {
