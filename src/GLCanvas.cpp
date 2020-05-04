@@ -262,7 +262,14 @@ void GLCanvas::draw(
         model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
     }
     else {
-        model = glm::scale(model, glm::vec3(size.x * texture->getWidth(), size.y * texture->getHeight(), 1.0f));
+        model = glm::scale(
+            model, 
+            glm::vec3(
+                size.x * texture->getWidth() * sourceRectangle.width(), 
+                size.y * texture->getHeight() * sourceRectangle.height(), 
+                1.0f
+            )
+        );
     }
     shaderToUse->setUniformMatrix4("u_modelMatrix", model);
     shaderToUse->setUniformVector4f("u_textureSource", Vector4f(sourceRectangle.x(), sourceRectangle.y(), sourceRectangle.width(), sourceRectangle.height()));
@@ -331,7 +338,14 @@ void GLCanvas::draw(
         model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
     }
     else {
-        model = glm::scale(model, glm::vec3(size.x * texture->getWidth(), size.y * texture->getHeight(), 1.0f));
+        model = glm::scale(
+            model, 
+            glm::vec3(
+                size.x * texture->getWidth() * sourceRectangle.width(), 
+                size.y * texture->getHeight() * sourceRectangle.height(), 
+                1.0f
+            )
+        );
     }
     shaderToUse->setUniformMatrix4("u_modelMatrix", model);
     shaderToUse->setUniformVector4f("u_color", Vector4f(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
