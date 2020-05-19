@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Mantaray/OpenGL/Objects/VertexArray.hpp"
 #include "Mantaray/OpenGL/Objects/Texture.hpp"
 #include "Mantaray/OpenGL/Objects/Shader.hpp"

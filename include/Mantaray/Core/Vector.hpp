@@ -18,11 +18,20 @@ class Vector2 {
         Vector2<T> operator+(Vector2<T> b) {
             return Vector2<T>(this->x + b.x, this->y + b.y);
         }
+        Vector2<T> operator+=(Vector2<T> b) {
+            return Vector2<T>(this->x + b.x, this->y + b.y);
+        }
         Vector2<T> operator-(Vector2<T> b) {
+            return Vector2<T>(this->x - b.x, this->y - b.y);
+        }
+        Vector2<T> operator-=(Vector2<T> b) {
             return Vector2<T>(this->x - b.x, this->y - b.y);
         }
         Vector2<T> operator*(float b) {
             return Vector2<T>(this->x * b, this->y * b);
+        }
+        Vector2<T> operator*=(Vector2<T> b) {
+            return Vector2<T>(this->x * b.x, this->y * b.y);
         }
 
         void rotate(float angle) {
