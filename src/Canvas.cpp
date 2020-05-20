@@ -220,11 +220,12 @@ void Canvas::display(Rectanglei viewPort, Rectanglef destination) {
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(destination.x(), destination.y(), 0.0f));
-    model = glm::scale(model, glm::vec3(destination.width(), destination.height(), 1.0f));
-
-    model = glm::translate(model, -glm::vec3(destination.width() * m_ScaleCenter.x, destination.height() * m_ScaleCenter.y, 0.0f));
-    model = glm::scale(model, glm::vec3(m_Scale, m_Scale, 1.0f));
+    
     model = glm::translate(model, glm::vec3(destination.width() * m_ScaleCenter.x, destination.height() * m_ScaleCenter.y, 0.0f));
+    model = glm::scale(model, glm::vec3(m_Scale, m_Scale, 1.0f));
+    model = glm::translate(model, -glm::vec3(destination.width() * m_ScaleCenter.x, destination.height() * m_ScaleCenter.y, 0.0f));
+
+    model = glm::scale(model, glm::vec3(destination.width(), destination.height(), 1.0f));
 
     m_Shader->setUniformMatrix4("u_modelMatrix", model);
     m_Shader->setUniformVector4f("u_textureSource", Vector4f(0, 0, 1, 1));
