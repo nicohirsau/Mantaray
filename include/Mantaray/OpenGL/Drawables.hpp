@@ -18,7 +18,7 @@ struct Drawable {
         Color color = Color(0xFF);
         bool absoluteSize = true;
         float rotation = 0;
-        Vector2f rotationCenter = Vector2f(0, 0);
+        Vector2f rotationCenter = Vector2f(.5f, .5f);
         Rectanglef sourceRectangle = Rectanglef(0, 0, 1, 1);
         Shader* shader = nullptr;
 };

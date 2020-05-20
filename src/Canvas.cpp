@@ -276,14 +276,19 @@ void Canvas::draw(
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
-    model = glm::translate(model, -glm::vec3(rotationCenter.x, rotationCenter.y, 0.0f));
-    model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::translate(model, glm::vec3(rotationCenter.x, rotationCenter.y, 0.0f));
     
     if (absoluteSize) {
+        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
+        model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
+
         model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
     }
     else {
+        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x * texture->getWidth(), rotationCenter.y * size.y * texture->getHeight(), 0.0f));
+        model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x * texture->getWidth(), rotationCenter.y * size.y * texture->getHeight(), 0.0f));
+
         model = glm::scale(
             model, 
             glm::vec3(
@@ -352,14 +357,19 @@ void Canvas::draw(
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
-    model = glm::translate(model, -glm::vec3(rotationCenter.x, rotationCenter.y, 0.0f));
-    model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::translate(model, glm::vec3(rotationCenter.x, rotationCenter.y, 0.0f));
     
     if (absoluteSize) {
+        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
+        model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
+
         model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
     }
     else {
+        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x * texture->getWidth(), rotationCenter.y * size.y * texture->getHeight(), 0.0f));
+        model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x * texture->getWidth(), rotationCenter.y * size.y * texture->getHeight(), 0.0f));
+
         model = glm::scale(
             model, 
             glm::vec3(
