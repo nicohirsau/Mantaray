@@ -73,7 +73,7 @@ float Window::update() {
 }
 
 void Window::beginFrame() {
-    m_Canvas->bind(Color(0x00));
+    m_Canvas->bind(m_ClearColor);
 }
 
 void Window::endFrame() {
@@ -88,6 +88,58 @@ void Window::draw(Sprite& sprite) {
 
 void Window::draw(Polygon& polygon) {
     m_Canvas->draw(polygon);
+}
+
+Vector2f Window::getOffset() {
+    return m_Canvas->getOffset();
+}
+
+void Window::setOffset(Vector2f& offset) {
+    m_Canvas->setOffset(offset);
+}
+
+void Window::addOffset(Vector2f& deltaOffset) {
+    m_Canvas->addOffset(deltaOffset);
+}
+
+float Window::getScale() {
+    return m_Canvas->getScale();
+}
+
+void Window::setScale(float scale) {
+    m_Canvas->setScale(scale);
+}
+
+Vector2f Window::getScaleCenter() {
+    return m_Canvas->getScaleCenter();
+}
+
+void Window::setScaleCenter(Vector2f& scaleCenter) {
+    m_Canvas->setScaleCenter(scaleCenter);
+}
+
+Shader* Window::getScreenShader() {
+    return m_Canvas->getShader();
+}
+
+void Window::setScreenShader(class Shader* screenShader) {
+    if (screenShader == nullptr) {
+        m_Logger.Log("nullptr cannot be set as screenshader", Logger::LOG_WARNING);
+        return;
+    }
+    m_Canvas->setShader(screenShader);
+}
+
+Color Window::getClearColor() {
+    return m_ClearColor;
+}
+
+void Window::setClearColor(Color& clearColor) {
+    m_ClearColor = clearColor;
+}
+
+void Window::setClearColor(unsigned char clearColor) {
+    m_ClearColor = Color(clearColor);
 }
 
 void Window::OnWindowResized(GLFWwindow* window, int width, int height) {
