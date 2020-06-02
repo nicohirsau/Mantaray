@@ -162,6 +162,7 @@ void Window::calculateViewDestination(int windowWidth, int windowHeight) {
     }
     else {
         m_PrefferedAspectRatio = (float)windowWidth / (float)windowHeight;
+        m_ViewDestination = Rectanglef(0, 0, windowWidth, windowHeight);
     }
     m_ViewPort = Rectanglei(0, 0, windowWidth, windowHeight);
 }
