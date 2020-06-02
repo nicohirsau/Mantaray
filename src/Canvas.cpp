@@ -285,9 +285,9 @@ void Canvas::draw(
         model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
     }
     else {
-        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x * texture->getWidth(), rotationCenter.y * size.y * texture->getHeight(), 0.0f));
+        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height(), 0.0f));
         model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x * texture->getWidth(), rotationCenter.y * size.y * texture->getHeight(), 0.0f));
+        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height(), 0.0f));
 
         model = glm::scale(
             model, 
@@ -366,9 +366,9 @@ void Canvas::draw(
         model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
     }
     else {
-        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x * texture->getWidth(), rotationCenter.y * size.y * texture->getHeight(), 0.0f));
+        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height(), 0.0f));
         model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x * texture->getWidth(), rotationCenter.y * size.y * texture->getHeight(), 0.0f));
+        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height(), 0.0f));
 
         model = glm::scale(
             model, 
