@@ -29,6 +29,8 @@ bool Context::Create(GLFWwindow** outWindow, std::string title, Vector2u size) {
             Logger::Log("Context", "Failed to initialize GLAD", MR::Logger::LOG_ERROR);
             return false;
         }
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         Context::IsInitialized = true;
         return true;
     } 
