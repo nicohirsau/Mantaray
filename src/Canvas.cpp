@@ -220,10 +220,6 @@ void Canvas::display(Rectanglei viewPort, Rectanglef destination) {
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(destination.x(), destination.y(), 0.0f));
-    
-    model = glm::translate(model, glm::vec3(destination.width() * m_ScaleCenter.x, destination.height() * m_ScaleCenter.y, 0.0f));
-    model = glm::scale(model, glm::vec3(m_Scale, m_Scale, 1.0f));
-    model = glm::translate(model, -glm::vec3(destination.width() * m_ScaleCenter.x, destination.height() * m_ScaleCenter.y, 0.0f));
 
     model = glm::scale(model, glm::vec3(destination.width(), destination.height(), 1.0f));
 
@@ -271,6 +267,11 @@ void Canvas::draw(
     shaderToUse->setTexture("u_texture0", 0, *texture);
     
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_CoordinateScale.x), 0.0f, static_cast<float>(m_CoordinateScale.y), -1.0f, 1.0f);
+
+    projection = glm::translate(projection, glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
+    projection = glm::scale(projection, glm::vec3(m_Scale));
+    projection = glm::translate(projection, -glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
+
     projection = glm::translate(projection, glm::vec3(-m_Offset.x, -m_Offset.y, 0));
     shaderToUse->setUniformMatrix4("u_projectionMatrix", projection);
 
@@ -352,6 +353,11 @@ void Canvas::draw(
     }
     
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_CoordinateScale.x), 0.0f, static_cast<float>(m_CoordinateScale.y), -1.0f, 1.0f);
+
+    projection = glm::translate(projection, glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
+    projection = glm::scale(projection, glm::vec3(m_Scale));
+    projection = glm::translate(projection, -glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
+
     projection = glm::translate(projection, glm::vec3(-m_Offset.x, -m_Offset.y, 0));
     shaderToUse->setUniformMatrix4("u_projectionMatrix", projection);
 
