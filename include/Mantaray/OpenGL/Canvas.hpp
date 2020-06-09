@@ -15,12 +15,18 @@ class Canvas {
         void setShader(class Shader* shader);
         class RenderTexture* getRenderTexture();
 
-        void setCoordinateScale(Vector2f coordinateScale);
         Vector2f getCoordinateScale();
+        void setCoordinateScale(Vector2f coordinateScale);
         
+        Vector2f getOffset();
         void setOffset(Vector2f offset);
         void addOffset(Vector2f offset);
-        Vector2f getOffset();
+
+        float getScale();
+        void setScale(float scale);
+
+        Vector2f getScaleCenter();
+        void setScaleCenter(Vector2f scaleCenter);
 
         void bind();
         void bind(Color color);
@@ -63,6 +69,8 @@ class Canvas {
         class Shader* m_Shader = nullptr;
         Vector2f m_CoordinateScale = Vector2f(1, 1);
         Vector2f m_Offset = Vector2f(0, 0);
+        float m_Scale = 1.0f;
+        Vector2f m_ScaleCenter = Vector2f(.5f, .5f);
         
         static class VertexArray* DefaultVertexArray;
         static class Shader* DefaultTexturedShader;

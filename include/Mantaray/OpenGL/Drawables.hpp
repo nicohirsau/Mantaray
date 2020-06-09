@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Mantaray/OpenGL/Objects/VertexArray.hpp"
 #include "Mantaray/OpenGL/Objects/Texture.hpp"
 #include "Mantaray/OpenGL/Objects/Shader.hpp"
@@ -16,7 +18,7 @@ struct Drawable {
         Color color = Color(0xFF);
         bool absoluteSize = true;
         float rotation = 0;
-        Vector2f rotationCenter = Vector2f(0, 0);
+        Vector2f rotationCenter = Vector2f(.5f, .5f);
         Rectanglef sourceRectangle = Rectanglef(0, 0, 1, 1);
         Shader* shader = nullptr;
 };
