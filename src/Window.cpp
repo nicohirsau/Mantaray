@@ -73,6 +73,10 @@ void Window::iconify() {
 }
 
 void Window::maximize() {
+    if (glfwGetWindowMonitor(m_Window) != nullptr) {
+        return;
+    }
+    
     m_lastWindowedSize = getSize();
     m_lastWindowedPosition = getPosition();
     const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
