@@ -71,5 +71,7 @@ class Window {
         Timer m_Timer;
         bool m_ShouldKeepAspectRatio;
         float m_PrefferedAspectRatio;
+        Vector2i m_lastWindowedPosition = Vector2i();
+        Vector2i m_lastWindowedSize = Vector2i();
 };
 }

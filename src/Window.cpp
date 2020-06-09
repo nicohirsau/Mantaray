@@ -21,6 +21,8 @@ Window::Window(std::string title, Vector2u size, bool shouldKeepAspectRatio) {
     m_ViewPort = Rectanglei(0, 0, size.x, size.y);
     m_ShouldKeepAspectRatio = shouldKeepAspectRatio;
     m_PrefferedAspectRatio = (float)size.x / (float)size.y;
+    m_lastWindowedSize = getSize();
+    m_lastWindowedPosition = getPosition();
     calculateViewDestination(size.x, size.y);
     Window::Instance = this;
 }
@@ -36,6 +38,8 @@ Window::Window(std::string title, Vector2u size, Vector2u resolution, bool shoul
     m_ViewPort = Rectanglei(0, 0, size.x, size.y);
     m_ShouldKeepAspectRatio = shouldKeepAspectRatio;
     m_PrefferedAspectRatio = (float)resolution.x / (float)resolution.y;
+    m_lastWindowedSize = getSize();
+    m_lastWindowedPosition = getPosition();
     calculateViewDestination(size.x, size.y);
     Window::Instance = this;
 }
@@ -51,6 +55,8 @@ Window::Window(std::string title, Vector2u size, Vector2u resolution, Vector2f c
     m_ViewPort = Rectanglei(0, 0, size.x, size.y);
     m_ShouldKeepAspectRatio = shouldKeepAspectRatio;
     m_PrefferedAspectRatio = (float)resolution.x / (float)resolution.y;
+    m_lastWindowedSize = getSize();
+    m_lastWindowedPosition = getPosition();
     calculateViewDestination(size.x, size.y);
     Window::Instance = this;
 }
@@ -67,10 +73,14 @@ void Window::iconify() {
 }
 
 void Window::maximize() {
-    glfwMaximizeWindow(m_Window);
+    m_lastWindowedSize = getSize();
+    m_lastWindowedPosition = getPosition();
+    const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    glfwSetWindowMonitor(m_Window, glfwGetPrimaryMonitor(), 0, 0, videoMode->width, videoMode->height, GLFW_DONT_CARE);
 }
 
 void Window::restore() {
+    glfwSetWindowMonitor(m_Window, NULL, m_lastWindowedPosition.x, m_lastWindowedPosition.y, m_lastWindowedSize.x, m_lastWindowedSize.y, GLFW_DONT_CARE);
     glfwRestoreWindow(m_Window);
 }
 
