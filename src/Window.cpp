@@ -62,8 +62,48 @@ Window::~Window() {
     Window::Instance = nullptr;
 }
 
-bool Window::shouldClose() {
+void Window::iconify() {
+    glfwIconifyWindow(m_Window);
+}
+
+void Window::maximize() {
+    glfwMaximizeWindow(m_Window);
+}
+
+void Window::restore() {
+    glfwRestoreWindow(m_Window);
+}
+
+void Window::setTitle(std::string title) {
+    glfwSetWindowTitle(m_Window, title.c_str());
+}
+
+Vector2i Window::getSize() {
+    int width, height;
+    glfwGetWindowSize(m_Window, &width, &height);
+    return Vector2i(width, height);
+}
+
+void Window::setSize(Vector2i size) {
+    glfwSetWindowSize(m_Window, size.x, size.y);
+}
+
+Vector2i Window::getPosition() {
+    int xPos, yPos;
+    glfwGetWindowPos(m_Window, &xPos, &yPos);
+    return Vector2i(xPos, yPos);
+}
+
+void Window::setPosition(Vector2i position) {
+    glfwSetWindowPos(m_Window, position.x, position.y);
+}
+
+bool Window::getShouldClose() {
     return glfwWindowShouldClose(m_Window);
+}
+
+void Window::setShouldClose(bool shouldClose) {
+    glfwSetWindowShouldClose(m_Window, (shouldClose) ? 1 : 0);
 }
 
 float Window::update() {

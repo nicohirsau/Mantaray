@@ -17,7 +17,21 @@ class Window {
         Window(std::string title, Vector2u size, Vector2u resolution, Vector2f coordinateScale, bool shouldKeepAspectRatio = true);
         ~Window();
 
-        bool shouldClose();
+        void iconify();
+        void maximize();
+        void restore();
+
+        void setTitle(std::string title);
+
+        Vector2i getSize();
+        void setSize(Vector2i size);
+
+        Vector2i getPosition();
+        void setPosition(Vector2i position);
+
+        bool getShouldClose();
+        void setShouldClose(bool shouldClose = true);
+
         float update();
         void beginFrame();
         void endFrame();
