@@ -40,20 +40,20 @@ class Window {
         void draw(Polygon& polygon);
 
         Vector2f getOffset();
-        void setOffset(Vector2f& offset);
-        void addOffset(Vector2f& deltaOffset);
+        void setOffset(Vector2f offset);
+        void addOffset(Vector2f deltaOffset);
 
         float getScale();
         void setScale(float scale);
 
         Vector2f getScaleCenter();
-        void setScaleCenter(Vector2f& scaleCenter);
+        void setScaleCenter(Vector2f scaleCenter);
 
         Shader* getScreenShader();
         void setScreenShader(class Shader* screenShader);
 
         Color getClearColor();
-        void setClearColor(Color& clearColor);
+        void setClearColor(Color clearColor);
         void setClearColor(unsigned char clearColor);
 
     protected:

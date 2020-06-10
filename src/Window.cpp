@@ -148,11 +148,11 @@ Vector2f Window::getOffset() {
     return m_Canvas->getOffset();
 }
 
-void Window::setOffset(Vector2f& offset) {
+void Window::setOffset(Vector2f offset) {
     m_Canvas->setOffset(offset);
 }
 
-void Window::addOffset(Vector2f& deltaOffset) {
+void Window::addOffset(Vector2f deltaOffset) {
     m_Canvas->addOffset(deltaOffset);
 }
 
@@ -168,7 +168,7 @@ Vector2f Window::getScaleCenter() {
     return m_Canvas->getScaleCenter();
 }
 
-void Window::setScaleCenter(Vector2f& scaleCenter) {
+void Window::setScaleCenter(Vector2f scaleCenter) {
     m_Canvas->setScaleCenter(scaleCenter);
 }
 
@@ -188,7 +188,7 @@ Color Window::getClearColor() {
     return m_ClearColor;
 }
 
-void Window::setClearColor(Color& clearColor) {
+void Window::setClearColor(Color clearColor) {
     m_ClearColor = clearColor;
 }
 
