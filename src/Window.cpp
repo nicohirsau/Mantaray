@@ -127,7 +127,7 @@ float Window::update() {
 }
 
 void Window::beginFrame() {
-    m_Canvas->bind(m_ClearColor);
+    m_Canvas->clear(m_ClearColor);
 }
 
 void Window::endFrame() {

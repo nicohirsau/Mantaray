@@ -81,14 +81,28 @@ Texture* ObjectLibrary::CreateTexture(std::string name, Vector2u resolution, int
     return entry;
 }
 
-RenderTexture* ObjectLibrary::CreateRenderTexture(std::string name, unsigned int width, unsigned int height) {
+RenderTexture* ObjectLibrary::CreateRenderTexture(std::string name, Vector2u resolution) {
     RenderTexture* entry = nullptr;
     bool alreadyExistent = ObjectLibrary::FindObject(name, entry);
     if (alreadyExistent) {
         ObjectLibrary::Logger.Log("Object " + name + " is already in library!", Logger::LOG_WARNING);
     }
     else {
-        entry = new RenderTexture(width, height);
+        entry = new RenderTexture(resolution);
+        ObjectLibrary::Library[name] = entry;
+        ObjectLibrary::Logger.Log("Object " + name + " has been added to the library!", Logger::LOG_DEBUG);
+    }
+    return entry;
+}
+
+RenderTexture* ObjectLibrary::CreateRenderTexture(std::string name, Vector2u resolution, Vector2f coordinateScale) {
+    RenderTexture* entry = nullptr;
+    bool alreadyExistent = ObjectLibrary::FindObject(name, entry);
+    if (alreadyExistent) {
+        ObjectLibrary::Logger.Log("Object " + name + " is already in library!", Logger::LOG_WARNING);
+    }
+    else {
+        entry = new RenderTexture(resolution, coordinateScale);
         ObjectLibrary::Library[name] = entry;
         ObjectLibrary::Logger.Log("Object " + name + " has been added to the library!", Logger::LOG_DEBUG);
     }
