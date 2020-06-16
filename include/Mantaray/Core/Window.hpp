@@ -17,6 +17,8 @@ class Window {
         Window(std::string title, Vector2u size, Vector2u resolution, Vector2f coordinateScale, bool shouldKeepAspectRatio = true);
         ~Window();
 
+        static Window*& GetInstance();
+
         void iconify();
         void maximize();
         void restore();
@@ -66,8 +68,6 @@ class Window {
         class GLFWwindow* m_Window = nullptr;
         class Canvas* m_Canvas = nullptr;
         Color m_ClearColor = Color(0x00);
-        Rectanglei m_ViewPort;
-        Rectanglef m_ViewDestination;
         Timer m_Timer;
         bool m_ShouldKeepAspectRatio;
         float m_PrefferedAspectRatio;

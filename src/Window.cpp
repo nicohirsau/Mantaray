@@ -18,7 +18,6 @@ Window::Window(std::string title, Vector2u size, bool shouldKeepAspectRatio) {
     m_Canvas = new Canvas(size);
     m_Timer = Timer();
     m_Timer.start();
-    m_ViewPort = Rectanglei(0, 0, size.x, size.y);
     m_ShouldKeepAspectRatio = shouldKeepAspectRatio;
     m_PrefferedAspectRatio = (float)size.x / (float)size.y;
     m_lastWindowedSize = getSize();
@@ -35,7 +34,6 @@ Window::Window(std::string title, Vector2u size, Vector2u resolution, bool shoul
     m_Canvas = new Canvas(resolution);
     m_Timer = Timer();
     m_Timer.start();
-    m_ViewPort = Rectanglei(0, 0, size.x, size.y);
     m_ShouldKeepAspectRatio = shouldKeepAspectRatio;
     m_PrefferedAspectRatio = (float)resolution.x / (float)resolution.y;
     m_lastWindowedSize = getSize();
@@ -52,13 +50,16 @@ Window::Window(std::string title, Vector2u size, Vector2u resolution, Vector2f c
     m_Canvas = new Canvas(resolution, coordinateScale);
     m_Timer = Timer();
     m_Timer.start();
-    m_ViewPort = Rectanglei(0, 0, size.x, size.y);
     m_ShouldKeepAspectRatio = shouldKeepAspectRatio;
     m_PrefferedAspectRatio = (float)resolution.x / (float)resolution.y;
     m_lastWindowedSize = getSize();
     m_lastWindowedPosition = getPosition();
     calculateViewDestination(size.x, size.y);
     Window::Instance = this;
+}
+
+Window*& Window::GetInstance() {
+    return Window::Instance;
 }
 
 Window::~Window() {
@@ -131,7 +132,7 @@ void Window::beginFrame() {
 }
 
 void Window::endFrame() {
-    m_Canvas->display(m_ViewPort, m_ViewDestination);
+    m_Canvas->display();
     glfwSwapBuffers(m_Window);
     glfwPollEvents();
 }
@@ -206,17 +207,30 @@ void Window::calculateViewDestination(int windowWidth, int windowHeight) {
         if (aspectRatio > m_PrefferedAspectRatio) {
             int viewDestinationWidth = windowHeight * m_PrefferedAspectRatio;
             int xOffset = (windowWidth - viewDestinationWidth) / 2.0f;
-            m_ViewDestination = Rectanglef(xOffset, 0, viewDestinationWidth, windowHeight);
+            m_Canvas->setViewPortDestination(
+    	        Rectanglef(
+                    (float)xOffset / windowWidth, 
+                    0, 
+                    (float)viewDestinationWidth / windowWidth, 
+                    1
+                )
+            );
         }
         else {
             int viewDestinationHeight = windowWidth / m_PrefferedAspectRatio;
             int yOffset = (windowHeight - viewDestinationHeight) / 2.0f;
-            m_ViewDestination = Rectanglef(0, yOffset, windowWidth, viewDestinationHeight);
+            m_Canvas->setViewPortDestination(
+                Rectanglef(
+                    0, 
+                    (float)yOffset / windowHeight, 
+                    1, 
+                    (float)viewDestinationHeight / windowHeight
+                )
+            );
         }
     }
     else {
         m_PrefferedAspectRatio = (float)windowWidth / (float)windowHeight;
-        m_ViewDestination = Rectanglef(0, 0, windowWidth, windowHeight);
+        m_Canvas->setViewPortDestination(Rectanglef(0, 0, 1, 1));
     }
-    m_ViewPort = Rectanglei(0, 0, windowWidth, windowHeight);
 }

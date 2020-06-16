@@ -15,11 +15,13 @@ class Canvas : public RenderTexture {
         class Shader* getShader();
         void setShader(class Shader* shader);
 
-        void display(Rectanglei viewPort);
-        void display(Rectanglei viewPort, Rectanglef destination);
+        Rectanglef getViewPortDestination();
+        void setViewPortDestination(Rectanglef viewPortDestination);
+
+        void display();
     
     private:
         class Shader* m_Shader = nullptr;
-        Rectanglef m_ViewPortSize;
+        Rectanglef m_ViewPortDestination = Rectanglef(0, 0, 1, 1);
 };
 }
