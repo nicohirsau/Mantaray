@@ -89,13 +89,17 @@ Shader* RenderTexture::DefaultTexturedShader = nullptr;
 Shader* RenderTexture::DefaultColoredShader = nullptr;
 
 RenderTexture::RenderTexture(Vector2u resolution) {
+    m_Resolution = resolution;
+    m_CoordinateScale = Vector2f(resolution.x, resolution.y);
     link();
-    init(resolution, Vector2f(resolution.x, resolution.y));
+    initializeDefaults();
 }
 
 RenderTexture::RenderTexture(Vector2u resolution, Vector2f coordinateScale) {
+    m_Resolution = resolution;
+    m_CoordinateScale = coordinateScale;
     link();
-    init(resolution, coordinateScale);
+    initializeDefaults();
 }
 
 RenderTexture::~RenderTexture() {
@@ -104,10 +108,7 @@ RenderTexture::~RenderTexture() {
     m_RenderTexture = nullptr;
 }
 
-void RenderTexture::init(Vector2u resolution, Vector2f coordinateScale) {
-    m_Resolution = resolution;
-    m_CoordinateScale = coordinateScale;
-
+void RenderTexture::initializeDefaults() {
     if (RenderTexture::DefaultVertexArray == nullptr) {
         RenderTexture::DefaultVertexArray = new VertexArray();
         RenderTexture::DefaultVertexArray->addVertices(defaultVertices);
@@ -198,19 +199,6 @@ Vector2f RenderTexture::getScaleCenter() {
 void RenderTexture::setScaleCenter(Vector2f scaleCenter) {
     m_ScaleCenter = scaleCenter;
 }
-
-//void RenderTexture::activate() {
-//    bind();
-//}
-
-//void RenderTexture::activate(Color color) {
-//    bind();
-//    clear(color);
-//}
-//
-//void RenderTexture::deactivate() {
-//    unbind();
-//}
 
 void RenderTexture::draw(Sprite& sprite) {
     draw(

@@ -35,9 +35,6 @@ class RenderTexture : public Object {
         Vector2f getScaleCenter();
         void setScaleCenter(Vector2f scaleCenter);
 
-        //void activate();
-        //void activate(Color color);
-        //void deactivate();
         void clear(Color color = Color(0x00u));
 
         void draw(struct Sprite& sprite);
@@ -71,7 +68,7 @@ class RenderTexture : public Object {
         void release() override;
     
     private:
-        void init(Vector2u resolution, Vector2f coordinateScale);
+        void initializeDefaults();
     
     protected:
         unsigned int m_FBO, m_RBO;

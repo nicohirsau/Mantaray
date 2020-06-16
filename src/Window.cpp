@@ -4,7 +4,7 @@
 #include "Mantaray/Core/InputManager.hpp"
 #include "Mantaray/OpenGL/ObjectChain.hpp"
 #include "Mantaray/OpenGL/Context.hpp"
-#include "Mantaray/OpenGL/Canvas.hpp"
+#include "Mantaray/OpenGL/Objects/Canvas.hpp"
 
 using namespace MR;
 

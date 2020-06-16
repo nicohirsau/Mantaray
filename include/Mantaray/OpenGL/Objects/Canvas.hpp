@@ -20,5 +20,6 @@ class Canvas : public RenderTexture {
     
     private:
         class Shader* m_Shader = nullptr;
+        Rectanglef m_ViewPortSize;
 };
 }

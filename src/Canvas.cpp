@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/matrix.hpp>
 
-#include "Mantaray/OpenGL/Canvas.hpp"
+#include "Mantaray/OpenGL/Objects/Canvas.hpp"
 #include "Mantaray/OpenGL/Objects/RenderTexture.hpp"
 #include "Mantaray/OpenGL/Objects/Texture.hpp"
 #include "Mantaray/OpenGL/Objects/VertexArray.hpp"
