@@ -10,6 +10,7 @@ namespace MR {
 class RenderTexture : public Object {
     friend class Shader;
     friend class Canvas;
+    friend class Window;
     
     public:
         RenderTexture(Vector2u resolution);
@@ -64,11 +65,9 @@ class RenderTexture : public Object {
         );
     
     protected:
+        void setDefaults();
         void allocate() override;
         void release() override;
-    
-    private:
-        void initializeDefaults();
     
     protected:
         unsigned int m_FBO, m_RBO;

@@ -21,6 +21,13 @@ class ObjectLibrary {
         static bool FindObject(std::string name, T*& outObject);
         static bool DeleteObject(std::string name);
 
+        static void InitializeDefaultEntries();
+
+    public:
+        static class VertexArray* DefaultVertexArray;
+        static class Shader* DefaultTexturedShader;
+        static class Shader* DefaultColoredShader;
+
     private:
         static std::unordered_map<std::string, class Object*> Library;
         static class Logger Logger;

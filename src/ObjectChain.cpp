@@ -4,6 +4,7 @@
 #include "Mantaray/Core/Logger.hpp"
 #include "Mantaray/OpenGL/ObjectChain.hpp"
 #include "Mantaray/OpenGL/Object.hpp"
+#include "Mantaray/OpenGL/ObjectLibrary.hpp"
 
 using namespace MR;
 
@@ -28,6 +29,7 @@ void ObjectChain::Initialize() {
     ObjectChain::ChainTail = ObjectChain::ChainHead;
     ObjectChain::Logger.Log("Head is: " + GetPointerString(ObjectChain::ChainHead), Logger::LOG_DEBUG);
     ObjectChain::Initialized = true;
+    ObjectLibrary::InitializeDefaultEntries();
 }
 
 void ObjectChain::TearDown() {

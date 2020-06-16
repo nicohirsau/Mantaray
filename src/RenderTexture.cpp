@@ -8,81 +8,9 @@
 #include "Mantaray/OpenGL/Objects/VertexArray.hpp"
 #include "Mantaray/Core/Logger.hpp"
 #include "Mantaray/OpenGL/Drawables.hpp"
+#include "Mantaray/OpenGL/ObjectLibrary.hpp"
 
 using namespace MR;
-
-const char* defaultTexturedVertexShaderSource = R"(
-#version 330 core
-layout (location = 0) in vec2 vertexPosition;
-layout (location = 1) in vec2 textureCoordinate;
-
-uniform mat4 u_projectionMatrix;
-uniform mat4 u_modelMatrix;
-uniform vec4 u_textureSource;
-
-out vec2 TexCoord;
-
-void main(){
-    gl_Position = u_projectionMatrix * u_modelMatrix * vec4(vertexPosition.x, vertexPosition.y, 0.0, 1.0);
-    TexCoord = vec2(
-        textureCoordinate.x * u_textureSource.z + u_textureSource.x, 
-        textureCoordinate.y * u_textureSource.w + u_textureSource.y
-    );
-}
-)";
-
-const char* defaultTexturedFragmentShaderSource = R"(
-#version 330 core
-out vec4 FragColor;
-in vec2 TexCoord;
-uniform sampler2D u_texture0;
-uniform vec4 u_color;
-
-void main() {
-    FragColor =  texture(u_texture0, TexCoord) * u_color;
-}
-)";
-
-const char* defaultColoredVertexShaderSource = R"(
-#version 330 core
-layout (location = 0) in vec2 vertexPosition;
-
-uniform mat4 u_projectionMatrix;
-uniform mat4 u_modelMatrix;
-
-void main(){
-    gl_Position = u_projectionMatrix * u_modelMatrix * vec4(vertexPosition.x, vertexPosition.y, 0.0, 1.0);
-}
-)";
-
-const char* defaultColoredFragmentShaderSource = R"(
-#version 330 core
-out vec4 FragColor;
-uniform vec4 u_color;
-
-void main() {
-    FragColor = u_color;
-}
-)";
-
-std::vector<Vector2f> defaultVertices = std::vector<Vector2f>({
-    Vector2f(0, 0),
-    Vector2f(1, 0),
-    Vector2f(0, 1),
-    Vector2f(1, 1)
-});
-
-std::vector<Vector2f> defaultTextureCoordinates = std::vector<Vector2f>({
-    Vector2f(0, 0),
-    Vector2f(1, 0),
-    Vector2f(0, 1),
-    Vector2f(1, 1)
-});
-
-std::vector<int> defaultIndices = std::vector<int>({
-    0, 1, 2,
-    2, 1, 3
-});
 
 VertexArray* RenderTexture::DefaultVertexArray = nullptr;
 Shader* RenderTexture::DefaultTexturedShader = nullptr;
@@ -91,15 +19,15 @@ Shader* RenderTexture::DefaultColoredShader = nullptr;
 RenderTexture::RenderTexture(Vector2u resolution) {
     m_Resolution = resolution;
     m_CoordinateScale = Vector2f(resolution.x, resolution.y);
+    setDefaults();
     link();
-    initializeDefaults();
 }
 
 RenderTexture::RenderTexture(Vector2u resolution, Vector2f coordinateScale) {
     m_Resolution = resolution;
     m_CoordinateScale = coordinateScale;
+    setDefaults();
     link();
-    initializeDefaults();
 }
 
 RenderTexture::~RenderTexture() {
@@ -108,19 +36,15 @@ RenderTexture::~RenderTexture() {
     m_RenderTexture = nullptr;
 }
 
-void RenderTexture::initializeDefaults() {
+void RenderTexture::setDefaults() {
     if (RenderTexture::DefaultVertexArray == nullptr) {
-        RenderTexture::DefaultVertexArray = new VertexArray();
-        RenderTexture::DefaultVertexArray->addVertices(defaultVertices);
-        RenderTexture::DefaultVertexArray->addTextureCoordinates(defaultTextureCoordinates);
-        RenderTexture::DefaultVertexArray->addIndices(defaultIndices);
-        RenderTexture::DefaultVertexArray->uploadVertexArrayData();
+        ObjectLibrary::FindObject("DefaultVertexArray", RenderTexture::DefaultVertexArray);
     }
     if (RenderTexture::DefaultTexturedShader == nullptr) {
-        RenderTexture::DefaultTexturedShader = new Shader(defaultTexturedVertexShaderSource, defaultTexturedFragmentShaderSource);
+        ObjectLibrary::FindObject("DefaultTexturedShader", RenderTexture::DefaultTexturedShader);
     }
     if (RenderTexture::DefaultColoredShader == nullptr) {
-        RenderTexture::DefaultColoredShader = new Shader(defaultColoredVertexShaderSource, defaultColoredFragmentShaderSource);
+        ObjectLibrary::FindObject("DefaultColoredShader", RenderTexture::DefaultColoredShader);
     }
 }
 
