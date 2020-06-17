@@ -61,17 +61,20 @@ class Window {
     protected:
         static void OnWindowResized(class GLFWwindow* window, int width, int height);
         void calculateViewDestination(int windowWidth, int windowHeight);
+        void display();
     
     private:
         Logger m_Logger = Logger("Window");
         static Window* Instance;
         class GLFWwindow* m_Window = nullptr;
-        class Canvas* m_Canvas = nullptr;
+        class RenderTexture* m_DisplayBuffer = nullptr;
+        class Shader* m_DisplayShader;
         Color m_ClearColor = Color(0x00);
         Timer m_Timer;
         bool m_ShouldKeepAspectRatio;
         float m_PrefferedAspectRatio;
         Vector2i m_lastWindowedPosition = Vector2i();
         Vector2i m_lastWindowedSize = Vector2i();
+        Rectanglei m_ViewportRect;
 };
 }
