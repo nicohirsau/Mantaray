@@ -13,12 +13,20 @@ class ObjectLibrary {
         static class Texture* CreateTexture(std::string name, std::string imagePath);
         static class Texture* CreateTexture(std::string name, class Image &image);
         static class Texture* CreateTexture(std::string name, Vector2u resolution, int nrChannels = 4);
-        static class RenderTexture* CreateRenderTexture(std::string name, unsigned int width, unsigned int height);
+        static class RenderTexture* CreateRenderTexture(std::string name, Vector2u resolution);
+        static class RenderTexture* CreateRenderTexture(std::string name, Vector2u resolution, Vector2f coordinateScale);
         static class VertexArray* CreateVertexArray(std::string name);
         
         template<typename T>
         static bool FindObject(std::string name, T*& outObject);
         static bool DeleteObject(std::string name);
+
+        static void InitializeDefaultEntries();
+
+    public:
+        static class VertexArray* DefaultVertexArray;
+        static class Shader* DefaultTexturedShader;
+        static class Shader* DefaultColoredShader;
 
     private:
         static std::unordered_map<std::string, class Object*> Library;
