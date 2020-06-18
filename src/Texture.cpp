@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 
 #include "Mantaray/OpenGL/Objects/Texture.hpp"
+#include "Mantaray/OpenGL/Context.hpp"
 #include "Mantaray/Core/Image.hpp"
 #include "Mantaray/Core/Logger.hpp"
 
@@ -55,11 +56,11 @@ void Texture::release() {
 }
 
 void Texture::bind() {
-    glBindTexture(GL_TEXTURE_2D, m_TextureID);
+    Context::BindTexture(m_TextureID);
 }
 
 void Texture::unbind() {
-    glBindTexture(GL_TEXTURE_2D, 0);
+    Context::BindTexture(0);
 }
 
 void Texture::uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels) {
