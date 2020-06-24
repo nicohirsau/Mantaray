@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/fwd.hpp>
+
 #include "Mantaray/OpenGL/Object.hpp"
 #include "Mantaray/OpenGL/Objects/Texture.hpp"
 #include "Mantaray/Core/Vector.hpp"
@@ -63,11 +65,16 @@ class RenderTexture : public Object {
             class Texture* texture = nullptr, 
             Rectanglef sourceRectangle = Rectanglef(0, 0, 1, 1)
         );
+        void draw(class Canvas* canvas);
     
     protected:
         void setDefaults();
         void allocate() override;
         void release() override;
+
+    protected:
+        glm::mat4 createProjectionMatrix(bool scaled = true, bool shifted = true);
+        glm::mat4 createModelMatrix(Vector2f position, Vector2f size, float rotation, Vector2f rotationCenter);
     
     protected:
         unsigned int m_FBO, m_RBO;

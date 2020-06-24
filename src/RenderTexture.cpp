@@ -6,6 +6,7 @@
 #include "Mantaray/OpenGL/Objects/RenderTexture.hpp"
 #include "Mantaray/OpenGL/Objects/Shader.hpp"
 #include "Mantaray/OpenGL/Objects/VertexArray.hpp"
+#include "Mantaray/OpenGL/Objects/Canvas.hpp"
 #include "Mantaray/Core/Logger.hpp"
 #include "Mantaray/OpenGL/Drawables.hpp"
 #include "Mantaray/OpenGL/ObjectLibrary.hpp"
@@ -138,6 +139,34 @@ void RenderTexture::draw(Sprite& sprite) {
     );
 }
 
+glm::mat4 RenderTexture::createProjectionMatrix(bool scaled, bool shifted) {
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_CoordinateScale.x), 0.0f, static_cast<float>(m_CoordinateScale.y), -1.0f, 1.0f);
+
+    if (scaled && m_Scale != 0.f) {
+        projection = glm::translate(projection, glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
+        projection = glm::scale(projection, glm::vec3(m_Scale));
+        projection = glm::translate(projection, -glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
+    }
+    if (shifted && m_Offset != Vector2f(0, 0)) {
+        projection = glm::translate(projection, glm::vec3(-m_Offset.x, -m_Offset.y, 0));
+    }
+
+    return projection;
+}
+
+glm::mat4 RenderTexture::createModelMatrix(Vector2f position, Vector2f size, float rotation, Vector2f rotationCenter) {
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
+    if (rotation != 0.f) {
+        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
+        model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
+    }
+    model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
+
+    return model;
+}
+
 void RenderTexture::draw(
         Texture* texture, 
         Vector2f position,
@@ -159,39 +188,25 @@ void RenderTexture::draw(
     }
     shaderToUse->setTexture("u_texture0", 0, *texture);
     
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_CoordinateScale.x), 0.0f, static_cast<float>(m_CoordinateScale.y), -1.0f, 1.0f);
-
-    projection = glm::translate(projection, glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
-    projection = glm::scale(projection, glm::vec3(m_Scale));
-    projection = glm::translate(projection, -glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
-
-    projection = glm::translate(projection, glm::vec3(-m_Offset.x, -m_Offset.y, 0));
+    glm::mat4 projection = createProjectionMatrix();
     shaderToUse->setUniformMatrix4("u_projectionMatrix", projection);
 
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
-    
+    glm::mat4 model;
     if (absoluteSize) {
-        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
-        model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
-
-        model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
+        model = createModelMatrix(position, size, rotation, rotationCenter);
     }
     else {
-        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height(), 0.0f));
-        model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height(), 0.0f));
-
-        model = glm::scale(
-            model, 
-            glm::vec3(
-                size.x * texture->getWidth() * sourceRectangle.width(), 
-                size.y * texture->getHeight() * sourceRectangle.height(), 
-                1.0f
-            )
+        Vector2f trueSize = Vector2f(
+            size.x * texture->getWidth() * sourceRectangle.width(), 
+            size.y * texture->getHeight() * sourceRectangle.height()
         );
+        Vector2f trueRotationCenter = Vector2f(
+            rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), 
+            rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height()
+        );
+        model = createModelMatrix(position, trueSize, rotation, trueRotationCenter);
     }
+
     shaderToUse->setUniformMatrix4("u_modelMatrix", model);
     shaderToUse->setUniformVector4f("u_textureSource", Vector4f(sourceRectangle.x(), sourceRectangle.y(), sourceRectangle.width(), sourceRectangle.height()));
     shaderToUse->setUniformVector4f("u_color", Vector4f(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
@@ -245,41 +260,52 @@ void RenderTexture::draw(
         }
     }
     
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(m_CoordinateScale.x), 0.0f, static_cast<float>(m_CoordinateScale.y), -1.0f, 1.0f);
-
-    projection = glm::translate(projection, glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
-    projection = glm::scale(projection, glm::vec3(m_Scale));
-    projection = glm::translate(projection, -glm::vec3(m_ScaleCenter.x * m_CoordinateScale.x, m_ScaleCenter.y * m_CoordinateScale.y, 0.0f));
-
-    projection = glm::translate(projection, glm::vec3(-m_Offset.x, -m_Offset.y, 0));
+    glm::mat4 projection = createProjectionMatrix();
     shaderToUse->setUniformMatrix4("u_projectionMatrix", projection);
 
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(position.x, position.y, 0.0f));
-    
+    glm::mat4 model;
     if (absoluteSize) {
-        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
-        model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x, rotationCenter.y * size.y, 0.0f));
-
-        model = glm::scale(model, glm::vec3(size.x, size.y, 1.0f));
+        model = createModelMatrix(position, size, rotation, rotationCenter);
     }
     else {
-        model = glm::translate(model, glm::vec3(rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height(), 0.0f));
-        model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-        model = glm::translate(model, -glm::vec3(rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height(), 0.0f));
-
-        model = glm::scale(
-            model, 
-            glm::vec3(
-                size.x * texture->getWidth() * sourceRectangle.width(), 
-                size.y * texture->getHeight() * sourceRectangle.height(), 
-                1.0f
-            )
+        Vector2f trueSize = Vector2f(
+            size.x * texture->getWidth() * sourceRectangle.width(), 
+            size.y * texture->getHeight() * sourceRectangle.height()
         );
+        Vector2f trueRotationCenter = Vector2f(
+            rotationCenter.x * size.x * texture->getWidth() * sourceRectangle.width(), 
+            rotationCenter.y * size.y * texture->getHeight() * sourceRectangle.height()
+        );
+        model = createModelMatrix(position, trueSize, rotation, trueRotationCenter);
     }
+
     shaderToUse->setUniformMatrix4("u_modelMatrix", model);
     shaderToUse->setUniformVector4f("u_color", Vector4f(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f));
     shaderToUse->setupForDraw();
     vertexArray->draw();    
+}
+
+void RenderTexture::draw(Canvas* canvas) {
+    glm::mat4 projection = createProjectionMatrix(false, false);
+    glm::mat4 model = createModelMatrix(
+        canvas->getDisplaySpace().position,
+        canvas->getDisplaySpace().size,
+        0, Vector2f(0, 0)
+    );
+    
+    Shader* shaderToUse = canvas->m_DisplayShader;
+    shaderToUse->setUniformMatrix4("u_projectionMatrix", projection);
+    shaderToUse->setUniformMatrix4("u_modelMatrix", model);
+    shaderToUse->setUniformVector4f(
+        "u_color", 
+        Vector4f(
+            canvas->m_Color.r / 255.f, 
+            canvas->m_Color.g / 255.f, 
+            canvas->m_Color.b / 255.f, 
+            canvas->m_Color.a / 255.f
+        )
+    );
+    shaderToUse->setRenderTexture("u_texture0", 0, *canvas);
+    shaderToUse->setupForDraw();
+    RenderTexture::DefaultVertexArray->draw();    
 }

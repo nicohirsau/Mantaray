@@ -15,6 +15,9 @@ class Vector2 {
         bool operator==(Vector2<T> b) {
             return (this->x == b.x && this->y == b.y);
         }
+        bool operator!=(Vector2<T> b) {
+            return (this->x != b.x && this->y != b.y);
+        }
         Vector2<T> operator+(Vector2<T> b) {
             return Vector2<T>(this->x + b.x, this->y + b.y);
         }
@@ -77,6 +80,9 @@ class Vector3 {
 
         bool operator==(Vector3<T> b) {
             return (this->x == b.x && this->y == b.y && this->z == b.z);
+        }
+        bool operator!=(Vector2<T> b) {
+            return (this->x != b.x && this->y != b.y && this->z != b.z);
         }
         Vector3<T> operator+(Vector3<T> b) {
             return Vector3<T>(this->x + b.x, this->y + b.y, this->z + b.z);
