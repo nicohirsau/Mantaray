@@ -6,6 +6,7 @@
 #include "Mantaray/Core/Window.hpp"
 #include "Mantaray/Core/InputManager.hpp"
 #include "Mantaray/OpenGL/Objects/RenderTexture.hpp"
+#include "Mantaray/OpenGL/Objects/Canvas.hpp"
 #include "Mantaray/OpenGL/ObjectChain.hpp"
 #include "Mantaray/OpenGL/ObjectLibrary.hpp"
 #include "Mantaray/OpenGL/Context.hpp"
@@ -151,6 +152,10 @@ void Window::draw(Polygon& polygon) {
     m_DisplayBuffer->draw(polygon);
 }
 
+void Window::draw(Canvas*& canvas) {
+    m_DisplayBuffer->draw(canvas);
+}
+
 void Window::setTitle(std::string title) {
     glfwSetWindowTitle(m_Window, title.c_str());
 }
@@ -193,6 +198,14 @@ void Window::setOffset(Vector2f offset) {
 
 void Window::addOffset(Vector2f deltaOffset) {
     m_DisplayBuffer->addOffset(deltaOffset);
+}
+
+Vector2f Window::getCoordinateScale() {
+    return m_DisplayBuffer->getCoordinateScale();
+}
+
+void Window::setCoordinateScale(Vector2f coordinateScale) {
+    m_DisplayBuffer->setCoordinateScale(coordinateScale);
 }
 
 float Window::getScale() {

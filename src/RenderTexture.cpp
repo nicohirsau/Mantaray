@@ -11,6 +11,8 @@
 #include "Mantaray/OpenGL/Drawables.hpp"
 #include "Mantaray/OpenGL/ObjectLibrary.hpp"
 
+#include <iostream>
+
 using namespace MR;
 
 VertexArray* RenderTexture::DefaultVertexArray = nullptr;
@@ -306,6 +308,7 @@ void RenderTexture::draw(Canvas* canvas) {
         )
     );
     shaderToUse->setRenderTexture("u_texture0", 0, *canvas);
+    shaderToUse->setUniformVector4f("u_textureSource", Vector4f(0, 0, 1, 1));
     shaderToUse->setupForDraw();
     RenderTexture::DefaultVertexArray->draw();    
 }

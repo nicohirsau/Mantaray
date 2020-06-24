@@ -39,10 +39,10 @@ void Canvas::setDisplaySpace(Rectanglef displaySpace) {
     }
 
     m_DisplaySpace = Rectanglef(
-        displaySpace.x() * windowInstance->getSize().x,
-        displaySpace.y() * windowInstance->getSize().y,
-        displaySpace.width() * windowInstance->getSize().x,
-        displaySpace.height() * windowInstance->getSize().y
+        displaySpace.x() * windowInstance->getCoordinateScale().x,
+        displaySpace.y() * windowInstance->getCoordinateScale().y,
+        displaySpace.width() * windowInstance->getCoordinateScale().x,
+        displaySpace.height() * windowInstance->getCoordinateScale().y
     );
 }
 

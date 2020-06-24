@@ -40,10 +40,14 @@ class Window {
 
         void draw(Sprite& sprite);
         void draw(Polygon& polygon);
+        void draw(class Canvas*& canvas);
 
         Vector2f getOffset();
         void setOffset(Vector2f offset);
         void addOffset(Vector2f deltaOffset);
+
+        Vector2f getCoordinateScale();
+        void setCoordinateScale(Vector2f coordinateScale);
 
         float getScale();
         void setScale(float scale);
