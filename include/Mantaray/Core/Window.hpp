@@ -12,11 +12,12 @@
 namespace MR {
 class Window {
     public:
-        Window(std::string title, Vector2u size, bool shouldKeepAspectRatio = true);
-        Window(std::string title, Vector2u size, Vector2u resolution, bool shouldKeepAspectRatio = true);
-        Window(std::string title, Vector2u size, Vector2u resolution, Vector2f coordinateScale, bool shouldKeepAspectRatio = true);
+        Window();
         ~Window();
 
+        static Window*& CreateWindow(std::string title, Vector2u size, bool shouldKeepAspectRatio = true);
+        static Window*& CreateWindow(std::string title, Vector2u size, Vector2u resolution, bool shouldKeepAspectRatio = true);
+        static Window*& CreateWindow(std::string title, Vector2u size, Vector2u resolution, Vector2f coordinateScale, bool shouldKeepAspectRatio = true);
         static Window*& GetInstance();
 
         void iconify();
@@ -64,6 +65,7 @@ class Window {
 
     protected:
         static void OnWindowResized(class GLFWwindow* window, int width, int height);
+        void initialize(std::string title, Vector2u size, Vector2u resolution, Vector2f coordinateScale, bool shouldKeepAspectRatio = true);
         void calculateViewDestination(int windowWidth, int windowHeight);
         void display();
     
@@ -71,7 +73,7 @@ class Window {
         Logger m_Logger = Logger("Window");
         static Window* Instance;
         class GLFWwindow* m_Window = nullptr;
-        class RenderTexture* m_DisplayBuffer = nullptr;
+        class Canvas* m_DisplayBuffer = nullptr;
         class Shader* m_DisplayShader;
         Color m_ClearColor = Color(0x00);
         Timer m_Timer;

@@ -13,7 +13,7 @@ Canvas::Canvas(Vector2u resolution) : RenderTexture(resolution) {
 }
 
 Canvas::Canvas(Vector2u resolution, Rectanglef displaySpace) : RenderTexture(resolution) {
-    setDisplaySpace(m_DisplaySpace);
+    setDisplaySpace(displaySpace);
     ObjectLibrary::FindObject("DefaultTexturedShader", m_DisplayShader);
 }
 
@@ -31,10 +31,19 @@ Rectanglef Canvas::getDisplaySpace() {
     return m_DisplaySpace;
 }
 
+#include <iostream>
+
 void Canvas::setDisplaySpace(Rectanglef displaySpace) {
     Window* windowInstance = Window::GetInstance();
+
+    std::cout << "Value of windowpointer: " << windowInstance << std::endl;
     if (windowInstance == nullptr) {
-        Logger::Log("View", "Cant set displayspace, Window is nullptr!", Logger::LOG_WARNING);
+        m_DisplaySpace = Rectanglef(
+            displaySpace.x() * m_CoordinateScale.x,
+            displaySpace.y() * m_CoordinateScale.y,
+            displaySpace.width() * m_CoordinateScale.x,
+            displaySpace.height() * m_CoordinateScale.y
+        );
         return;
     }
 
