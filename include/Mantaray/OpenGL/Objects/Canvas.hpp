@@ -18,7 +18,7 @@ class Canvas : public RenderTexture {
         Rectanglef getDisplaySpace();
         void setDisplaySpace(Rectanglef displaySpace);
 
-        Vector2d getMousePosition();
+        Vector2f getMousePosition();
 
     private:
         Rectanglef m_DisplaySpace = Rectanglef(0, 0, 1, 1);

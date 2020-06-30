@@ -165,6 +165,10 @@ void Window::setPosition(Vector2i position) {
     glfwSetWindowPos(m_Window, position.x, position.y);
 }
 
+Vector2f Window::getMouseWorldPosition() {
+    return m_DisplayBuffer->getMousePosition();
+}
+
 bool Window::getShouldClose() {
     return glfwWindowShouldClose(m_Window);
 }

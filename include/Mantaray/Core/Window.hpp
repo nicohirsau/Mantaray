@@ -32,6 +32,8 @@ class Window {
         Vector2i getPosition();
         void setPosition(Vector2i position);
 
+        Vector2f getMouseWorldPosition();
+
         bool getShouldClose();
         void setShouldClose(bool shouldClose = true);
 

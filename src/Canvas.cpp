@@ -1,9 +1,14 @@
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/matrix.hpp>
+
 #include "Mantaray/OpenGL/Objects/Canvas.hpp"
 #include "Mantaray/OpenGL/Objects/Shader.hpp"
 #include "Mantaray/OpenGL/ObjectLibrary.hpp"
 #include "Mantaray/Core/InputManager.hpp"
 #include "Mantaray/Core/Window.hpp"
 #include "Mantaray/Core/Logger.hpp"
+
+#include <iostream>
 
 using namespace MR;
 
@@ -55,9 +60,11 @@ void Canvas::setDisplaySpace(Rectanglef displaySpace) {
     );
 }
 
-Vector2d Canvas::getMousePosition() {
+Vector2f Canvas::getMousePosition() {
     Vector2d windowMousePosition = InputManager::GetMousePosition();
-    // idk atm
-
-    return Vector2d();
+    windowMousePosition.y = Window::GetInstance()->getSize().y - windowMousePosition.y;
+    glm::mat4 projection = createProjectionMatrix();
+    glm::vec4 viewport = glm::vec4(m_DisplaySpace.x(), m_DisplaySpace.y(), m_DisplaySpace.width(), m_DisplaySpace.height());
+    glm::vec3 worldCoordinate = glm::unProject(glm::vec3(windowMousePosition.x, windowMousePosition.y, 0), glm::mat4(1.f), projection, viewport);
+    return Vector2f(worldCoordinate.x, worldCoordinate.y);
 }
