@@ -23,6 +23,7 @@ class InputManager{
         static void GetMouseDelta(Vector2d &mouseDelta);
         static Vector2d GetMouseDelta();
         static bool GetMouseButton(int mouseButtonCode);
+        static void setCursorVisibility(bool shouldBeVisible);
 
     private:
         static class GLFWwindow* WindowHandle;

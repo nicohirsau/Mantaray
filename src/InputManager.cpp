@@ -91,3 +91,16 @@ Vector2d InputManager::GetMouseDelta() {
 bool InputManager::GetMouseButton(int mouseButtonCode) {
     return (glfwGetMouseButton(InputManager::GetWindowHandle(), mouseButtonCode) == GLFW_PRESS);
 }
+
+void InputManager::setCursorVisibility(bool shouldBeVisible) {
+    GLFWwindow* windowHandle = InputManager::GetWindowHandle();
+    if (windowHandle == nullptr)
+        return;
+
+    if (shouldBeVisible) {
+        glfwSetInputMode(windowHandle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+    else {
+        glfwSetInputMode(windowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    }
+}
