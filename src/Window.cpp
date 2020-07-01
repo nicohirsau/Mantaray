@@ -240,6 +240,10 @@ void Window::setClearColor(unsigned char clearColor) {
     m_ClearColor = Color(clearColor);
 }
 
+Rectanglei Window::getViewportRect() {
+    return m_ViewportRect;
+}
+
 void Window::OnWindowResized(GLFWwindow* window, int width, int height) {
     Window::Instance->calculateViewDestination(width, height);
 }

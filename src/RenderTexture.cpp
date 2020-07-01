@@ -10,6 +10,7 @@
 #include "Mantaray/Core/Logger.hpp"
 #include "Mantaray/OpenGL/Drawables.hpp"
 #include "Mantaray/OpenGL/ObjectLibrary.hpp"
+#include "Mantaray/Core/Window.hpp"
 
 #include <iostream>
 
@@ -288,13 +289,25 @@ void RenderTexture::draw(
 }
 
 void RenderTexture::draw(Canvas* canvas) {
+    Window* windowInstance = Window::GetInstance();
+    if (windowInstance == nullptr) {
+        return;
+    }
     glm::mat4 projection = createProjectionMatrix(false, false);
+    Rectanglef displayRect = Rectanglef(
+        canvas->getDisplaySpace().x() * windowInstance->getCoordinateScale().x,
+        canvas->getDisplaySpace().y() * windowInstance->getCoordinateScale().y,
+        canvas->getDisplaySpace().width() * windowInstance->getCoordinateScale().x,
+        canvas->getDisplaySpace().height() * windowInstance->getCoordinateScale().y
+    );
+    
     glm::mat4 model = createModelMatrix(
-        canvas->getDisplaySpace().position,
-        canvas->getDisplaySpace().size,
+        displayRect.position,
+        displayRect.size,
         0, Vector2f(0, 0)
     );
     
+
     Shader* shaderToUse = canvas->m_DisplayShader;
     shaderToUse->setUniformMatrix4("u_projectionMatrix", projection);
     shaderToUse->setUniformMatrix4("u_modelMatrix", model);

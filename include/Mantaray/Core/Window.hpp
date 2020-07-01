@@ -65,6 +65,8 @@ class Window {
         void setClearColor(Color clearColor);
         void setClearColor(unsigned char clearColor);
 
+        Rectanglei getViewportRect();
+
     protected:
         static void OnWindowResized(class GLFWwindow* window, int width, int height);
         void initialize(std::string title, Vector2u size, Vector2u resolution, Vector2f coordinateScale, bool shouldKeepAspectRatio = true);

@@ -13,22 +13,20 @@
 using namespace MR;
 
 Canvas::Canvas(Vector2u resolution) : RenderTexture(resolution) {
-    setDisplaySpace(m_DisplaySpace);
     ObjectLibrary::FindObject("DefaultTexturedShader", m_DisplayShader);
 }
 
 Canvas::Canvas(Vector2u resolution, Rectanglef displaySpace) : RenderTexture(resolution) {
-    setDisplaySpace(displaySpace);
+    m_DisplaySpace = displaySpace;
     ObjectLibrary::FindObject("DefaultTexturedShader", m_DisplayShader);
 }
 
 Canvas::Canvas(Vector2u resolution, Vector2f coordinateScale) : RenderTexture(resolution, coordinateScale) {
-    setDisplaySpace(m_DisplaySpace);
     ObjectLibrary::FindObject("DefaultTexturedShader", m_DisplayShader);
 }
 
 Canvas::Canvas(Vector2u resolution, Vector2f coordinateScale, Rectanglef displaySpace) : RenderTexture(resolution, coordinateScale) {
-    setDisplaySpace(displaySpace);
+    m_DisplaySpace = displaySpace;
     ObjectLibrary::FindObject("DefaultTexturedShader", m_DisplayShader);
 }
 
@@ -36,35 +34,24 @@ Rectanglef Canvas::getDisplaySpace() {
     return m_DisplaySpace;
 }
 
-#include <iostream>
-
-void Canvas::setDisplaySpace(Rectanglef displaySpace) {
+Vector2f Canvas::getMousePosition() {
     Window* windowInstance = Window::GetInstance();
-
-    std::cout << "Value of windowpointer: " << windowInstance << std::endl;
     if (windowInstance == nullptr) {
-        m_DisplaySpace = Rectanglef(
-            displaySpace.x() * m_CoordinateScale.x,
-            displaySpace.y() * m_CoordinateScale.y,
-            displaySpace.width() * m_CoordinateScale.x,
-            displaySpace.height() * m_CoordinateScale.y
-        );
-        return;
+        return Vector2f(0, 0);
     }
 
-    m_DisplaySpace = Rectanglef(
-        displaySpace.x() * windowInstance->getCoordinateScale().x,
-        displaySpace.y() * windowInstance->getCoordinateScale().y,
-        displaySpace.width() * windowInstance->getCoordinateScale().x,
-        displaySpace.height() * windowInstance->getCoordinateScale().y
-    );
-}
-
-Vector2f Canvas::getMousePosition() {
     Vector2d windowMousePosition = InputManager::GetMousePosition();
     windowMousePosition.y = Window::GetInstance()->getSize().y - windowMousePosition.y;
+
     glm::mat4 projection = createProjectionMatrix();
-    glm::vec4 viewport = glm::vec4(m_DisplaySpace.x(), m_DisplaySpace.y(), m_DisplaySpace.width(), m_DisplaySpace.height());
+
+    glm::vec4 viewport = glm::vec4(
+        windowInstance->getViewportRect().x() + m_DisplaySpace.x() * windowInstance->getViewportRect().width(), 
+        windowInstance->getViewportRect().y() +  m_DisplaySpace.y() * windowInstance->getViewportRect().height(), 
+        m_DisplaySpace.width() * windowInstance->getViewportRect().width(), 
+        m_DisplaySpace.height() * windowInstance->getViewportRect().height()
+    );
+
     glm::vec3 worldCoordinate = glm::unProject(glm::vec3(windowMousePosition.x, windowMousePosition.y, 0), glm::mat4(1.f), projection, viewport);
     return Vector2f(worldCoordinate.x, worldCoordinate.y);
 }
