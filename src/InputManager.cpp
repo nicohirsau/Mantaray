@@ -92,7 +92,7 @@ bool InputManager::GetMouseButton(int mouseButtonCode) {
     return (glfwGetMouseButton(InputManager::GetWindowHandle(), mouseButtonCode) == GLFW_PRESS);
 }
 
-void InputManager::setCursorVisibility(bool shouldBeVisible) {
+void InputManager::SetCursorVisibility(bool shouldBeVisible) {
     GLFWwindow* windowHandle = InputManager::GetWindowHandle();
     if (windowHandle == nullptr)
         return;
