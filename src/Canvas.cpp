@@ -37,6 +37,7 @@ Rectanglef Canvas::getDisplaySpace() {
 Vector2f Canvas::getMousePosition() {
     Window* windowInstance = Window::GetInstance();
     if (windowInstance == nullptr) {
+        Logger::Log("Canvas", "WindowInstance is nullptr!", Logger::LOG_ERROR);
         return Vector2f(0, 0);
     }
 
