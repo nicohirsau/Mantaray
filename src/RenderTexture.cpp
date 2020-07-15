@@ -12,8 +12,6 @@
 #include "Mantaray/OpenGL/ObjectLibrary.hpp"
 #include "Mantaray/Core/Window.hpp"
 
-#include <iostream>
-
 using namespace MR;
 
 VertexArray* RenderTexture::DefaultVertexArray = nullptr;
