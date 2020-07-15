@@ -32,6 +32,18 @@ void InputManager::Update(float deltaTime) {
     
     for (unsigned int i = 0; i < InputManager::WatchedKeys.size(); i++) {
         int keyCode = InputManager::WatchedKeys[i];
+        if (keyCode < 8) {
+            if (InputManager::GetMouseButton(keyCode)) {
+                InputManager::WatchedKeysDown[keyCode] = (InputManager::WatchedKeysElapsedTime[keyCode] > 0);
+                InputManager::WatchedKeysElapsedTime[keyCode] = 0;
+                InputManager::WatchedKeysUp[keyCode] = false;
+            } else {
+                InputManager::WatchedKeysUp[keyCode] = (InputManager::WatchedKeysElapsedTime[keyCode] == 0);
+                InputManager::WatchedKeysElapsedTime[keyCode] += deltaTime;
+                InputManager::WatchedKeysDown[keyCode] = false;
+            }
+            continue;
+        }
         if (InputManager::GetKey(keyCode)) {
             InputManager::WatchedKeysDown[keyCode] = (InputManager::WatchedKeysElapsedTime[keyCode] > 0);
             InputManager::WatchedKeysElapsedTime[keyCode] = 0;
