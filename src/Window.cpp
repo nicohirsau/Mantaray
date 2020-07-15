@@ -5,7 +5,7 @@
 
 #include "Mantaray/Core/Window.hpp"
 #include "Mantaray/Core/InputManager.hpp"
-#include "Mantaray/OpenGL/Objects/RenderTexture.hpp"
+#include "Mantaray/OpenGL/Objects/Canvas.hpp"
 #include "Mantaray/OpenGL/ObjectChain.hpp"
 #include "Mantaray/OpenGL/ObjectLibrary.hpp"
 #include "Mantaray/OpenGL/Context.hpp"
@@ -14,55 +14,41 @@ using namespace MR;
 
 Window* Window::Instance = nullptr;
 
-Window::Window(std::string title, Vector2u size, bool shouldKeepAspectRatio) {
-    Context::Create(&m_Window, title, size);
-    glfwSetFramebufferSizeCallback(m_Window, Window::OnWindowResized);
-    InputManager::SetWindowHandle(m_Window);
-    ObjectChain::Initialize();
-    m_DisplayBuffer = new RenderTexture(size);
-    ObjectLibrary::FindObject("DefaultTexturedShader", m_DisplayShader);
-    m_Timer = Timer();
-    m_Timer.start();
-    m_ShouldKeepAspectRatio = shouldKeepAspectRatio;
-    m_PrefferedAspectRatio = (float)size.x / (float)size.y;
-    m_lastWindowedSize = getSize();
-    m_lastWindowedPosition = getPosition();
-    calculateViewDestination(size.x, size.y);
-    Window::Instance = this;
+Window::Window() {}
+
+Window*& Window::CreateWindow(std::string title, Vector2u size, bool shouldKeepAspectRatio) {
+    return Window::CreateWindow(title, size, size, Vector2f(size.x, size.y), shouldKeepAspectRatio);
 }
 
-Window::Window(std::string title, Vector2u size, Vector2u resolution, bool shouldKeepAspectRatio) {
+Window*& Window::CreateWindow(std::string title, Vector2u size, Vector2u resolution, bool shouldKeepAspectRatio) {
+    return Window::CreateWindow(title, size, resolution, Vector2f(size.x, size.y), shouldKeepAspectRatio);
+}
+
+Window*& Window::CreateWindow(std::string title, Vector2u size, Vector2u resolution, Vector2f coordinateScale, bool shouldKeepAspectRatio) {
+    if (Window::GetInstance() != nullptr) {
+        return Window::GetInstance();
+    }
+
+    Window* newWindow = new Window();
+    newWindow->initialize(title, size, resolution, coordinateScale, shouldKeepAspectRatio);
+    Window::Instance = newWindow;
+    return Window::Instance;
+}
+
+void Window::initialize(std::string title, Vector2u size, Vector2u resolution, Vector2f coordinateScale, bool shouldKeepAspectRatio) {
     Context::Create(&m_Window, title, size);
     glfwSetFramebufferSizeCallback(m_Window, Window::OnWindowResized);
     InputManager::SetWindowHandle(m_Window);
     ObjectChain::Initialize();
-    m_DisplayBuffer = new RenderTexture(resolution);
-    ObjectLibrary::FindObject("DefaultTexturedShader", m_DisplayShader);
     m_Timer = Timer();
-    m_Timer.start();
     m_ShouldKeepAspectRatio = shouldKeepAspectRatio;
     m_PrefferedAspectRatio = (float)resolution.x / (float)resolution.y;
     m_lastWindowedSize = getSize();
     m_lastWindowedPosition = getPosition();
     calculateViewDestination(size.x, size.y);
-    Window::Instance = this;
-}
-
-Window::Window(std::string title, Vector2u size, Vector2u resolution, Vector2f coordinateScale, bool shouldKeepAspectRatio) {
-    Context::Create(&m_Window, title, size);
-    glfwSetFramebufferSizeCallback(m_Window, Window::OnWindowResized);
-    InputManager::SetWindowHandle(m_Window);
-    ObjectChain::Initialize();
-    m_DisplayBuffer = new RenderTexture(resolution, coordinateScale);
+    m_DisplayBuffer = new Canvas(resolution, coordinateScale);
     ObjectLibrary::FindObject("DefaultTexturedShader", m_DisplayShader);
-    m_Timer = Timer();
     m_Timer.start();
-    m_ShouldKeepAspectRatio = shouldKeepAspectRatio;
-    m_PrefferedAspectRatio = (float)resolution.x / (float)resolution.y;
-    m_lastWindowedSize = getSize();
-    m_lastWindowedPosition = getPosition();
-    calculateViewDestination(size.x, size.y);
-    Window::Instance = this;
 }
 
 Window*& Window::GetInstance() {
@@ -151,6 +137,10 @@ void Window::draw(Polygon& polygon) {
     m_DisplayBuffer->draw(polygon);
 }
 
+void Window::draw(Canvas*& canvas) {
+    m_DisplayBuffer->draw(canvas);
+}
+
 void Window::setTitle(std::string title) {
     glfwSetWindowTitle(m_Window, title.c_str());
 }
@@ -175,6 +165,10 @@ void Window::setPosition(Vector2i position) {
     glfwSetWindowPos(m_Window, position.x, position.y);
 }
 
+Vector2f Window::getMouseWorldPosition() {
+    return m_DisplayBuffer->getMousePosition();
+}
+
 bool Window::getShouldClose() {
     return glfwWindowShouldClose(m_Window);
 }
@@ -193,6 +187,14 @@ void Window::setOffset(Vector2f offset) {
 
 void Window::addOffset(Vector2f deltaOffset) {
     m_DisplayBuffer->addOffset(deltaOffset);
+}
+
+Vector2f Window::getCoordinateScale() {
+    return m_DisplayBuffer->getCoordinateScale();
+}
+
+void Window::setCoordinateScale(Vector2f coordinateScale) {
+    m_DisplayBuffer->setCoordinateScale(coordinateScale);
 }
 
 float Window::getScale() {
@@ -236,6 +238,10 @@ void Window::setClearColor(Color clearColor) {
 
 void Window::setClearColor(unsigned char clearColor) {
     m_ClearColor = Color(clearColor);
+}
+
+Rectanglei Window::getViewportRect() {
+    return m_ViewportRect;
 }
 
 void Window::OnWindowResized(GLFWwindow* window, int width, int height) {
