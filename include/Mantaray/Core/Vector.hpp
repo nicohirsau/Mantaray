@@ -81,7 +81,7 @@ class Vector3 {
         bool operator==(Vector3<T> b) {
             return (this->x == b.x && this->y == b.y && this->z == b.z);
         }
-        bool operator!=(Vector2<T> b) {
+        bool operator!=(Vector3<T> b) {
             return (this->x != b.x || this->y != b.y || this->z != b.z);
         }
         Vector3<T> operator+(Vector3<T> b) {
