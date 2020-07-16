@@ -86,6 +86,7 @@ void Window::restore() {
 }
 
 float Window::update() {
+    glfwPollEvents();
     float deltaTime = m_Timer.getDelta();
     MR::InputManager::Update(deltaTime);
     return deltaTime;
@@ -98,7 +99,6 @@ void Window::beginFrame() {
 void Window::endFrame() {
     display();
     glfwSwapBuffers(m_Window);
-    glfwPollEvents();
 }
 
 void Window::display() {    
