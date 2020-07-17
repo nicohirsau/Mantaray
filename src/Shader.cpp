@@ -62,7 +62,7 @@ void Shader::setupForDraw() {
     bind();
     for (auto& texture_slot: m_TextureSlots) {
         glActiveTexture(0x84C0 + texture_slot.first);
-        Context::BindTexture(texture_slot.second);
+        Context::BindTexture2D(texture_slot.second);
     }
 }
 
@@ -112,7 +112,7 @@ void Shader::setTexture(std::string textureUniformName, int slot, Texture &textu
     }
     bind();
     glActiveTexture(0x84C0 + slot);
-    Context::BindTexture(texture.getTextureID());
+    Context::BindTexture2D(texture.getTextureID());
     setUniformInteger(textureUniformName, slot);
     m_TextureSlots[slot] = texture.getTextureID();
 }
@@ -127,7 +127,7 @@ void Shader::setRenderTexture(std::string textureUniformName, int slot, RenderTe
     }
     bind();
     glActiveTexture(0x84C0 + slot);
-    Context::BindTexture(texture.m_RenderTexture->getTextureID());
+    Context::BindTexture2D(texture.m_RenderTexture->getTextureID());
     setUniformInteger(textureUniformName, slot);
     m_TextureSlots[slot] = texture.m_RenderTexture->getTextureID();
 }

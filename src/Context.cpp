@@ -51,25 +51,25 @@ void Context::Destroy() {
     }
 }
 
-void Context::BindTexture(unsigned int textureID) {
+void Context::BindTexture2D(unsigned int textureID) {
     if (Context::State.boundTextureID == textureID) {
         return;
     }
     glBindTexture(GL_TEXTURE_2D, textureID);
 }
 
-void Context::BindFramebuffer(unsigned int renderTextureID) {
-    if (Context::State.boundRenderTextureID == renderTextureID) {
+void Context::BindFramebuffer(unsigned int frameBufferID) {
+    if (Context::State.boundFrameBufferID == frameBufferID) {
         return;
     }
-    glBindFramebuffer(GL_FRAMEBUFFER, renderTextureID);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBufferID);
 }
 
-void Context::BindVertexArray(unsigned int vertexArrayObjectID) {
-    if (Context::State.boundVertexArrayObjectID == vertexArrayObjectID) {
+void Context::BindVertexArray(unsigned int vertexArrayID) {
+    if (Context::State.boundVertexArrayID == vertexArrayID) {
         return;
     }
-    glBindVertexArray(vertexArrayObjectID);
+    glBindVertexArray(vertexArrayID);
 }
 
 void Context::UseProgram(unsigned int shaderProgramID) {

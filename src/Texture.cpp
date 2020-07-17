@@ -56,11 +56,11 @@ void Texture::release() {
 }
 
 void Texture::bind() {
-    Context::BindTexture(m_TextureID);
+    Context::BindTexture2D(m_TextureID);
 }
 
 void Texture::unbind() {
-    Context::BindTexture(0);
+    Context::BindTexture2D(0);
 }
 
 void Texture::uploadTextureData(unsigned char* textureData, int width, int height, int nrChannels) {
