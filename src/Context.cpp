@@ -7,6 +7,7 @@
 using namespace MR;
 
 bool Context::IsInitialized = false;
+GLState Context::State = GLState();
 
 bool Context::Create(GLFWwindow** outWindow, std::string title, Vector2u size) {
     if (!Context::IsInitialized) {
@@ -48,4 +49,32 @@ void Context::Destroy() {
     else {
         Logger::Log("Context", "Context is not initialized", Logger::LOG_WARNING);
     }
+}
+
+void Context::BindTexture2D(unsigned int textureID) {
+    if (Context::State.boundTextureID == textureID) {
+        return;
+    }
+    glBindTexture(GL_TEXTURE_2D, textureID);
+}
+
+void Context::BindFramebuffer(unsigned int frameBufferID) {
+    if (Context::State.boundFrameBufferID == frameBufferID) {
+        return;
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBufferID);
+}
+
+void Context::BindVertexArray(unsigned int vertexArrayID) {
+    if (Context::State.boundVertexArrayID == vertexArrayID) {
+        return;
+    }
+    glBindVertexArray(vertexArrayID);
+}
+
+void Context::UseProgram(unsigned int shaderProgramID) {
+    if (Context::State.boundShaderProgramID == shaderProgramID) {
+        return;
+    }
+    glUseProgram(shaderProgramID);
 }

@@ -3,6 +3,7 @@
 #include <glm/matrix.hpp>
 #include <vector>
 
+#include "Mantaray/OpenGL/Context.hpp"
 #include "Mantaray/OpenGL/Objects/RenderTexture.hpp"
 #include "Mantaray/OpenGL/Objects/Shader.hpp"
 #include "Mantaray/OpenGL/Objects/VertexArray.hpp"
@@ -63,12 +64,12 @@ void RenderTexture::release() {
 }
 
 void RenderTexture::bind() {
-    glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+    Context::BindFramebuffer(m_FBO);
     glViewport(0, 0, m_Resolution.x, m_Resolution.y);
 }
 
 void RenderTexture::unbind() {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    Context::BindFramebuffer(0);
 }
 
 void RenderTexture::clear(Color color) {

@@ -1,5 +1,7 @@
-#include "Mantaray/OpenGL/Objects/VertexArray.hpp"
 #include <glad/glad.h>
+
+#include "Mantaray/OpenGL/Context.hpp"
+#include "Mantaray/OpenGL/Objects/VertexArray.hpp"
 
 using namespace MR;
 
@@ -30,11 +32,11 @@ void VertexArray::release() {
 }
 
 void VertexArray::bind() {
-    glBindVertexArray(m_VAO);
+    Context::BindVertexArray(m_VAO);
 }
 
 void VertexArray::unbind() {
-    glBindVertexArray(0);
+    Context::BindVertexArray(0);
 }
 
 void VertexArray::uploadVertexArrayData() {

@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Mantaray/OpenGL/Context.hpp"
 #include "Mantaray/OpenGL/Objects/Shader.hpp"
 #include "Mantaray/OpenGL/Objects/Texture.hpp"
 #include "Mantaray/OpenGL/Objects/RenderTexture.hpp"
@@ -50,18 +51,18 @@ void Shader::release() {
 }
 
 void Shader::bind() {
-    glUseProgram(m_ShaderProgramID);
+    Context::UseProgram(m_ShaderProgramID);
 }
 
 void Shader::unbind() {
-    glUseProgram(0);
+    Context::UseProgram(0);
 }
 
 void Shader::setupForDraw() {
     bind();
     for (auto& texture_slot: m_TextureSlots) {
         glActiveTexture(0x84C0 + texture_slot.first);
-        glBindTexture(GL_TEXTURE_2D, texture_slot.second);
+        Context::BindTexture2D(texture_slot.second);
     }
 }
 
@@ -111,7 +112,7 @@ void Shader::setTexture(std::string textureUniformName, int slot, Texture &textu
     }
     bind();
     glActiveTexture(0x84C0 + slot);
-    glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
+    Context::BindTexture2D(texture.getTextureID());
     setUniformInteger(textureUniformName, slot);
     m_TextureSlots[slot] = texture.getTextureID();
 }
@@ -126,7 +127,7 @@ void Shader::setRenderTexture(std::string textureUniformName, int slot, RenderTe
     }
     bind();
     glActiveTexture(0x84C0 + slot);
-    glBindTexture(GL_TEXTURE_2D, texture.m_RenderTexture->getTextureID());
+    Context::BindTexture2D(texture.m_RenderTexture->getTextureID());
     setUniformInteger(textureUniformName, slot);
     m_TextureSlots[slot] = texture.m_RenderTexture->getTextureID();
 }
