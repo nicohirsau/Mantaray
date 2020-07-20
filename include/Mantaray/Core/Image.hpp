@@ -14,13 +14,15 @@ class Image {
 
     public:
         Image();
-        Image(std::string pathToImage);
+        Image(std::string pathToImage, bool flipVertically = true);
         Image(std::vector<unsigned char>& imageData, unsigned int width, unsigned int height, int nrChannels);
         ~Image();
 
-        void loadFromFile(std::string pathToImage);
+        void loadFromFile(std::string pathToImage, bool flipVertically = true);
         void unloadData();
 
+        Color getPixel(Vector2u coordinate);
+        
         void setPixel(Vector2u coordinate, unsigned char colorValue);
         void setPixel(Vector2u coordinate, Color color);
 

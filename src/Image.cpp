@@ -11,8 +11,8 @@ Image::Image() {
     m_ImageData = new unsigned char[0];
 }
 
-Image::Image(std::string pathToImage) {
-    loadFromFile(pathToImage);
+Image::Image(std::string pathToImage, bool flipVertically) {
+    loadFromFile(pathToImage, flipVertically);
 }
 
 Image::Image(std::vector<unsigned char>& imageData, unsigned int width, unsigned int height, int nrChannels) {
@@ -38,11 +38,11 @@ Image::~Image() {
     unloadData();
 }
 
-void Image::loadFromFile(std::string pathToImage) {
+void Image::loadFromFile(std::string pathToImage, bool flipVertically) {
     if (m_ImageData != nullptr)
         unloadData();
     int width, height;
-    FileSystem::ReadImage(pathToImage, m_ImageData, width, height, m_NrChannels);
+    FileSystem::ReadImage(pathToImage, m_ImageData, width, height, m_NrChannels, flipVertically);
     m_Size = Vector2u(width, height);
 }
 
@@ -51,6 +51,40 @@ void Image::unloadData() {
     m_ImageData = nullptr;
     m_Size = Vector2u(0, 0);
     m_NrChannels = 0;
+}
+
+Color Image::getPixel(Vector2u coordinate) {
+    Color pixelColor;
+    int arrayIndex = ((int)coordinate.x + getWidth() * (getHeight() - (int)coordinate.y - 1)) * m_NrChannels;
+    switch (m_NrChannels) {
+        case 1:
+            pixelColor.r = m_ImageData[arrayIndex];
+            pixelColor.g = m_ImageData[arrayIndex];
+            pixelColor.b = m_ImageData[arrayIndex];
+            pixelColor.a = 0xFF;
+            break;
+        case 2:
+            pixelColor.r = m_ImageData[arrayIndex];
+            pixelColor.g = m_ImageData[arrayIndex + 1];
+            pixelColor.b = 0x00;
+            pixelColor.a = 0xFF;
+            break;
+        case 3:
+            pixelColor.r = m_ImageData[arrayIndex];
+            pixelColor.g = m_ImageData[arrayIndex + 1];
+            pixelColor.b = m_ImageData[arrayIndex + 2];
+            pixelColor.a = 0xFF;
+            break;
+        case 4:
+            pixelColor.r = m_ImageData[arrayIndex];
+            pixelColor.g = m_ImageData[arrayIndex + 1];
+            pixelColor.b = m_ImageData[arrayIndex + 2];
+            pixelColor.a = m_ImageData[arrayIndex + 3];
+            break;
+        default:
+            break;
+    }
+    return pixelColor;
 }
 
 void Image::setPixel(Vector2u coordinate, unsigned char colorValue) {
