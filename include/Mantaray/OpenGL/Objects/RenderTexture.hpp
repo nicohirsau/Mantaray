@@ -66,6 +66,8 @@ class RenderTexture : public Object {
             Rectanglef sourceRectangle = Rectanglef(0, 0, 1, 1)
         );
         void draw(class Canvas* canvas);
+
+        void drawLine(Vector2f p1, Vector2f p2, float thickness = 1.f, Color color = Color(0xFF));
     
     protected:
         void setDefaults();

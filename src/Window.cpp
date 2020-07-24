@@ -141,6 +141,10 @@ void Window::draw(Canvas*& canvas) {
     m_DisplayBuffer->draw(canvas);
 }
 
+void Window::drawLine(Vector2f p1, Vector2f p2, float thickness, Color color) {
+    m_DisplayBuffer->drawLine(p1, p2, thickness, color);
+}
+
 void Window::setTitle(std::string title) {
     glfwSetWindowTitle(m_Window, title.c_str());
 }

@@ -45,6 +45,8 @@ class Window {
         void draw(Polygon& polygon);
         void draw(class Canvas*& canvas);
 
+        void drawLine(Vector2f p1, Vector2f p2, float thickness = 1.f, Color color = Color(0xFF));
+
         Vector2f getOffset();
         void setOffset(Vector2f offset);
         void addOffset(Vector2f deltaOffset);

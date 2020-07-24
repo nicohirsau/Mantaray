@@ -2,6 +2,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/matrix.hpp>
 #include <vector>
+#include <algorithm>
 
 #include "Mantaray/OpenGL/Context.hpp"
 #include "Mantaray/OpenGL/Objects/RenderTexture.hpp"
@@ -323,4 +324,20 @@ void RenderTexture::draw(Canvas* canvas) {
     shaderToUse->setUniformVector4f("u_textureSource", Vector4f(0, 0, 1, 1));
     shaderToUse->setupForDraw();
     RenderTexture::DefaultVertexArray->draw();    
+}
+
+void RenderTexture::drawLine(Vector2f p1, Vector2f p2, float thickness, Color color) {
+    Vector2f direction = Vector2f(p2.x - p1.x, p2.y - p1.y);
+    float angle = -std::atan2(direction.x, direction.y);
+    float length = glm::length(glm::vec2(direction.x, direction.y));
+
+    this->draw(
+        RenderTexture::DefaultVertexArray,
+        Vector2f(p1.x - thickness / 2.f, p1.y), 
+        Vector2f(thickness, length),
+        true, 
+        angle,
+        Vector2f(.5f, 0),
+        color
+    );
 }
