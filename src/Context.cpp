@@ -32,6 +32,8 @@ bool Context::Create(GLFWwindow** outWindow, std::string title, Vector2u size) {
         }
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glfwSwapInterval(1);
+
         Context::IsInitialized = true;
         return true;
     } 
