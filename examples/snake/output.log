@@ -1,0 +1,1 @@
+g++ -g -Wall -Wextra -std=c++11 -static -static-libgcc -static-libstdc++ -v -I ../Mantaray/include -I external/include -L external/lib -L../Mantaray/lib src/main.cpp -o bin/build.exe -lglfw3 -lgdi32 -lglad -lMantaray
