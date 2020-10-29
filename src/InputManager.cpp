@@ -104,15 +104,19 @@ bool InputManager::GetMouseButton(int mouseButtonCode) {
     return (glfwGetMouseButton(InputManager::GetWindowHandle(), mouseButtonCode) == GLFW_PRESS);
 }
 
-void InputManager::SetCursorVisibility(bool shouldBeVisible) {
+void InputManager::SetCursorMode(CursorMode cursorMode) {
     GLFWwindow* windowHandle = InputManager::GetWindowHandle();
     if (windowHandle == nullptr)
         return;
 
-    if (shouldBeVisible) {
-        glfwSetInputMode(windowHandle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-    }
-    else {
-        glfwSetInputMode(windowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    switch (cursorMode) {
+        case NORMAL:
+            glfwSetInputMode(windowHandle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            break;
+        case HIDDEN:
+            glfwSetInputMode(windowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+            break;
+        case DISABLED:
+            glfwSetInputMode(windowHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
 }

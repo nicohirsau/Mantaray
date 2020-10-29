@@ -8,6 +8,11 @@
 namespace MR {
 class InputManager{
     public:
+        enum CursorMode {
+            NORMAL,
+            HIDDEN,
+            DISABLED
+        };
         static void SetWindowHandle(class GLFWwindow* windowHandle);
         static class GLFWwindow* GetWindowHandle();
 
@@ -23,7 +28,8 @@ class InputManager{
         static void GetMouseDelta(Vector2d &mouseDelta);
         static Vector2d GetMouseDelta();
         static bool GetMouseButton(int mouseButtonCode);
-        static void SetCursorVisibility(bool shouldBeVisible);
+        static void SetCursorMode(CursorMode cursorMode);
+        
 
     private:
         static class GLFWwindow* WindowHandle;
