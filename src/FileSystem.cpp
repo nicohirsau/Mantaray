@@ -54,12 +54,12 @@ bool FileSystem::ReadFile(std::string path, std::string& content, bool absoluteP
     return true;
 }
 
-bool FileSystem::ReadImage(std::string path, unsigned char*& data, int& width, int& height, int& nrChannels, bool absolutePath) {
+bool FileSystem::ReadImage(std::string path, unsigned char*& data, int& width, int& height, int& nrChannels, bool flipVertically, bool absolutePath) {
     if (!absolutePath) {
         path = FileSystem::GetWorkingDirectory() + path;
     }
 
-    stbi_set_flip_vertically_on_load(true);
+    stbi_set_flip_vertically_on_load(flipVertically);
     data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
     if (!data) {
         Logger::Log("FileSystem", "Image from " + path + " could not be loaded", MR::Logger::LOG_ERROR);
