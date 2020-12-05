@@ -1,6 +1,6 @@
 CC		:= g++
 D_FLAGS := -g -Wall -Wextra
-C_FLAGS := -std=c++11 -static -static-libgcc -static-libstdc++ #-mwindows
+C_FLAGS := -std=c++11
 
 BIN		:= bin
 SRC		:= src
@@ -11,10 +11,12 @@ LIB		:= -L external/lib -L ../../lib
 EXECUTABLE_NAME := snake
 ifeq ($(OS),Windows_NT)
 EXECUTABLE	:= $(EXECUTABLE_NAME).exe
-LIBRARIES	:= -lMantaray -lglfw3 -lgdi32
+C_FLAGS		+= -static -static-libgcc -static-libstdc++
+LIBRARIES	:= -lmantaray -lglfw3 -lgdi32
 else
 EXECUTABLE	:= $(EXECUTABLE_NAME)
-LIBRARIES	:= -lmantaray -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor 
+C_FLAGS		+= -no-pie
+LIBRARIES	:= -lmantaray -lglfw3 -lrt -lm -ldl -lX11 -lpthread -lxcb -lXau -lXdmcp
 endif
 
 all: $(BIN)/$(EXECUTABLE)
