@@ -6,9 +6,6 @@ C_FLAGS := -c -std=c++11 -static -static-libgcc -static-libstdc++
 BIN		:= lib
 SRC		:= src
 INCLUDE	:= -iquote include -I external/include
-LIB		:= #-L external/lib
-
-LIBRARIES	:= #-lglfw3 -lgdi32 -lglad
 
 RELEASE_BUILD_NAME := libmantaray.a
 RELEASE_BUILD := $(BIN)/$(RELEASE_BUILD_NAME)
@@ -33,11 +30,11 @@ clean:
 	$(RM) $(DEBUG_BUILD)
 
 $(RELEASE_BUILD): $(SRC)/*.cpp external/src/*.c
-	$(CC) $(R_FLAGS) $(C_FLAGS) $(DEFINES) $(INCLUDE) $^ $(LIB) $(LIBRARIES)
+	$(CC) $(R_FLAGS) $(C_FLAGS) $(DEFINES) $(INCLUDE) $^
 	ar rvs $@ *.o
 	rm *.o
 
 $(DEBUG_BUILD): $(SRC)/*.cpp external/src/*.c
-	$(CC) $(D_FLAGS) $(C_FLAGS) $(DEFINES) $(INCLUDE) $^ $(LIB) $(LIBRARIES)
+	$(CC) $(D_FLAGS) $(C_FLAGS) $(DEFINES) $(INCLUDE) $^
 	ar rvs $@ *.o
 	rm *.o
